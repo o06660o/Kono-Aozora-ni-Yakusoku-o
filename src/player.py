@@ -18,7 +18,6 @@ from settings import (
     PLAYER_ATTACK_COOLDOWN,
 )
 from utils import create_rect_hitbox_image
-from debug import display
 
 
 class Player(pygame.sprite.Sprite):
@@ -215,4 +214,3 @@ class Player(pygame.sprite.Sprite):
         self.cooldown()
         self.input()
         self.move()
-        display(self.facing)
