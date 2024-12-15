@@ -60,9 +60,9 @@ class Player(pygame.sprite.Sprite):
         # movement
         ## horizontal
         if self.is_sprinting:
-            if self.facing == Player.RIGHT:
+            if self.horizontal_facing == Player.RIGHT:
                 self.velocity.x = PLAYER.SPRINT_SPEED * self.scale
-            elif self.facing == Player.LEFT:
+            elif self.horizontal_facing == Player.LEFT:
                 self.velocity.x = -PLAYER.SPRINT_SPEED * self.scale
             self.velocity.y = 0
             return
@@ -71,9 +71,9 @@ class Player(pygame.sprite.Sprite):
             self.can_sprint = False
             self.is_sprinting = True
             self.sprint_time = pygame.time.get_ticks()
-            if self.facing == Player.RIGHT:
+            if self.horizontal_facing == Player.RIGHT:
                 self.velocity.x = PLAYER.SPRINT_SPEED * self.scale
-            elif self.facing == Player.LEFT:
+            elif self.horizontal_facing == Player.LEFT:
                 self.velocity.x = -PLAYER.SPRINT_SPEED * self.scale
 
         if keys[pygame.K_a] and keys[pygame.K_d]:
@@ -86,9 +86,9 @@ class Player(pygame.sprite.Sprite):
         if self.velocity.x == 0:
             pass
         elif self.velocity.x > 0:
-            self.facing = Player.RIGHT
+            self.horizontal_facing = Player.RIGHT
         elif self.velocity.x < 0:
-            self.facing = Player.LEFT
+            self.horizontal_facing = Player.LEFT
 
         ## vertical
         if self.touch_ground:
@@ -122,7 +122,7 @@ class Player(pygame.sprite.Sprite):
 
         # combat
         if keys[pygame.K_j] and self.can_attack:
-            attack_direction = "right" if self.facing == Player.RIGHT else "left"
+            attack_direction = "right" if self.horizontal_facing == Player.RIGHT else "left"
             if keys[pygame.K_w]:
                 attack_direction = "up_" + attack_direction
             elif keys[pygame.K_s]:
