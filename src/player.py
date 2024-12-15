@@ -53,8 +53,7 @@ class Player(pygame.sprite.Sprite):
         self.create_attack = create_attack
 
     def input(self) -> None:
-        keys = pygame.key.get_pressed()
-        if not self.have_released_K_SPACE and not keys[pygame.K_SPACE]:
+        if not self.keys.query(pygame.K_SPACE):
             self.have_released_K_SPACE = True
 
         # movement
@@ -67,7 +66,7 @@ class Player(pygame.sprite.Sprite):
             self.velocity.y = 0
             return
 
-        if keys[pygame.K_LSHIFT] and self.can_sprint:
+        if self.keys.query(pygame.K_LSHIFT) and self.can_sprint:
             self.can_sprint = False
             self.is_sprinting = True
             self.sprint_time = pygame.time.get_ticks()
@@ -76,11 +75,11 @@ class Player(pygame.sprite.Sprite):
             elif self.horizontal_facing == Player.LEFT:
                 self.velocity.x = -PLAYER.SPRINT_SPEED * self.scale
 
-        if keys[pygame.K_a] and keys[pygame.K_d]:
+        if self.keys.query(pygame.K_a) and self.keys.query(pygame.K_d):
             self.velocity.x = 0
-        elif keys[pygame.K_a]:
+        elif self.keys.query(pygame.K_a):
             self.velocity.x = -PLAYER.SPEED * self.scale
-        elif keys[pygame.K_d]:
+        elif self.keys.query(pygame.K_d):
             self.velocity.x = PLAYER.SPEED * self.scale
 
         if self.velocity.x == 0:
@@ -92,7 +91,7 @@ class Player(pygame.sprite.Sprite):
 
         ## vertical
         if self.touch_ground:
-            if keys[pygame.K_SPACE] and self.can_jump:  # a jump starts
+            if self.keys.query(pygame.K_SPACE) and self.can_jump:  # a jump starts
                 self.velocity.y = -PLAYER.JUMP_POWER * self.scale
                 self.jump_time = pygame.time.get_ticks()
                 self.can_jump = False
@@ -103,13 +102,15 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.velocity.y += ENV.GRAVITY_ACCELERATION * self.scale
         else:
-            if keys[pygame.K_SPACE] and self.jump_power_exists:  # a jump continuing
+            if self.keys.query(pygame.K_SPACE) and self.jump_power_exists:  # a jump continuing
                 self.velocity.y = min(
                     -PLAYER.JUMP_POWER * self.scale,
                     self.velocity.y + ENV.GRAVITY_ACCELERATION * self.scale,
                 )
             elif (
-                keys[pygame.K_SPACE] and self.jump_count == 1 and self.have_released_K_SPACE
+                self.keys.query(pygame.K_SPACE)
+                and self.jump_count == 1
+                and self.have_released_K_SPACE
             ):  # a double jump
                 self.velocity.y = min(self.velocity.y, -PLAYER.DOUBLE_JUMP_POWER * self.scale)
                 self.jump_time = pygame.time.get_ticks()
@@ -121,11 +122,11 @@ class Player(pygame.sprite.Sprite):
                 self.velocity.y += ENV.GRAVITY_ACCELERATION * self.scale
 
         # combat
-        if keys[pygame.K_j] and self.can_attack:
+        if self.keys.query(pygame.K_j) and self.can_attack:
             attack_direction = "right" if self.horizontal_facing == Player.RIGHT else "left"
-            if keys[pygame.K_w]:
+            if self.keys.query(pygame.K_w):
                 attack_direction = "up_" + attack_direction
-            elif keys[pygame.K_s]:
+            elif self.keys.query(pygame.K_s):
                 attack_direction = "down_" + attack_direction
             self.can_attack = False
             self.attack_time = pygame.time.get_ticks()

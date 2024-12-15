@@ -29,6 +29,7 @@ class PLAYER:
 
     # movements
     SPEED = 8
+    RUN_SPEED = 16
     SPRINT_SPEED = 20
     SPRINT_DURATION = 220
     SPRINT_COOLDOWN = 800
