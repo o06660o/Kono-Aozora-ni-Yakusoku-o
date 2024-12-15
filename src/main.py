@@ -1,6 +1,7 @@
 import sys
 import pygame
-from settings import WIDTH, HEIGHT, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, FPS
+from settings import BASE
+from keys import Keys
 
 # from world import World
 from level_test import Level
@@ -9,13 +10,16 @@ from level_test import Level
 class Game:
     def __init__(self) -> None:
         pygame.init()
-        scale_x = pygame.display.Info().current_w / DEFAULT_SCREEN_WIDTH
-        scale_y = pygame.display.Info().current_h / DEFAULT_SCREEN_HEIGHT
+        scale_x = pygame.display.Info().current_w / BASE.DEFAULT_SCREEN_WIDTH
+        scale_y = pygame.display.Info().current_h / BASE.DEFAULT_SCREEN_HEIGHT
         self.scale = min(scale_x, scale_y)  # TODO: test for non integer `sacle` values
-        self.screen = pygame.display.set_mode((int(WIDTH * self.scale), int(HEIGHT * self.scale)))
+        self.screen = pygame.display.set_mode(
+            (int(BASE.WIDTH * self.scale), int(BASE.HEIGHT * self.scale))
+        )
         self.clock = pygame.time.Clock()
         # TODO: a title and icon for the window needed
 
+        self.keys = Keys()
         # self.world = World(self.scale)
         self.world = Level(self.scale)
 
@@ -25,11 +29,13 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                else:
+                    self.keys.update(event)
 
             self.screen.fill("lightblue")
             self.world.draw()
             pygame.display.update()
-            self.clock.tick(FPS)
+            self.clock.tick(BASE.FPS)
 
 
 if __name__ == "__main__":

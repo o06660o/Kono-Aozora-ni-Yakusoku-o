@@ -1,5 +1,5 @@
 import pygame
-from settings import TILE_SIZE
+from settings import ENV
 
 
 def display(text, x: int = 10, y: int = 10):
@@ -16,7 +16,7 @@ class FreeCamera(pygame.sprite.Sprite):
     def __init__(self, scale: float, groups) -> None:
         super().__init__(groups)
         self.pos = (0, 0)
-        self.image = pygame.Surface((TILE_SIZE / 2 * scale, TILE_SIZE / 2 * scale))
+        self.image = pygame.Surface((ENV.TILE_SIZE / 2 * scale, ENV.TILE_SIZE / 2 * scale))
         self.rect = self.image.get_rect(topleft=self.pos)
         self.direction: pygame.Vector2 = pygame.math.Vector2()
         self.speed = 10 * scale

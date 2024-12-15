@@ -1,30 +1,9 @@
 import math
 import pygame
 
-from settings import TILE_SIZE, SWORD_LENGTH, SWORD_WIDTH, SWORD_ROTATE_ANGLE
+from settings import ENV, PLAYER
 from utils import create_rect_hitbox_image
 from player import Player
-
-
-# class Weapon(pygame.sprite.Sprite):
-#     def __init__(self, scale: float, lifetime: int, owner: Player, groups) -> None:
-#         super().__init__(groups)
-#         self.scale = scale
-#         self.lifetime = lifetime
-#         self.owner = owner
-#         self.create_time = pygame.time.get_ticks()
-#
-#     def move(self) -> None:
-#         if self.owner.status == "right" or self.owner.status == "idle":
-#             self.rect = self.image.get_rect(
-#                 midleft=self.owner.rect.midright
-#                 + pygame.math.Vector2(0, -self.owner.rect.height * HEIGHT_RATIO)
-#             )
-#         else:
-#             self.rect = self.image.get_rect(
-#                 midright=self.owner.rect.midleft
-#                 + pygame.math.Vector2(0, -self.owner.rect.height * HEIGHT_RATIO)
-#             )
 
 
 class Sword(pygame.sprite.Sprite):
@@ -38,7 +17,9 @@ class Sword(pygame.sprite.Sprite):
         self.lifetime = lifetime
         self.owner = owner
         self.image = create_rect_hitbox_image(
-            scale, (TILE_SIZE * SWORD_LENGTH, TILE_SIZE * SWORD_WIDTH), color="brown"
+            scale,
+            (ENV.TILE_SIZE * PLAYER.SWORD_LENGTH, ENV.TILE_SIZE * PLAYER.SWORD_WIDTH),
+            color="brown",
         )
         self.original_image = self.image
         self.create_time = pygame.time.get_ticks()
@@ -48,8 +29,8 @@ class Sword(pygame.sprite.Sprite):
 
     def move_and_rotate(self) -> None:
         current_time = pygame.time.get_ticks()
-        angle = SWORD_ROTATE_ANGLE * (current_time - self.create_time) / self.lifetime
-        angle -= SWORD_ROTATE_ANGLE // 2
+        angle = PLAYER.SWORD_ROTATE_ANGLE * (current_time - self.create_time) / self.lifetime
+        angle -= PLAYER.SWORD_ROTATE_ANGLE // 2
         l = self.original_image.get_width() / 2
         dx = l * (1 - math.cos(math.radians(angle)))
         dy = l * math.sin(math.radians(angle))

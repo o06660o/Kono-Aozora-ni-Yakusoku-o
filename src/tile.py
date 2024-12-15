@@ -1,5 +1,5 @@
 import pygame
-from settings import TILE_SIZE
+from settings import ENV
 
 
 class Tile(pygame.sprite.Sprite):
@@ -9,7 +9,7 @@ class Tile(pygame.sprite.Sprite):
         pos: tuple[int | float, int | float],
         groups,
         sprite_type: str,
-        surface=pygame.Surface((TILE_SIZE, TILE_SIZE)),
+        surface=pygame.Surface((ENV.TILE_SIZE, ENV.TILE_SIZE)),
     ) -> None:
         super().__init__(groups)
         self.scale = scale

@@ -95,6 +95,7 @@ def create_rect_hitbox_image(
     return image
 
 
+# TODO
 def create_half_ellipse_hitbox_image(
     scale: float,
     A: float,

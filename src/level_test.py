@@ -1,7 +1,7 @@
 import sys
 import pygame
 
-from settings import DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, TILE_SIZE
+from settings import BASE, ENV
 from utils import create_rect_hitbox_image
 from tile import Tile
 from player import Player
@@ -23,66 +23,66 @@ class Level:
     def create_map(self) -> None:
         self.floor = Tile(
             self.scale,
-            (-DEFAULT_SCREEN_WIDTH * 0.6, 0),
+            (-BASE.DEFAULT_SCREEN_WIDTH * 0.6, 0),
             [self.visible_sprites, self.obstacle_sprites],
             "floor",
             create_rect_hitbox_image(
                 # do not need to scale again
                 1,
-                (DEFAULT_SCREEN_WIDTH * 1.2, DEFAULT_SCREEN_HEIGHT),
+                (BASE.DEFAULT_SCREEN_WIDTH * 1.2, BASE.DEFAULT_SCREEN_HEIGHT),
                 color="green",
             ),
         )
         self.left_wall = Tile(
             self.scale,
-            (-DEFAULT_SCREEN_WIDTH * (0.6 + 0.1), -DEFAULT_SCREEN_HEIGHT),
+            (-BASE.DEFAULT_SCREEN_WIDTH * (0.6 + 0.1), -BASE.DEFAULT_SCREEN_HEIGHT),
             [self.visible_sprites, self.obstacle_sprites],
             "wall",
             create_rect_hitbox_image(
                 # do not need to scale again
                 1,
-                (DEFAULT_SCREEN_WIDTH * 0.1, DEFAULT_SCREEN_HEIGHT),
+                (BASE.DEFAULT_SCREEN_WIDTH * 0.1, BASE.DEFAULT_SCREEN_HEIGHT),
                 color="green",
             ),
         )
         self.right_wall = Tile(
             self.scale,
-            (DEFAULT_SCREEN_WIDTH * 0.6, -DEFAULT_SCREEN_HEIGHT),
+            (BASE.DEFAULT_SCREEN_WIDTH * 0.6, -BASE.DEFAULT_SCREEN_HEIGHT),
             [self.visible_sprites, self.obstacle_sprites],
             "wall",
             create_rect_hitbox_image(
                 # do not need to scale again
                 1,
-                (DEFAULT_SCREEN_WIDTH * 0.1, DEFAULT_SCREEN_HEIGHT),
+                (BASE.DEFAULT_SCREEN_WIDTH * 0.1, BASE.DEFAULT_SCREEN_HEIGHT),
                 color="green",
             ),
         )
 
         Tile(
             self.scale,
-            (TILE_SIZE * -15, -TILE_SIZE * 5),
+            (ENV.TILE_SIZE * -15, -ENV.TILE_SIZE * 5),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             create_rect_hitbox_image(
                 1,
-                (TILE_SIZE * 10, TILE_SIZE),
+                (ENV.TILE_SIZE * 10, ENV.TILE_SIZE),
                 color="black",
             ),
         )
         Tile(
             self.scale,
-            (TILE_SIZE * 5, -TILE_SIZE * 7),
+            (ENV.TILE_SIZE * 5, -ENV.TILE_SIZE * 7),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             create_rect_hitbox_image(
                 1,
-                (TILE_SIZE * 10, TILE_SIZE),
+                (ENV.TILE_SIZE * 10, ENV.TILE_SIZE),
                 color="black",
             ),
         )
 
         # if "--DEBUG" in sys.argv:
-        #     self.player = FreeCamera(self.scale, [self.visible_sprites])
+        # self.player = FreeCamera(self.scale, [self.visible_sprites])
         # else:
         #     self.player = Player(
         #         self.scale,
@@ -93,7 +93,7 @@ class Level:
         #     )
         self.player = Player(
             self.scale,
-            (0, 0),
+            (0, ENV.TILE_SIZE * -2),
             [self.visible_sprites],
             self.obstacle_sprites,
             self.create_attack,
