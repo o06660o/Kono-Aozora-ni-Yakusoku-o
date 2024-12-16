@@ -5,6 +5,7 @@ from settings import BASE, ENV
 from utils import create_rect_hitbox_image
 from tile import Tile
 from player import Player
+from weapon import PlayerSword, PlayerThrowingSword, PlayerMagic
 from debug import FreeCamera
 
 
@@ -99,17 +100,28 @@ class Level:
             self.create_attack,
         )
 
-    def create_attack(self, attack_lifetime: int, attack_type: str, attack_direction: str) -> None:
+    def create_attack(self, attack_type: str, attack_direction: str = "") -> None:
         assert type(self.player) == Player
         if attack_type == "sword":
-            from weapon import Sword
-
-            self.current_attack = Sword(
+            self.current_attack = PlayerSword(
                 self.scale,
-                attack_lifetime,
                 self.player,
                 [self.visible_sprites, self.attack_sprites],
                 attack_direction,
+            )
+        elif attack_type == "throwing_sword":
+            self.current_attack = PlayerThrowingSword(
+                self.scale,
+                self.player,
+                [self.visible_sprites, self.attack_sprites],
+                attack_direction,
+                self.obstacle_sprites,
+            )
+        elif attack_type == "magic":
+            self.current_attack = PlayerMagic(
+                self.scale,
+                self.player,
+                [self.visible_sprites, self.attack_sprites],
             )
 
     def draw(self) -> None:

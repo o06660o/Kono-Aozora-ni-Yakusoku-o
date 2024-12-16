@@ -8,7 +8,7 @@ class BASE:
     DEFAULT_SCREEN_WIDTH = 1920
     DEFAULT_SCREEN_HEIGHT = 1080
     FPS = 60
-    LONG_PRESS_TIME = 200  # the time in milliseconds to recognize a long press
+    LONG_PRESS_TIME = 400  # the time to recognize a long press
 
 
 class ENV:
@@ -18,7 +18,7 @@ class ENV:
 
     TILE_SIZE = 64
     GRAVITY_ACCELERATION = 2
-    FRICTION_ACCERATION = 4
+    FRICTION_ACCERATION = 3.5
     AIR_FRICTION = 0.08  # the `k` in formula $f = -kv$
 
 
@@ -29,22 +29,40 @@ class PLAYER:
 
     # movements
     SPEED = 8
-    RUN_SPEED = 16
-    SPRINT_SPEED = 20
-    SPRINT_DURATION = 220
+    RUN_SPEED = 14
+    SPRINT_SPEED = 18
+    SPRINT_DURATION = 250
     SPRINT_COOLDOWN = 800
+    STEPBACK_SPEED = 18
+    STEPBACK_DURATION = 150
+    STEPBACK_COOLDOWN = 800
     JUMP_POWER = 25
     DOUBLE_JUMP_POWER = 12
     JUMP_POWER_MIN = 8
     JUMP_DURATION = 200
-    JUMP_COOLDOWN = (
-        100  # the time in milliseconds the player can jump again after touching the ground
-    )
-
+    JUMP_COOLDOWN = 100  # the time the player can jump again after touching the ground
     # combat
-    ATTACK_COOLDOWN = 500
+    # ATTACK_COOLDOWN = 600
     ## sword
     SWORD_LIFETIME = 200
-    SWORD_LENGTH = 2.5  # the length of the sword relative to `TILE_SIZE`
-    SWORD_WIDTH = 0.6  # the width of the sword relative to `TILE_SIZE`
+    SWORD_LENGTH = 4  # the length of the sword relative to `TILE_SIZE`
+    SWORD_WIDTH = 3  # the width of the sword relative to `TILE_SIZE`
     SWORD_ROTATE_ANGLE = 150
+    SWORD_COOLDOWN = 400
+    SWORD_DOWNATTACK_ANGLE = 60
+    SWORD_DOWNATTACK_SPEED = 30
+    ## throwing the sword
+    THROWING_SWORD_LENGTH = 4  # the length of the sword relative to `TILE_SIZE`
+    THROWING_SWORD_WIDTH = 0.6  # the width of the sword relative to `TILE_SIZE`
+    THROWING_SWORD_FLYINGTIME = 100
+    THROWING_SWORD_STOPTIME = 50  # the time the sword stops after reaching the farthest distance
+    THROWING_SWORD_SPEED = 50
+    THROWING_SWORD_COOLDOWN = 500
+    ## magic
+    MAGIC_LIFETIME = 400
+    MAGIC_LENGTH = 8
+    MAGIC_WIDTH = 6
+    MAGIC_COOLDOWN = 800
+    # # misc
+    # LOOKING_OFFSET = 600
+    # LOOKING_DURATION = 200  # the time for the background to move when looking up/down
