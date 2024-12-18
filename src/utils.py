@@ -20,13 +20,15 @@ def read_csv(path: str) -> list[list[str]]:
 SPPORTED = ("png",)
 
 
-def read_images_as_list(path: str) -> list[pygame.Surface]:
+def read_images_as_list(scale: float, path: str) -> list[pygame.Surface]:
     """
     Read images from a folder and return them as a list.
     Supported image formats: PNG.
     Others formats will be ignored.
 
     Parameters:
+        scale : float
+            The global scale value of the game.
         path : str
             The relative path to the folder of images.
     """
@@ -36,7 +38,12 @@ def read_images_as_list(path: str) -> list[pygame.Surface]:
             _, extension_name = filename.rsplit(".", 1)
             if extension_name not in SPPORTED:
                 continue
-            ret.append(pygame.image.load(os.path.join(path, filename)).convert_alpha())
+            image = pygame.image.load(os.path.join(path, filename)).convert_alpha()
+            ret.append(
+                pygame.transform.scale(
+                    image, (int(image.get_width() * scale), int(image.get_height() * scale))
+                )
+            )
     assert ret, f"Folder {path} is empty."
     return ret
 

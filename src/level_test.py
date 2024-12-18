@@ -61,7 +61,7 @@ class Level:
 
         Tile(
             self.scale,
-            (ENV.TILE_SIZE * -15, -ENV.TILE_SIZE * 5),
+            (ENV.TILE_SIZE * -15, -ENV.TILE_SIZE * 7),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             create_rect_hitbox_image(
@@ -72,7 +72,7 @@ class Level:
         )
         Tile(
             self.scale,
-            (ENV.TILE_SIZE * 5, -ENV.TILE_SIZE * 7),
+            (ENV.TILE_SIZE * 5, -ENV.TILE_SIZE * 10),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             create_rect_hitbox_image(
@@ -101,7 +101,7 @@ class Level:
         )
 
     def create_attack(self, attack_type: str, attack_direction: str = "") -> None:
-        assert type(self.player) == Player
+        assert type(self.player) is Player
         if attack_type == "sword":
             self.current_attack = PlayerSword(
                 self.scale,
@@ -139,7 +139,8 @@ class YSortGroups(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         self.floor_surface = pygame.Surface(
-            (self.display_surface.get_width(), self.display_surface.get_height()), pygame.SRCALPHA
+            (self.display_surface.get_width(), self.display_surface.get_height()),
+            pygame.SRCALPHA,
         )
         self.floor_surface = pygame.transform.scale(
             self.floor_surface,
@@ -159,4 +160,7 @@ class YSortGroups(pygame.sprite.Group):
 
         for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
+            # XXX: a better way move the image of player up a little bit?
+            if type(sprite) is Player:
+                offset_pos.y -= sprite.rect.height * 0.12
             self.display_surface.blit(sprite.image, offset_pos)

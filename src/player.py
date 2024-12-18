@@ -1,8 +1,9 @@
+import sys
 import math
 import pygame
 
 from settings import ENV, PLAYER
-from utils import create_rect_hitbox_image
+from utils import create_rect_hitbox_image, read_images_as_list
 from keys import Keys
 from debug import display
 
@@ -13,6 +14,8 @@ class Player(pygame.sprite.Sprite):
     IDLE = 0
     UP = 1
     DOWN = -1
+
+    IMAGE_SCALE = 0.8
 
     def __init__(
         self,
@@ -26,12 +29,21 @@ class Player(pygame.sprite.Sprite):
         # base
         self.scale = scale
         self.pos = (pos[0] * scale, pos[1] * scale)
-        self.image = create_rect_hitbox_image(scale, (ENV.TILE_SIZE, ENV.TILE_SIZE * 2))
+        self.image = create_rect_hitbox_image(
+            scale,
+            (
+                ENV.TILE_SIZE * PLAYER.WIDTH * Player.IMAGE_SCALE,
+                ENV.TILE_SIZE * PLAYER.HEIGHT * Player.IMAGE_SCALE,
+            ),
+        )
         self.rect = self.image.get_rect(topleft=self.pos)
+        # self.hitbox = self.rect.inflate(-self.rect.width * 0.2, -self.rect.height * 0.2)
         self.hitbox = self.rect
         self.rect_obstacles = rect_obstacles
         self.horizontal_facing = Player.RIGHT
         self.vertical_facing = Player.IDLE
+        self.prestatus = "idle"
+        self.status = "idle"
         now = pygame.time.get_ticks()
 
         # keys
@@ -69,6 +81,15 @@ class Player(pygame.sprite.Sprite):
         ## magic
         self.magic_time = now
         self.is_performing_magic = False
+
+        # animation
+        self.animations: dict[str, list[pygame.Surface]] = {
+            "idle": read_images_as_list(scale * Player.IMAGE_SCALE, "assets/graphics/player/idle"),
+        }
+        self.frame_index = -1
+        self.frame_rate: dict[str, float] = {
+            "idle": 0.02,
+        }
 
     def preinput(self) -> bool:
         # movement
@@ -299,9 +320,21 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = self.hitbox.center
         self.friction()
 
+    def animate(self) -> None:
+        if self.status != self.prestatus:
+            self.frame_index = 0
+            self.prestatus = self.status
+        self.frame_index = (self.frame_index + self.frame_rate[self.status]) % len(
+            self.animations[self.status]
+        )
+        self.image = self.animations[self.status][int(self.frame_index)]
+        self.rect = self.image.get_rect(midbottom=self.hitbox.midbottom)
+
     def update(self) -> None:
+        if "--DEBUG" not in sys.argv:
+            self.animate()
         self.cooldown()
         if not self.preinput():
             self.input()
         self.move()
-        # display(self.hitbox)
+        display(self.rect)

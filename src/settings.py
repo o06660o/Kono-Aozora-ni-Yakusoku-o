@@ -27,6 +27,9 @@ class PLAYER:
     The settings for the player.
     """
 
+    # base
+    WIDTH = 1.3  # the width of the player relative to `TILE_SIZE`
+    HEIGHT = 2.8  # the height of the player relative to `TILE_SIZE`
     # movements
     SPEED = 8
     RUN_SPEED = 14
