@@ -30,10 +30,10 @@ class LevelDream(Level):
         plat_small = pygame.image.load(
             "assets/graphics/environment/dream/platform/dream_plat_small.png"
         )
-        print(self.scale)
+        # print(self.scale)
         Tile(
             self.scale,
-            (-10 * self.scale, 0),
+            (-40, 0),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_main,
@@ -41,7 +41,7 @@ class LevelDream(Level):
         )
         Tile(
             self.scale,
-            (80 * self.scale, 15 * self.scale),
+            (320, 60),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_large,
@@ -49,7 +49,7 @@ class LevelDream(Level):
         )
         Tile(
             self.scale,
-            (150 * self.scale, 15 * self.scale),
+            (600, 60),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_large,
@@ -57,7 +57,7 @@ class LevelDream(Level):
         )
         Tile(
             self.scale,
-            (220 * self.scale, 15 * self.scale),
+            (880, 60),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_large,
@@ -65,7 +65,7 @@ class LevelDream(Level):
         )
         Tile(
             self.scale,
-            (-60 * self.scale, 15 * self.scale),
+            (-240, 60),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_large,
@@ -73,7 +73,7 @@ class LevelDream(Level):
         )
         Tile(
             self.scale,
-            (-80 * self.scale, -40 * self.scale),
+            (-320, -160),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_mid,
@@ -81,7 +81,7 @@ class LevelDream(Level):
         )
         Tile(
             self.scale,
-            (0 * self.scale, -75 * self.scale),
+            (0, -300),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_small,
@@ -89,7 +89,7 @@ class LevelDream(Level):
         )
         Tile(
             self.scale,
-            (85 * self.scale, -90 * self.scale),
+            (340, -360),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_main,
@@ -97,7 +97,7 @@ class LevelDream(Level):
         )
         Tile(
             self.scale,
-            (280 * self.scale, 0 * self.scale),
+            (1120, 0),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_main,
@@ -105,7 +105,7 @@ class LevelDream(Level):
         )
         # Tile(
         #     self.scale *,
-        #     (-120 * self.scale, 150 * self.scale),
+        #     (-240 ,300),
         #     [self.visible_sprites, self.obstacle_sprites],
         #     "blocks",
         #     floor,
