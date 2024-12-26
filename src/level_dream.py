@@ -18,7 +18,6 @@ class LevelDream(Level):
             self.obstacle_sprites,
             self.create_attack,
         )
-        self.scale *= ENV.LEVEL_DREAM.IMAGE_SCALE
         # floor = pygame.image.load("assets/graphics/environment/dream/floor.png")
         plat_main = pygame.image.load("assets/graphics/environment/dream/dream_BG_plats_0000_4.png")
         plat_large = pygame.image.load(
@@ -32,7 +31,7 @@ class LevelDream(Level):
         )
         # print(self.scale)
         Tile(
-            self.scale,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (-40, 0),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -40,7 +39,7 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
         )
         Tile(
-            self.scale,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (320, 60),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -48,7 +47,7 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
         )
         Tile(
-            self.scale,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (600, 60),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -56,7 +55,7 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
         )
         Tile(
-            self.scale,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (880, 60),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -64,7 +63,7 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
         )
         Tile(
-            self.scale,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (-240, 60),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -72,7 +71,7 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
         )
         Tile(
-            self.scale,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (-320, -160),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -80,7 +79,7 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.PLAT_MID_HITBOX_OFFSET,
         )
         Tile(
-            self.scale,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (0, -300),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -88,7 +87,7 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
         )
         Tile(
-            self.scale,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (340, -360),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -96,7 +95,7 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
         )
         Tile(
-            self.scale,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (1120, 0),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -104,10 +103,22 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
         )
         # Tile(
-        #     self.scale *,
+        #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
         #     (-240 ,300),
         #     [self.visible_sprites, self.obstacle_sprites],
         #     "blocks",
         #     floor,
         #     ENV.LEVEL_DREAM.FLOOR_HITBOX_OFFSET,
         # )
+
+    def custom_update(self) -> None:
+        if type(self.player) is Player:
+            if self.player.rect.y > 2000:
+                self.player.kill()
+                self.player = Player(
+                    self.scale,
+                    (0, 0),
+                    [self.visible_sprites],
+                    self.obstacle_sprites,
+                    self.create_attack,
+                )

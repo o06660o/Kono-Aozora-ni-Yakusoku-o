@@ -29,6 +29,11 @@ class Level:
             self.obstacle_sprites,
             self.create_attack,
         )
+
+    def custom_update(self) -> None:
+        """
+        override this method to update the level
+        """
         pass
 
     def create_attack(self, attack_type: str, attack_direction: str = "") -> None:
@@ -56,6 +61,7 @@ class Level:
             )
 
     def draw(self) -> None:
+        self.custom_update()
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
 
