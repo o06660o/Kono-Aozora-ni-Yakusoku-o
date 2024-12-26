@@ -154,13 +154,17 @@ class YSortGroups(pygame.sprite.Group):
     def custom_draw(self, player: Player | FreeCamera) -> None:
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
+        if type(player) is Player:
+            if player.status == "sword":
+                self.offset.y += 18 * self.scale
+            elif player.status == "throwing_sword":
+                self.offset.y -= 22.5 * self.scale
 
         floor_offset_pos = self.floor_rect.topleft - self.offset
         self.display_surface.blit(self.floor_surface, floor_offset_pos)
 
         for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
-            # XXX: a better way move the image of player up a little bit?
-            if type(sprite) is Player:
-                offset_pos.y -= sprite.rect.height * 0.12
+            # if type(sprite) is Player:
+            #     offset_pos.y -= sprite.rect.height * 0.13
             self.display_surface.blit(sprite.image, offset_pos)

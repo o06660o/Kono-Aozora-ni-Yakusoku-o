@@ -37,7 +37,6 @@ class Player(pygame.sprite.Sprite):
             ),
         )
         self.rect = self.image.get_rect(topleft=self.pos)
-        # self.hitbox = self.rect.inflate(-self.rect.width * 0.2, -self.rect.height * 0.2)
         self.hitbox = self.rect
         self.rect_obstacles = rect_obstacles
         self.horizontal_facing = Player.RIGHT
@@ -51,6 +50,7 @@ class Player(pygame.sprite.Sprite):
         self.have_released_K_LSHIFT = True
         self.have_released_K_SPACE = True
         self.have_released_K_c = True
+        self.have_released_K_j = True
 
         # movement
         self.velocity: pygame.Vector2 = pygame.math.Vector2()
@@ -75,9 +75,11 @@ class Player(pygame.sprite.Sprite):
         self.can_attack = True
         ## sword
         self.sword_time = now
+        self.is_performing_sword = False
         self.is_performing_downattack = False
         ## throwing sword
         self.throwing_sword_time = now
+        self.is_performing_throwing_sword = False
         ## magic
         self.magic_time = now
         self.is_performing_magic = False
@@ -85,10 +87,32 @@ class Player(pygame.sprite.Sprite):
         # animation
         self.animations: dict[str, list[pygame.Surface]] = {
             "idle": read_images_as_list(scale * Player.IMAGE_SCALE, "assets/graphics/player/idle"),
+            "walk": read_images_as_list(scale * Player.IMAGE_SCALE, "assets/graphics/player/walk"),
+            "run": read_images_as_list(scale * Player.IMAGE_SCALE, "assets/graphics/player/walk"),
+            "jump": read_images_as_list(scale * Player.IMAGE_SCALE, "assets/graphics/player/jump"),
+            "sword": read_images_as_list(
+                scale * Player.IMAGE_SCALE, "assets/graphics/player/sword"
+            ),
+            # "downattack": read_images_as_list(
+            #     scale * Player.IMAGE_SCALE, "assets/graphics/player/downattack"
+            # ),
+            "throwing_sword": read_images_as_list(
+                scale * Player.IMAGE_SCALE, "assets/graphics/player/throwing_sword"
+            ),
+            "magic": read_images_as_list(
+                scale * Player.IMAGE_SCALE, "assets/graphics/player/magic"
+            ),
         }
-        self.frame_index = -1
+        self.frame_index = 0
         self.frame_rate: dict[str, float] = {
             "idle": 0.02,
+            "walk": 0.13,
+            "run": 0.2,
+            "jump": 0.15,
+            "sword": 0.15,
+            "downattack": 0.15,
+            "throwing_sword": 0.3,
+            "magic": 0.15,
         }
 
     def preinput(self) -> bool:
@@ -120,7 +144,7 @@ class Player(pygame.sprite.Sprite):
             self.velocity.y = speed * math.sin(math.radians(angle))
             return True
         ## magic
-        if self.is_performing_magic:
+        if self.is_performing_magic or self.is_performing_throwing_sword:
             self.velocity.x = 0
             self.velocity.y = 0
             return True
@@ -134,6 +158,8 @@ class Player(pygame.sprite.Sprite):
             self.have_released_K_SPACE = True
         if not self.have_released_K_c and not self.keys.query(pygame.K_c):
             self.have_released_K_c = True
+        if not self.have_released_K_j and not self.keys.query(pygame.K_j):
+            self.have_released_K_j = True
 
         # movement
         ## horizontal
@@ -169,11 +195,17 @@ class Player(pygame.sprite.Sprite):
             self.velocity.x = min(self.velocity.x, -PLAYER.SPEED * self.scale)
             if self.keys.query(pygame.K_LSHIFT) == 2:
                 self.velocity.x = min(self.velocity.x, -PLAYER.RUN_SPEED * self.scale)
+                self.status = "run"
+            else:
+                self.status = "walk"
             self.horizontal_facing = Player.LEFT
         elif self.keys.query(pygame.K_d):
             self.velocity.x = max(self.velocity.x, PLAYER.SPEED * self.scale)
             if self.keys.query(pygame.K_LSHIFT) == 2:
                 self.velocity.x = max(self.velocity.x, PLAYER.RUN_SPEED * self.scale)
+                self.status = "run"
+            else:
+                self.status = "walk"
             self.horizontal_facing = Player.RIGHT
         ## vertical
         if self.touch_ground:
@@ -214,29 +246,35 @@ class Player(pygame.sprite.Sprite):
             self.vertical_facing = Player.IDLE
         # combat
         ## sword
-        if self.keys.query(pygame.K_j) and self.can_attack:
-            flag = True  # whether the player can attack
+        if self.have_released_K_j and self.keys.query(pygame.K_j) and self.can_attack:
+            flag = True  # whether the player can attack or not
             attack_direction = "right" if self.horizontal_facing == Player.RIGHT else "left"
-            if self.vertical_facing == Player.UP:
-                attack_direction = "up_" + attack_direction
-            elif self.vertical_facing == Player.DOWN:
-                if self.touch_ground:
-                    flag = False  # the player cannot attack downward when standing on the ground
-                self.is_performing_downattack = True
-                attack_direction = "down_" + attack_direction
+            # TODO: up attack and down attack are not implemented
+            # if self.vertical_facing == Player.UP:
+            #     attack_direction = "up_" + attack_direction
+            # elif self.vertical_facing == Player.DOWN:
+            #     if self.touch_ground:
+            #         flag = False  # the player cannot attack downward when standing on the ground
+            #     self.is_performing_downattack = True
+            #     attack_direction = "down_" + attack_direction
             if flag:
+                if not self.is_performing_downattack:
+                    self.is_performing_sword = True
                 self.can_attack = False
+                self.have_released_K_j = False
                 self.sword_time = now
                 self.create_attack("sword", attack_direction)
+
         ## throwing sword
         if self.keys.query(pygame.K_h) and self.can_attack:
             attack_direction = "right" if self.horizontal_facing == Player.RIGHT else "left"
             self.can_attack = False
             self.throwing_sword_time = now
+            self.is_performing_throwing_sword = True
             self.create_attack("throwing_sword", attack_direction)
 
         ## magic
-        if self.keys.query(pygame.K_u) and self.can_attack:
+        if not self.touch_ground and self.keys.query(pygame.K_u) and self.can_attack:
             self.is_performing_magic = True
             self.can_attack = False
             self.magic_time = now
@@ -270,6 +308,12 @@ class Player(pygame.sprite.Sprite):
                         self.is_performing_downattack = False
             self.touch_ground = touch_ground
 
+            if touch_ground or self.velocity.y == 0:
+                if self.status == "jump":
+                    self.status = "idle"
+            else:
+                self.status = "jump"
+
     def cooldown(self) -> None:
         current_time = pygame.time.get_ticks()
         # movement
@@ -301,8 +345,15 @@ class Player(pygame.sprite.Sprite):
             and current_time - self.magic_time >= PLAYER.MAGIC_COOLDOWN
         ):
             self.can_attack = True
+        if self.is_performing_sword and current_time - self.sword_time >= PLAYER.SWORD_LIFETIME:
+            self.is_performing_sword = False
         if self.is_performing_magic and current_time - self.magic_time >= PLAYER.MAGIC_LIFETIME:
             self.is_performing_magic = False
+        if (
+            self.is_performing_throwing_sword
+            and current_time - self.throwing_sword_time >= PLAYER.THORWING_SWORD_DURATION
+        ):
+            self.is_performing_throwing_sword = False
 
     def friction(self) -> None:
         if self.velocity.x > 0 and self.touch_ground:
@@ -317,24 +368,47 @@ class Player(pygame.sprite.Sprite):
         self.collision(0)  # horizontal collision
         self.hitbox.y += int(self.velocity.y)
         self.collision(1)  # vertical collision
+        if self.velocity.x == 0 and self.touch_ground:
+            self.status = "idle"
         self.rect.center = self.hitbox.center
         self.friction()
 
     def animate(self) -> None:
+        if self.is_performing_sword:
+            self.status = "sword"
+        if self.is_performing_magic:
+            self.status = "magic"
+        if self.is_performing_downattack:
+            self.status = "downattack"
+        if self.is_performing_throwing_sword:
+            self.status = "throwing_sword"
         if self.status != self.prestatus:
-            self.frame_index = 0
+            if (self.status == "run" and self.prestatus == "walk") or (
+                self.status == "walk" and self.prestatus == "run"
+            ):
+                pass
+            else:
+                self.frame_index = 0
             self.prestatus = self.status
-        self.frame_index = (self.frame_index + self.frame_rate[self.status]) % len(
-            self.animations[self.status]
-        )
+        self.frame_index += self.frame_rate[self.status]
+        if self.frame_index >= len(self.animations[self.status]):
+            if self.status == "jump":
+                self.frame_index = 5
+            elif self.status == "throwing_sword":
+                self.frame_index = 1
+            else:
+                self.frame_index = 0
         self.image = self.animations[self.status][int(self.frame_index)]
+        # TODO: turning animation is not implemented
+        if self.horizontal_facing == Player.RIGHT:
+            self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect(midbottom=self.hitbox.midbottom)
 
     def update(self) -> None:
-        if "--DEBUG" not in sys.argv:
-            self.animate()
         self.cooldown()
         if not self.preinput():
             self.input()
         self.move()
-        display(self.rect)
+        if "--DEBUG" not in sys.argv:
+            self.animate()
+        display(self.status)

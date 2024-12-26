@@ -1,13 +1,16 @@
+import sys
 import math
+
 import pygame
 
 from settings import ENV, PLAYER
-from utils import create_rect_hitbox_image
+from utils import create_rect_hitbox_image, read_images_as_list
 from player import Player
 
 
 class PlayerSword(pygame.sprite.Sprite):
-    HEIGHT_RATIO = 0.125  # make the sword a little bit higher than the middle of the player
+    HEIGHT_RATIO = 0.05
+    CLOSER_RATIO = 0.4
 
     def __init__(
         self,
@@ -19,11 +22,19 @@ class PlayerSword(pygame.sprite.Sprite):
         super().__init__(groups)
         self.scale = scale
         self.owner = owner
-        self.image = create_rect_hitbox_image(
-            scale,
-            (ENV.TILE_SIZE * PLAYER.SWORD_LENGTH, ENV.TILE_SIZE * PLAYER.SWORD_WIDTH),
-            color="brown",
-        )
+        if "--DEBUG" in sys.argv:
+            self.image = create_rect_hitbox_image(
+                scale,
+                (ENV.TILE_SIZE * PLAYER.SWORD_LENGTH, ENV.TILE_SIZE * PLAYER.SWORD_WIDTH),
+                color="brown",
+            )
+        else:
+            self.image = create_rect_hitbox_image(
+                scale,
+                (ENV.TILE_SIZE * PLAYER.SWORD_LENGTH, ENV.TILE_SIZE * PLAYER.SWORD_WIDTH),
+                color=pygame.SRCALPHA,
+            )
+
         self.original_image = self.image
         self.create_time = pygame.time.get_ticks()
         self.attack_direction = attack_direction
@@ -35,17 +46,26 @@ class PlayerSword(pygame.sprite.Sprite):
             rotated_image = self.image
             self.rect = self.image.get_rect(
                 midleft=self.owner.rect.midright
-                + pygame.math.Vector2(0, -self.owner.rect.height * Sword.HEIGHT_RATIO)
+                + pygame.math.Vector2(
+                    -self.owner.rect.width * PlayerSword.CLOSER_RATIO,
+                    -self.owner.rect.height * PlayerSword.HEIGHT_RATIO,
+                )
             )
         elif self.attack_direction == "left":
             rotated_image = self.image
             self.rect = self.image.get_rect(
                 midright=self.owner.rect.midleft
-                + pygame.math.Vector2(0, -self.owner.rect.height * Sword.HEIGHT_RATIO)
+                + pygame.math.Vector2(
+                    self.owner.rect.width * PlayerSword.CLOSER_RATIO,
+                    -self.owner.rect.height * PlayerSword.HEIGHT_RATIO,
+                )
             )
         elif self.attack_direction[:3] == "up_":
             rotated_image = pygame.transform.rotate(self.original_image, 90)
-            self.rect = rotated_image.get_rect(midbottom=self.owner.rect.midtop)
+            self.rect = rotated_image.get_rect(
+                midbottom=self.owner.rect.midtop
+                - pygame.math.Vector2(0, -self.owner.rect.height * PlayerSword.CLOSER_RATIO)
+            )
         elif self.attack_direction[:5] == "down_":
             angle = PLAYER.SWORD_DOWNATTACK_ANGLE
             l = self.original_image.get_width() / 2
@@ -69,7 +89,8 @@ class PlayerSword(pygame.sprite.Sprite):
 
 
 class PlayerThrowingSword(pygame.sprite.Sprite):
-    HEIGHT_RATIO = 0.125  # make the sword a little bit higher than the middle of the player
+    LOWER_RATIO = 0.07
+    CLOSER_RATIO = 0.5
 
     def __init__(
         self,
@@ -82,7 +103,7 @@ class PlayerThrowingSword(pygame.sprite.Sprite):
         super().__init__(groups)
         self.scale = scale
         self.owner = owner
-        self.image = create_rect_hitbox_image(
+        self.image_ = create_rect_hitbox_image(
             scale,
             (
                 ENV.TILE_SIZE * PLAYER.THROWING_SWORD_LENGTH,
@@ -90,7 +111,10 @@ class PlayerThrowingSword(pygame.sprite.Sprite):
             ),
             color="brown",
         )
-        self.original_image = self.image
+        self.animation = read_images_as_list(scale, "assets/graphics/player/weapon/throwing_sword")[
+            0
+        ]
+        self.original_image = self.image_
         self.create_time = pygame.time.get_ticks()
         self.stoptime = pygame.time.get_ticks()
         self.attack_direction = attack_direction
@@ -101,6 +125,10 @@ class PlayerThrowingSword(pygame.sprite.Sprite):
         self.distance = 0
         self.move()
         self.hitbox = self.rect
+        if "--DEBUG" in sys.argv:
+            self.image = self.image_
+        else:
+            self.animate()
 
     def move(self) -> None:
         if self.status == 0:
@@ -108,15 +136,21 @@ class PlayerThrowingSword(pygame.sprite.Sprite):
         elif self.status == 2:
             self.distance -= self.speed
         if self.attack_direction == "right":
-            self.rect = self.image.get_rect(
+            self.rect = self.original_image.get_rect(
                 midleft=self.owner.rect.midright
-                + pygame.math.Vector2(0, -self.owner.rect.height * Sword.HEIGHT_RATIO)
+                + pygame.math.Vector2(
+                    -self.owner.rect.width * PlayerThrowingSword.CLOSER_RATIO,
+                    PlayerThrowingSword.LOWER_RATIO * self.owner.rect.height * self.scale,
+                )
                 + pygame.math.Vector2(self.distance, 0)
             )
         elif self.attack_direction == "left":
-            self.rect = self.image.get_rect(
+            self.rect = self.original_image.get_rect(
                 midright=self.owner.rect.midleft
-                + pygame.math.Vector2(0, -self.owner.rect.height * Sword.HEIGHT_RATIO)
+                + pygame.math.Vector2(
+                    self.owner.rect.width * PlayerThrowingSword.CLOSER_RATIO,
+                    PlayerThrowingSword.LOWER_RATIO * self.owner.rect.height * self.scale,
+                )
                 + pygame.math.Vector2(-self.distance, 0)
             )
         self.hitbox = self.rect
@@ -137,6 +171,12 @@ class PlayerThrowingSword(pygame.sprite.Sprite):
                     self.stoptime = pygame.time.get_ticks()
                     self.flytime = self.stoptime - self.create_time
 
+    def animate(self) -> None:
+        if self.owner.horizontal_facing == Player.RIGHT:
+            self.image = pygame.transform.flip(self.animation, True, False)
+        else:
+            self.image = self.animation
+
     def update(self) -> None:
         now = pygame.time.get_ticks()
         if self.status == 2 and now - self.stoptime > self.flytime + PLAYER.THROWING_SWORD_STOPTIME:
@@ -156,24 +196,42 @@ class PlayerMagic(pygame.sprite.Sprite):
         super().__init__(groups)
         self.scale = scale
         self.owner = owner
-        self.image = create_rect_hitbox_image(
+        self.image_ = create_rect_hitbox_image(
             scale,
             (ENV.TILE_SIZE * PLAYER.MAGIC_LENGTH, ENV.TILE_SIZE * PLAYER.MAGIC_WIDTH),
             color="brown",
         )
-        self.rect = self.image.get_rect(center=self.owner.rect.center)
-        self.create_time = pygame.time.get_ticks()
-        self.move()
+        self.rect = self.image_.get_rect(center=self.owner.rect.center)
         self.hitbox = self.rect
+        self.create_time = pygame.time.get_ticks()
+        self.animations = read_images_as_list(scale, "assets/graphics/player/weapon/magic")
+        self.frame_index = 0
+        self.frame_rate = 0.2
+        self.move()
+        if "--DEBUG" in sys.argv:
+            self.image = self.image_
+        else:
+            self.animate()
 
     def move(self) -> None:
-        self.rect = self.image.get_rect(center=self.owner.rect.center)
+        self.rect = self.image_.get_rect(center=self.owner.rect.center)
+        self.hitbox = self.rect
+
+    def animate(self) -> None:
+        self.frame_index += self.frame_rate
+        if self.frame_index >= len(self.animations):
+            self.frame_index = 0
+        self.image = self.animations[int(self.frame_index)]
 
     def update(self) -> None:
         if pygame.time.get_ticks() - self.create_time > PLAYER.MAGIC_LIFETIME:
             self.kill()
         else:
             self.move()
+            if "--DEBUG" in sys.argv:
+                self.image = self.image_
+            else:
+                self.animate()
 
 
 class Sword(pygame.sprite.Sprite):

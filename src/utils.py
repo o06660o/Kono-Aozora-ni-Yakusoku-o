@@ -1,4 +1,5 @@
-import csv, os
+import csv
+import os
 
 import pygame
 
@@ -48,13 +49,15 @@ def read_images_as_list(scale: float, path: str) -> list[pygame.Surface]:
     return ret
 
 
-def read_images(path: str) -> dict[str, pygame.Surface]:
+def read_images(scale: float, path: str) -> dict[str, pygame.Surface]:
     """
     Read images from a folder and return them as a dictionary.
     Supported image formats: PNG.
     Others formats will be ignored.
 
     Parameters:
+        scale : float
+            The global scale value of the game.
         path : str
             The relative path to the folder of images.
     """
@@ -64,7 +67,11 @@ def read_images(path: str) -> dict[str, pygame.Surface]:
             basename, extension_name = filename.rsplit(".", 1)
             if extension_name not in SPPORTED:
                 continue
-            ret[basename] = pygame.image.load(os.path.join(path, filename))
+            image = pygame.image.load(os.path.join(path, filename))
+            image = pygame.transform.scale(
+                image, (int(image.get_width() * scale), int(image.get_height() * scale))
+            )
+            ret[basename] = image
     assert ret, f"Folder {path} is empty."
     return ret
 
@@ -73,7 +80,7 @@ def create_rect_hitbox_image(
     scale: float,
     size: tuple[int | float, int | float],
     border_width: int = 8,
-    color: tuple[int, int, int] | tuple[int, int, int, int] | str = (255, 255, 255),
+    color: tuple[int, int, int] | tuple[int, int, int, int] | int | str = (255, 255, 255),
 ) -> pygame.Surface:
     """
     Create a rectanglar hitbox image with a transparent center and colored border.
@@ -86,7 +93,7 @@ def create_rect_hitbox_image(
         border_width: int
             The width of the border.
             Default value is 8.
-        color: tuple[int, int, int] | tuple[int, int, int, int] | str
+        color: tuple[int, int, int] | tuple[int, int, int, int] | int | str
             The color in RGB, RGBA format, or simply a string.
             Default value is (255, 255, 255).
     """

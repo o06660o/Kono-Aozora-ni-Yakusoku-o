@@ -31,7 +31,7 @@ class PLAYER:
     WIDTH = 1.3  # the width of the player relative to `TILE_SIZE`
     HEIGHT = 2.8  # the height of the player relative to `TILE_SIZE`
     # movements
-    SPEED = 8
+    SPEED = 10
     RUN_SPEED = 14
     SPRINT_SPEED = 18
     SPRINT_DURATION = 250
@@ -48,24 +48,25 @@ class PLAYER:
     # ATTACK_COOLDOWN = 600
     ## sword
     SWORD_LIFETIME = 200
-    SWORD_LENGTH = 4  # the length of the sword relative to `TILE_SIZE`
-    SWORD_WIDTH = 3  # the width of the sword relative to `TILE_SIZE`
+    SWORD_LENGTH = 3.8  # the length of the sword relative to `TILE_SIZE`
+    SWORD_WIDTH = 4.2  # the width of the sword relative to `TILE_SIZE`
     SWORD_ROTATE_ANGLE = 150
-    SWORD_COOLDOWN = 400
+    SWORD_COOLDOWN = 500
     SWORD_DOWNATTACK_ANGLE = 60
     SWORD_DOWNATTACK_SPEED = 30
     ## throwing the sword
     THROWING_SWORD_LENGTH = 4  # the length of the sword relative to `TILE_SIZE`
     THROWING_SWORD_WIDTH = 0.6  # the width of the sword relative to `TILE_SIZE`
-    THROWING_SWORD_FLYINGTIME = 100
+    THROWING_SWORD_FLYINGTIME = 150
     THROWING_SWORD_STOPTIME = 50  # the time the sword stops after reaching the farthest distance
-    THROWING_SWORD_SPEED = 50
+    THROWING_SWORD_SPEED = 40
     THROWING_SWORD_COOLDOWN = 500
+    THORWING_SWORD_DURATION = 500
     ## magic
     MAGIC_LIFETIME = 400
-    MAGIC_LENGTH = 8
-    MAGIC_WIDTH = 6
-    MAGIC_COOLDOWN = 800
+    MAGIC_LENGTH = 7
+    MAGIC_WIDTH = 5
+    MAGIC_COOLDOWN = 1000
     # # misc
     # LOOKING_OFFSET = 600
     # LOOKING_DURATION = 200  # the time for the background to move when looking up/down
