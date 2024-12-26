@@ -21,6 +21,14 @@ class ENV:
     FRICTION_ACCERATION = 3.5
     AIR_FRICTION = 0.08  # the `k` in formula $f = -kv$
 
+    class LEVEL_DREAM:
+        IMAGE_SCALE = 2
+        FLOOR_HITBOX_OFFSET = (0, 0)
+        PLAT_HITBOX_OFFSET = (30, 145)
+        PLAT_LARGE_HITBOX_OFFSET = (40, 10)
+        PLAT_MID_HITBOX_OFFSET = (20, 10)
+        PLAT_SMALL_HITBOX_OFFSET = (15, 10)
+
 
 class PLAYER:
     """

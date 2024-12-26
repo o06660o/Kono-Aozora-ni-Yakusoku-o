@@ -5,7 +5,7 @@ from player import Player
 from utils import create_rect_hitbox_image
 
 
-class Level_test(Level):
+class LevelTest(Level):
     def __init__(self, scale: float) -> None:
         super().__init__(scale)
 

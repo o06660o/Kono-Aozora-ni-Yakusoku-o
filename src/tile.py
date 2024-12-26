@@ -10,6 +10,7 @@ class Tile(pygame.sprite.Sprite):
         groups,
         sprite_type: str,
         surface=pygame.Surface((ENV.TILE_SIZE, ENV.TILE_SIZE)),
+        offset: tuple[int, int] = (0, 0),
     ) -> None:
         super().__init__(groups)
         self.scale = scale
@@ -19,4 +20,4 @@ class Tile(pygame.sprite.Sprite):
             surface, (surface.get_width() * scale, surface.get_height() * scale)
         )
         self.rect = self.image.get_rect(topleft=self.pos)
-        self.hitbox = self.rect
+        self.hitbox = self.rect.inflate(-offset[0] * scale, -offset[1] * scale)

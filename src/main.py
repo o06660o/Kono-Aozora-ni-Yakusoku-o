@@ -3,8 +3,7 @@ import pygame
 from settings import BASE
 from keys import Keys
 
-# from world import World
-from level_test import Level_test as Level
+from level_dream import LevelDream as Level
 
 
 class Game:
@@ -36,6 +35,7 @@ class Game:
             self.world.draw()
             pygame.display.update()
             self.clock.tick(BASE.FPS)
+            # print(self.clock.get_fps())
 
 
 if __name__ == "__main__":

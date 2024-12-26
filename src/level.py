@@ -1,6 +1,6 @@
 import pygame
 
-from settings import ENV
+from settings import ENV, BASE
 from player import Player
 from weapon import PlayerSword, PlayerThrowingSword, PlayerMagic
 from debug import FreeCamera
@@ -10,7 +10,7 @@ class Level:
     def __init__(self, scale: float) -> None:
         self.scale = scale
 
-        self.visible_sprites = Level.YSortGroups(scale)
+        self.visible_sprites = Level.VisibleGroups(scale)
         self.obstacle_sprites = pygame.sprite.Group()
         self.attack_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
@@ -59,7 +59,7 @@ class Level:
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
 
-    class YSortGroups(pygame.sprite.Group):
+    class VisibleGroups(pygame.sprite.Group):
         def __init__(self, scale: float) -> None:
             super().__init__()
             self.scale = scale
@@ -80,8 +80,14 @@ class Level:
                 ),
             )
             self.floor_rect = self.floor_surface.get_rect(topleft=(0, 0))
+            self.background_image = pygame.image.load("assets/graphics/background.png").convert()
+            self.background_image = pygame.transform.scale(
+                self.background_image, (int(BASE.WIDTH * self.scale), int(BASE.HEIGHT * self.scale))
+            )
+            self.background_image.set_alpha(216)
 
         def custom_draw(self, player: Player | FreeCamera) -> None:
+            self.display_surface.blit(self.background_image, (0, 0))
             self.offset.x = player.rect.centerx - self.half_width
             self.offset.y = player.rect.centery - self.half_height
             if type(player) is Player:
@@ -94,7 +100,12 @@ class Level:
             self.display_surface.blit(self.floor_surface, floor_offset_pos)
 
             for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):
+                if sprite is player:
+                    continue
                 offset_pos = sprite.rect.topleft - self.offset
                 # if type(sprite) is Player:
                 #     offset_pos.y -= sprite.rect.height * 0.13
                 self.display_surface.blit(sprite.image, offset_pos)
+
+            player_offset_pos = player.rect.topleft - self.offset
+            self.display_surface.blit(player.image, player_offset_pos)

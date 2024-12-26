@@ -411,4 +411,3 @@ class Player(pygame.sprite.Sprite):
         self.move()
         if "--DEBUG" not in sys.argv:
             self.animate()
-        display(self.status)
