@@ -4,7 +4,7 @@ from settings import BASE
 from keys import Keys
 
 # from world import World
-from level_test import Level
+from level_test import Level_test as Level
 
 
 class Game:
