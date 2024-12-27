@@ -92,6 +92,7 @@ class NPC:
 
     WIDTH = 0.8  # the width of the player relative to `TILE_SIZE`
     HEIGHT = 1.5  # the height of the player relative to `TILE_SIZE`
+    SCALE = 1.2
     INIT_MESSAGE = {
         "tutorial": [
             {

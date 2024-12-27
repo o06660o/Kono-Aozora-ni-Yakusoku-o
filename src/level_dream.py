@@ -4,7 +4,7 @@ from settings import ENV
 from level import Level
 from tile import Tile
 from player import Player
-from npc import NPC
+from npc_tutorial import NPCTutorial
 
 
 class LevelDream(Level):
@@ -112,11 +112,10 @@ class LevelDream(Level):
         #     floor,
         #     ENV.LEVEL_DREAM.FLOOR_HITBOX_OFFSET,
         # )
-        NPC(
+        NPCTutorial(
             self.scale,
-            (-420, -70),
+            (-450, -65),
             [self.visible_sprites, self.npc_sprites],
-            "tutorial",
         )
 
     def custom_update(self) -> None:
