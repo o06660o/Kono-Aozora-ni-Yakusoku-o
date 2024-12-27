@@ -112,6 +112,7 @@ class Player(pygame.sprite.Sprite):
             "throwing_sword": 0.3,
             "magic": 0.15,
         }
+        self.image = self.animations["idle"][0]
 
         # npc
         self.talking_to = None
