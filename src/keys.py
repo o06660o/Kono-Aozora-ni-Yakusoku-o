@@ -1,4 +1,5 @@
 from typing import Self
+
 import pygame
 
 from settings import BASE

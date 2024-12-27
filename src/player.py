@@ -1,5 +1,6 @@
 import sys
 import math
+
 import pygame
 
 from settings import BASE, ENV, PLAYER
