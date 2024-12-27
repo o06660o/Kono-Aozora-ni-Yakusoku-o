@@ -4,6 +4,7 @@ from settings import ENV
 from level import Level
 from tile import Tile
 from player import Player
+from npc import NPC
 
 
 class LevelDream(Level):
@@ -17,6 +18,7 @@ class LevelDream(Level):
             [self.visible_sprites],
             self.obstacle_sprites,
             self.create_attack,
+            self.npc_sprites,
         )
         # floor = pygame.image.load("assets/graphics/environment/dream/floor.png")
         plat_main = pygame.image.load("assets/graphics/environment/dream/dream_BG_plats_0000_4.png")
@@ -110,6 +112,12 @@ class LevelDream(Level):
         #     floor,
         #     ENV.LEVEL_DREAM.FLOOR_HITBOX_OFFSET,
         # )
+        NPC(
+            self.scale,
+            (-420, -70),
+            [self.visible_sprites, self.npc_sprites],
+            "tutorial",
+        )
 
     def custom_update(self) -> None:
         if type(self.player) is Player:
@@ -121,4 +129,5 @@ class LevelDream(Level):
                     [self.visible_sprites],
                     self.obstacle_sprites,
                     self.create_attack,
+                    self.npc_sprites,
                 )

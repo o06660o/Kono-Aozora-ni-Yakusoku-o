@@ -2,10 +2,9 @@ import sys
 import math
 import pygame
 
-from settings import ENV, PLAYER
-from utils import create_rect_hitbox_image, read_images_as_list
+from settings import BASE, ENV, PLAYER
+from utils import create_rect_hitbox_image, read_images_as_list, display_message
 from keys import Keys
-from debug import display
 
 
 class Player(pygame.sprite.Sprite):
@@ -24,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         groups,
         rect_obstacles,
         create_attack,
+        npc_sprites,
     ) -> None:
         super().__init__(groups)
         # base
@@ -43,6 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.vertical_facing = Player.IDLE
         self.prestatus = "idle"
         self.status = "idle"
+        self.npc_sprites = npc_sprites
         now = pygame.time.get_ticks()
 
         # keys
@@ -93,9 +94,6 @@ class Player(pygame.sprite.Sprite):
             "sword": read_images_as_list(
                 scale * Player.IMAGE_SCALE, "assets/graphics/player/sword"
             ),
-            # "downattack": read_images_as_list(
-            #     scale * Player.IMAGE_SCALE, "assets/graphics/player/downattack"
-            # ),
             "throwing_sword": read_images_as_list(
                 scale * Player.IMAGE_SCALE, "assets/graphics/player/throwing_sword"
             ),
@@ -115,7 +113,19 @@ class Player(pygame.sprite.Sprite):
             "magic": 0.15,
         }
 
+        # npc
+        self.talking_to = None
+        self.is_recording_input = False
+
     def preinput(self) -> bool:
+        if not self.have_released_K_LSHIFT and not self.keys.query(pygame.K_LSHIFT):
+            self.have_released_K_LSHIFT = True
+        if not self.have_released_K_SPACE and not self.keys.query(pygame.K_SPACE):
+            self.have_released_K_SPACE = True
+        if not self.have_released_K_c and not self.keys.query(pygame.K_c):
+            self.have_released_K_c = True
+        if not self.have_released_K_j and not self.keys.query(pygame.K_j):
+            self.have_released_K_j = True
         # movement
         ## sprinting
         if self.is_sprinting:
@@ -148,19 +158,14 @@ class Player(pygame.sprite.Sprite):
             self.velocity.x = 0
             self.velocity.y = 0
             return True
+        # npc
+        if self.is_recording_input:
+            return True
+
         return False
 
     def input(self) -> None:
         now = pygame.time.get_ticks()
-        if not self.have_released_K_LSHIFT and not self.keys.query(pygame.K_LSHIFT):
-            self.have_released_K_LSHIFT = True
-        if not self.have_released_K_SPACE and not self.keys.query(pygame.K_SPACE):
-            self.have_released_K_SPACE = True
-        if not self.have_released_K_c and not self.keys.query(pygame.K_c):
-            self.have_released_K_c = True
-        if not self.have_released_K_j and not self.keys.query(pygame.K_j):
-            self.have_released_K_j = True
-
         # movement
         ## horizontal
         ### begin sprint
@@ -280,6 +285,13 @@ class Player(pygame.sprite.Sprite):
             self.magic_time = now
             self.create_attack("magic")
 
+        # npc
+        if not self.is_recording_input and self.keys.query(pygame.K_SLASH):
+            self.is_recording_input = True
+        if self.talking_to is not None and self.keys.query(pygame.K_t):
+            self.talking_to.clear_messages()
+            self.talking_to = None
+
     def collision(self, direction: int) -> None:
         if direction == 0:  # horizontal
             for obstacle in self.rect_obstacles:
@@ -354,6 +366,12 @@ class Player(pygame.sprite.Sprite):
             and current_time - self.throwing_sword_time >= PLAYER.THORWING_SWORD_DURATION
         ):
             self.is_performing_throwing_sword = False
+        # npc
+        if self.is_recording_input and self.keys.query(pygame.K_RETURN):
+            self.is_recording_input = False
+            message = self.keys.query_recorded_text()
+            if message != "" and self.talking_to is not None:
+                self.talking_to.fetch_message(message)
 
     def friction(self) -> None:
         if self.velocity.x > 0 and self.touch_ground:
@@ -404,6 +422,24 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect(midbottom=self.hitbox.midbottom)
 
+    def npc_interaction(self) -> None:
+        if self.talking_to is None:
+            if self.keys.query(pygame.K_e):
+                for npc in self.npc_sprites:
+                    if self.hitbox.colliderect(npc.hitbox):
+                        self.talking_to = npc
+                        npc.fetch_message("Hello")
+        else:
+            if self.keys.query(pygame.K_r):
+                self.talking_to = None
+            else:
+                display_message(
+                    self.scale,
+                    PLAYER.TALKING_POS,
+                    BASE.WRAPLEN,
+                    self.talking_to.displaying_message,
+                )
+
     def update(self) -> None:
         self.cooldown()
         if not self.preinput():
@@ -411,3 +447,8 @@ class Player(pygame.sprite.Sprite):
         self.move()
         if "--DEBUG" not in sys.argv:
             self.animate()
+        self.npc_interaction()
+        if self.is_recording_input:
+            display_message(
+                self.scale, PLAYER.RECORDING_POS, BASE.WRAPLEN, self.keys.query_recorded_text()
+            )

@@ -9,6 +9,7 @@ class BASE:
     DEFAULT_SCREEN_HEIGHT = 1080
     FPS = 60
     LONG_PRESS_TIME = 400  # the time to recognize a long press
+    WRAPLEN = 400
 
 
 class ENV:
@@ -78,3 +79,24 @@ class PLAYER:
     # # misc
     # LOOKING_OFFSET = 600
     # LOOKING_DURATION = 200  # the time for the background to move when looking up/down
+
+    # input
+    RECORDING_POS = (800, 0)
+    TALKING_POS = (0, 0)
+
+
+class NPC:
+    """
+    The settings for the NPC.
+    """
+
+    WIDTH = 0.8  # the width of the player relative to `TILE_SIZE`
+    HEIGHT = 1.5  # the height of the player relative to `TILE_SIZE`
+    INIT_MESSAGE = {
+        "tutorial": [
+            {
+                "role": "system",
+                "content": "We are going to play a game now, and I have an integer in my mind. You can ask me an integer each time, and I will tell you whether the answer will be larger or smaller than the number asked. You need to use the minimum number of questions to answer what the answer is. For example, when the answer in my mind is 200, you can ask 100 and I will tell you that the answer is greater than 100.",
+            }
+        ]
+    }

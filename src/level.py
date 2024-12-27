@@ -14,6 +14,7 @@ class Level:
         self.obstacle_sprites = pygame.sprite.Group()
         self.attack_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
+        self.npc_sprites = pygame.sprite.Group()
 
         self.display_surface = pygame.display.get_surface()
         self.create_map()
@@ -28,6 +29,7 @@ class Level:
             [self.visible_sprites],
             self.obstacle_sprites,
             self.create_attack,
+            self.npc_sprites,
         )
 
     def custom_update(self) -> None:

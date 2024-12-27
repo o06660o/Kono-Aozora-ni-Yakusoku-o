@@ -1,5 +1,6 @@
 import csv
 import os
+import re
 
 import pygame
 
@@ -110,32 +111,89 @@ def create_rect_hitbox_image(
 
 
 # TODO
-def create_half_ellipse_hitbox_image(
-    scale: float,
-    A: float,
-    B: float,
-    precision: int = 5,
-    border_width: int = 8,
-    color: tuple[int, int, int] | tuple[int, int, int, int] | str = (255, 255, 255),
-) -> list[pygame.Surface]:
+# def create_half_ellipse_hitbox_image(
+#     scale: float,
+#     A: float,
+#     B: float,
+#     precision: int = 5,
+#     border_width: int = 8,
+#     color: tuple[int, int, int] | tuple[int, int, int, int] | str = (255, 255, 255),
+# ) -> list[pygame.Surface]:
+#     """
+#     Create a ellipse hitbox image with a transparent center and colored border, then return the right half of the ellipse.
+#
+#     Parameters:
+#         scale : float
+#             The global scale value of the game.
+#         A: float
+#             The horizontal radius of the ellipse.
+#         B: float
+#             The vertical radius of the ellipse.
+#         precision: int
+#             The number of rectangles to approximate the ellipse.
+#             Default value is 5.
+#         border_width: int
+#             The width of the border.
+#             Default value is 8.
+#         color: tuple[int, int, int] | tuple[int, int, int, int] | str
+#             The color in RGB, RGBA format, or simply a string.
+#             Default value is (255, 255, 255).
+#     """
+#     pass
+
+
+def wrap_text(text: str, font: pygame.font.Font, max_width: int) -> list:
     """
-    Create a ellipse hitbox image with a transparent center and colored border, then return the right half of the ellipse.
+    split text into lines that fit within the max_width
+    """
+    words = text.split(" ")
+    lines = []
+    current_line = ""
+    for word in words:
+        test_line = current_line + (word if current_line == "" else " " + word)
+        test_width = font.size(test_line)[0]
+        if test_width <= max_width:
+            current_line = test_line
+        else:
+            if current_line:
+                lines.append(current_line)
+            current_line = word
+    if current_line:
+        lines.append(current_line)
+
+    return lines
+
+
+def sanitize_message(message: str) -> str:
+    """
+    Remove non-printable characters using regex
+    """
+    return re.sub(r"[^\x20-\x7E]", "", message)
+
+
+def display_message(scale: float, pos: tuple[int, int], wraplen: int, message: str) -> None:
+    """
+    Display a message on the screen.
 
     Parameters:
         scale : float
             The global scale value of the game.
-        A: float
-            The horizontal radius of the ellipse.
-        B: float
-            The vertical radius of the ellipse.
-        precision: int
-            The number of rectangles to approximate the ellipse.
-            Default value is 5.
-        border_width: int
-            The width of the border.
-            Default value is 8.
-        color: tuple[int, int, int] | tuple[int, int, int, int] | str
-            The color in RGB, RGBA format, or simply a string.
-            Default value is (255, 255, 255).
+        pos : tuple[int, int]
+            The position of the message.
+        wraplen : int
+            The maximum length in pixels of a line.
+        message : str
+            The message to display.
     """
-    pass
+    message = sanitize_message(message)
+    font = pygame.font.Font(pygame.font.get_default_font(), 36)
+    display_surface = pygame.display.get_surface()
+    lines = wrap_text(message, font, int(wraplen * scale))
+    x = pos[0] * scale
+    y = pos[1] * scale
+    for line in lines:
+        font_surf = font.render(line, True, "White")
+        font_rect = font_surf.get_rect(topleft=(x, y))
+        pygame.draw.rect(display_surface, "Black", font_rect)
+        display_surface.blit(font_surf, font_rect)
+        y += font_rect.height

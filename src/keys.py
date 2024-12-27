@@ -8,6 +8,8 @@ class Keys:
     _instance = None
     key_press_time: dict[int, int] = {}
     key_release_time: dict[int, int] = {}
+    is_recording: bool = False
+    recorded_text: str = ""
 
     def __new__(cls) -> Self:
         if cls._instance is None:
@@ -17,6 +19,17 @@ class Keys:
     def update(self, event: pygame.event.Event) -> None:
         if event.type == pygame.KEYDOWN:
             self.key_press_time[event.key] = pygame.time.get_ticks()
+            if self.is_recording:
+                if event.key == pygame.K_BACKSPACE:
+                    self.recorded_text = self.recorded_text[:-1]
+                elif event.key == pygame.K_RETURN:
+                    self.is_recording = False
+                else:
+                    self.recorded_text += event.unicode
+            else:
+                if event.key == pygame.K_SLASH:
+                    self.is_recording = True
+                    self.recorded_text = ""
         elif event.type == pygame.KEYUP:
             assert (
                 event.key in self.key_press_time
@@ -43,3 +56,9 @@ class Keys:
                 return 1
             else:
                 return 2
+
+    def query_recorded_text(self) -> str:
+        """
+        Return the recorded text.
+        """
+        return self.recorded_text
