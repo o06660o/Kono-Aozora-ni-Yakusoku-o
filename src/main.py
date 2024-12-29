@@ -26,7 +26,7 @@ class Game:
     def run(self) -> None:
         while True:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT:   
                     pygame.quit()
                     sys.exit()
                 else:
@@ -36,7 +36,6 @@ class Game:
             self.world.draw()
             pygame.display.update()
             self.clock.tick(BASE.FPS)
-            print(self.clock.get_fps())
 
 
 if __name__ == "__main__":

@@ -435,12 +435,13 @@ class Player(pygame.sprite.Sprite):
             if self.keys.query(pygame.K_r):
                 self.talking_to = None
             else:
-                display_message(
-                    self.scale,
-                    PLAYER.TALKING_POS,
-                    BASE.WRAPLEN,
-                    self.talking_to.displaying_message,
-                )
+                pass
+                # display_message(
+                #     self.scale,
+                #     PLAYER.TALKING_POS,
+                #     BASE.WRAPLEN,
+                #     self.talking_to.displaying_message,
+                # )
 
     def update(self) -> None:
         self.cooldown()
