@@ -7,8 +7,8 @@
 
 - 胡俞中 
     - ID：2024533057
-    - Email：o06660o@shanghaitech.edu.cn
-    - Github: [o06660o](https://github.com/o06660o)
+    - Email：huyzh2024@shanghaitech.edu.cn
+    - Github: [Zhong](https://github.com/alajivento)
 
 - 段林沛 
     - ID：2024533106
