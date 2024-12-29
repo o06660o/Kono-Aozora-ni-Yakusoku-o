@@ -1,57 +1,72 @@
 # Our information
 
-    1. 王子睿 2024533125 
+- 王子睿 :
+    - ID：2024533125 
+    - Email：o06660o@shanghaitech.edu.cn
+    - Github: [o06660o](https://github.com/o06660o)
 
-    2. 胡俞中 2024533057
+- 胡俞中 
+    - ID：2024533057
+    - Email：o06660o@shanghaitech.edu.cn
+    - Github: [o06660o](https://github.com/o06660o)
 
-    3. 段林沛 2024533106
+- 段林沛 
+    - ID：2024533106
+    - Email：duanlp2024@shanghaitech.edu.cn
+    - Github: [Dan](https://github.com/Dan-dlp)
+
 
 
 # Introduction
-    Game Name: ——————
+- **Game Name**: Shadow Knight
 
-    Game Type: Metroidvania 
+- **Game Type**:  Metroidvania 
 
-    Game Backoground: 
-    在一个被遗忘的地下王国——诺克维尔，曾经辉煌的文明如今已成废墟。
-    古老的遗迹与腐朽的城墙中隐藏着无数未解的秘密与古老的力量。
-    作为一名失去记忆的冒险者——赫尔斯，你踏入这片荒芜的土地，面对强大敌人和未知的危险，寻找隐藏的真相。
-    随着你深入诺克维尔的深渊，每一步都揭开过去的碎片。
-    勇气与智慧是你唯一的武器，在这片黑暗中，你将决定是解开王国的命运，还是成为它的牺牲品...
+- **Game Backoground**:   
+Embark on an adventure in "Shadow Knight"!   
+This game offers a compact yet engaging experience inspired by the genre.   
+Traverse through charming, handcrafted levels, battle whimsical foes, and uncover secrets, all while enjoying a unique take on the classic formula.
 
 # Game Tutorial
-    欢迎来到诺克维尔,勇士！
-    我将告诉你如何在这个充满危险的世界中生存下来。
+Welcome , brave adventurer!
+Let me tell you how to survive in this dangerous world.
+
 **移动**
 
-    - `<A>`, `<D>`: 左右移动
-    - `<Space>`: 跳跃; (空中) 二段跳;
-    - `<Shift>`: 冲刺;
-    - `<Hold-Shift>`: 疾跑; (会先冲刺一次再进入疾跑状态)
-    - `<C>`: 后撤步.
+- `<A>`, `<D>`: 左右移动
+- `<Space>`: 跳跃; (空中) 二段跳;
+- `<Shift>`: 冲刺;
+- `<Hold-Shift>`: 疾跑; (会先冲刺一次再进入疾跑状态)
+- `<C>`: 后撤步.
 
 **战斗**
 
-    - `<J>`: 攻击;
-    - `<S-Z>`: 斜向下突刺;
-    - `<H>`: 丢出近战武器;
-    - `<U>`: 大范围攻击.
+- `<J>`: 攻击;
+- `<S-Z>`: 斜向下突刺;
+- `<H>`: 丢出近战武器;
+- `<U>`: 大范围攻击.
 
 **交互**
 
-    - `<E>`: 接近 npc 的时候开始对话;
-    - `<R>`: 暂时停止与 npc 的对话;
-    - `<T>`: 清空与 npc 的历史对话;
-    - `</>`: 开始输入与 npc 的对话;
-    - `<Enter>`: 发送与 npc 的对话.
+- `<E>`: 接近 npc 的时候开始对话;
+- `<R>`: 暂时停止与 npc 的对话;
+- `<T>`: 清空与 npc 的历史对话;
+- `</>`: 开始输入与 npc 的对话;
+- `<Enter>`: 发送与 npc 的对话.
 
-# Requirements  ?
-    - Python 3.11.6
-    - pygame 2.5.3
-    - numpy 1.26.2
-    - pygame_gui 0.10.1
+# Requirements  
+## Environment needed:   
+- openai==1.58.1  
+- pygame==2.6.1
+## How to start:
+```bash
+git clone https://github.com/o06660o/SI100B-24Fall-Project.git
+pip install -r requirements.txt
+cd SI100B-24Fall-Project
+python .\src\main.py
+```
 
 # Copyright information
-    - 大部分素材来自于游戏空洞骑士(Hollow Knight)
+大部分素材来自于游戏空洞骑士(Hollow Knight)
 
 
