@@ -186,7 +186,7 @@ def display_message(scale: float, pos: tuple[int, int], wraplen: int, message: s
             The message to display.
     """
     message = sanitize_message(message)
-    font = pygame.font.Font(pygame.font.get_default_font(), 36)
+    font = pygame.font.Font(pygame.font.get_default_font(), int(18 * scale))
     display_surface = pygame.display.get_surface()
     lines = wrap_text(message, font, int(wraplen * scale))
     x = pos[0] * scale
