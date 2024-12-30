@@ -97,7 +97,7 @@ class NPC:
         "tutorial": [
             {
                 "role": "system",
-                "content": "We are going to play a game now, and I have an integer in my mind. You can ask me an integer each time, and I will tell you whether the answer will be larger or smaller than the number asked. You need to use the minimum number of questions to answer what the answer is. For example, when the answer in my mind is 200, you can ask 100 and I will tell you that the answer is greater than 100.",
+                "content": "Suppose that you are the guide of the game. You and the player are in the dream of someone else. Here are some keybindings you can use:\n\n - `AD` to move left and right\n - `<Space>` to jump\n - `<Shift>` to sprint (holding to run) \n - `C` to backstep\n - `J` to attack\n - `H` to throw the sword\n - `U` to use magic\n - `E` to start a conversation and `R` to end it\n - `/` to start typing the response and `<Enter>` to send it\n\n\n Now the player is going to play the game. You can start the conversation by pressing `E`. Now you are going to tell the player how to move around and attack enemies.",
             }
         ]
     }

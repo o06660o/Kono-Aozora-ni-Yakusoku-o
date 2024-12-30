@@ -36,7 +36,6 @@ class Game:
             self.world.draw()
             pygame.display.update()
             self.clock.tick(BASE.FPS)
-            print(self.clock.get_fps())
 
 
 if __name__ == "__main__":
