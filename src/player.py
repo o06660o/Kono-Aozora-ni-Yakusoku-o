@@ -25,6 +25,7 @@ class Player(pygame.sprite.Sprite):
         rect_obstacles,
         create_attack,
         npc_sprites,
+        sprite_type: str = "player",
     ) -> None:
         super().__init__(groups)
         # base
@@ -46,6 +47,7 @@ class Player(pygame.sprite.Sprite):
         self.status = "idle"
         self.npc_sprites = npc_sprites
         now = pygame.time.get_ticks()
+        self.sprite_type = sprite_type
 
         # keys
         self.keys = Keys()
@@ -73,6 +75,9 @@ class Player(pygame.sprite.Sprite):
         self.touch_ground_time = now
 
         # combat
+        self.health = PLAYER.HEALTH
+        self.vulnerable = True
+        self.last_hit_time = now
         self.create_attack = create_attack
         self.can_attack = True
         ## sword
@@ -113,7 +118,8 @@ class Player(pygame.sprite.Sprite):
             "throwing_sword": 0.3,
             "magic": 0.15,
         }
-        self.image = self.animations["idle"][0]
+        if "--DEBUG" not in sys.argv:
+            self.image = self.animations["idle"][0]
 
         # npc
         self.talking_to = None
@@ -352,6 +358,8 @@ class Player(pygame.sprite.Sprite):
             self.jump_power_exists = False
 
         # combat
+        if not self.vulnerable and current_time - self.last_hit_time >= PLAYER.VULNERABLE_TIME:
+            self.vulnerable = True
         if (
             not self.can_attack
             and current_time - self.sword_time >= PLAYER.SWORD_COOLDOWN

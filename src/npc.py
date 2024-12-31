@@ -13,8 +13,10 @@ class NPC(pygame.sprite.Sprite):
         pos: tuple[int, int],
         groups,
         npc_type: str,
+        sprite_type: str = "npc",
     ) -> None:
         super().__init__(groups)
+        self.sprite_type = sprite_type
         self.scale = scale
         self.pos = (pos[0] * scale, pos[1] * scale)
         self.image = create_rect_hitbox_image(

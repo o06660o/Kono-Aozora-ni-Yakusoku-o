@@ -9,8 +9,8 @@ class Tile(pygame.sprite.Sprite):
         scale: float,
         pos: tuple[int | float, int | float],
         groups,
-        sprite_type: str,
-        surface=pygame.Surface((ENV.TILE_SIZE, ENV.TILE_SIZE)),
+        sprite_type: str = "blocks",
+        surface: pygame.Surface = pygame.Surface((ENV.TILE_SIZE, ENV.TILE_SIZE)),
         offset: tuple[int, int] = (0, 0),
     ) -> None:
         super().__init__(groups)

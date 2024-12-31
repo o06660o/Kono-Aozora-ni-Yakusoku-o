@@ -4,6 +4,7 @@ from settings import ENV, BASE
 from player import Player
 from weapon import PlayerSword, PlayerThrowingSword, PlayerMagic
 from debug import FreeCamera
+from enemy import Enemy
 
 
 class Level:
@@ -12,16 +13,23 @@ class Level:
 
         self.visible_sprites = Level.VisibleGroups(scale)
         self.obstacle_sprites = pygame.sprite.Group()
-        self.attack_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
         self.npc_sprites = pygame.sprite.Group()
+        self.current_attack = None
 
         self.display_surface = pygame.display.get_surface()
         self.create_map()
+        self.create_player()
 
     def create_map(self) -> None:
         """
         override this method to create a map
+        """
+        pass
+
+    def create_player(self) -> None:
+        """
+        override this method to create a player
         """
         self.player = Player(
             self.scale,
@@ -31,6 +39,14 @@ class Level:
             self.create_attack,
             self.npc_sprites,
         )
+        pass
+
+    def respawn_player(self) -> None:
+        self.player.kill()
+        self.create_player()
+
+    def trigger_death(self, entity: Enemy) -> None:
+        entity.kill()
 
     def custom_update(self) -> None:
         """
@@ -42,27 +58,57 @@ class Level:
         assert type(self.player) is Player
         if attack_type == "sword":
             self.current_attack = PlayerSword(
-                self.scale,
-                self.player,
-                [self.visible_sprites, self.attack_sprites],
-                attack_direction,
+                self.scale, self.player, [self.visible_sprites], attack_direction, self.erase_attack
             )
         elif attack_type == "throwing_sword":
             self.current_attack = PlayerThrowingSword(
                 self.scale,
                 self.player,
-                [self.visible_sprites, self.attack_sprites],
+                [self.visible_sprites],
                 attack_direction,
                 self.obstacle_sprites,
+                self.erase_attack,
             )
         elif attack_type == "magic":
             self.current_attack = PlayerMagic(
-                self.scale,
-                self.player,
-                [self.visible_sprites, self.attack_sprites],
+                self.scale, self.player, [self.visible_sprites], self.erase_attack
             )
 
+    def erase_attack(self) -> None:
+        if self.current_attack is not None:
+            self.current_attack.kill()
+            self.current_attack = None
+
+    def attack_enemies(self) -> None:
+        if self.current_attack is None:
+            return
+        now = pygame.time.get_ticks()
+        for target in self.attackable_sprites:
+            if target.vulnerable and self.current_attack.hitbox.colliderect(target.hitbox):
+                target.vulnerable = False
+                target.last_hit_time = now
+                target.health -= self.current_attack.damage
+                if target.health <= 0:
+                    target.status = "death"
+                    target.death_time = now
+
+    def attack_player(self) -> None:
+        if not self.player.vulnerable:
+            return
+        now = pygame.time.get_ticks()
+        for enemy in self.attackable_sprites:
+            if enemy.hitbox.colliderect(self.player.hitbox):
+                if self.player.vulnerable:
+                    self.player.vulnerable = False
+                    self.player.last_hit_time = now
+                    self.player.health -= enemy.damage
+                    if self.player.health <= 0:
+                        self.respawn_player()
+                    return
+
     def draw(self) -> None:
+        self.attack_enemies()
+        self.attack_player()
         self.custom_update()
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
@@ -108,12 +154,15 @@ class Level:
             self.display_surface.blit(self.floor_surface, floor_offset_pos)
 
             for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):
-                if sprite is player:
+                if sprite.sprite_type != "blocks":
                     continue
                 offset_pos = sprite.rect.topleft - self.offset
                 # if type(sprite) is Player:
                 #     offset_pos.y -= sprite.rect.height * 0.13
                 self.display_surface.blit(sprite.image, offset_pos)
 
-            player_offset_pos = player.rect.topleft - self.offset
-            self.display_surface.blit(player.image, player_offset_pos)
+            for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):
+                if sprite.sprite_type == "blocks":
+                    continue
+                offset_pos = sprite.rect.topleft - self.offset
+                self.display_surface.blit(sprite.image, offset_pos)

@@ -10,6 +10,7 @@ class BASE:
     FPS = 60
     LONG_PRESS_TIME = 400  # the time to recognize a long press
     WRAPLEN = 400
+    DEATH_DURATION = 100
 
 
 class ENV:
@@ -54,6 +55,8 @@ class PLAYER:
     JUMP_DURATION = 200
     JUMP_COOLDOWN = 100  # the time the player can jump again after touching the ground
     # combat
+    HEALTH = 8
+    VULNERABLE_TIME = 600
     # ATTACK_COOLDOWN = 600
     ## sword
     SWORD_LIFETIME = 200
@@ -101,3 +104,23 @@ class NPC:
             }
         ]
     }
+
+
+class ENEMY:
+    """
+    The settings for the enemy.
+    """
+
+    INFO = {
+        "centipede": {
+            "width": 1.8,
+            "height": 0.3,
+            "health": 300,
+            "damage": 1,
+            "status": "move",
+            "scale": 0.8,
+        }
+    }
+    # `key`: frame name, `value`: frame rate
+    ANIMATIONS = {"centipede": {"move": 0.1, "death": 0}}
+    VULNERABLE_TIME = 600

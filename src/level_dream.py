@@ -5,21 +5,18 @@ from level import Level
 from tile import Tile
 from player import Player
 from npc_tutorial import NPCTutorial
+from enemy_centipede import EnemyCentipede
+from debug import display
 
 
 class LevelDream(Level):
+    SUMMON_ENEMY_INTERVAL = 2000
+
     def __init__(self, scale: float) -> None:
         super().__init__(scale)
+        self.last_enemy_summon_time = -1
 
     def create_map(self) -> None:
-        self.player = Player(
-            self.scale,
-            (0, 0),
-            [self.visible_sprites],
-            self.obstacle_sprites,
-            self.create_attack,
-            self.npc_sprites,
-        )
         # floor = pygame.image.load("assets/graphics/environment/dream/floor.png")
         plat_main = pygame.image.load("assets/graphics/environment/dream/dream_BG_plats_0000_4.png")
         plat_large = pygame.image.load(
@@ -118,15 +115,35 @@ class LevelDream(Level):
             [self.visible_sprites, self.npc_sprites],
         )
 
+    def try_create_enemy(self) -> None:
+        if len(self.attackable_sprites) == 0:
+            now = pygame.time.get_ticks()
+            if self.last_enemy_summon_time == -1:
+                self.last_enemy_summon_time = now
+            elif now - self.last_enemy_summon_time > self.SUMMON_ENEMY_INTERVAL:
+                self.last_enemy_summon_time = -1
+                EnemyCentipede(
+                    self.scale,
+                    (2460, 80),
+                    [self.visible_sprites, self.attackable_sprites],
+                    self.trigger_death,
+                )
+
+    def respawn_player(self) -> None:
+        if self.player is not None:
+            self.player.kill()
+        self.player = Player(
+            self.scale,
+            (0, 0),
+            [self.visible_sprites],
+            self.obstacle_sprites,
+            self.create_attack,
+            self.npc_sprites,
+        )
+
     def custom_update(self) -> None:
         if type(self.player) is Player:
             if self.player.rect.y > 2000:
-                self.player.kill()
-                self.player = Player(
-                    self.scale,
-                    (0, 0),
-                    [self.visible_sprites],
-                    self.obstacle_sprites,
-                    self.create_attack,
-                    self.npc_sprites,
-                )
+                self.respawn_player()
+        self.try_create_enemy()
+        display(self.player.health)
