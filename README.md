@@ -1,17 +1,13 @@
 # Our information
 
 - 王子睿 :
-
   - ID：2024533125
   - Email：<o06660o@shanghaitech.edu.cn>
   - Github: [o06660o](https://github.com/o06660o)
-
 - 胡俞中
-
   - ID：2024533057
   - Email：<huyzh2024@shanghaitech.edu.cn>
   - Github: [Zhong](https://github.com/alajivento)
-
 - 段林沛
   - ID：2024533106
   - Email：<duanlp2024@shanghaitech.edu.cn>
@@ -20,9 +16,7 @@
 ## Introduction
 
 - **Game Name**: Shadow Knight
-
 - **Game Type**: Metroidvania
-
 - **Game Backoground**:  
   Embark on an adventure in "Shadow Knight"!  
   This game offers a compact yet engaging experience inspired by the genre.  
@@ -31,7 +25,7 @@
 
 ## Game Tutorial
 
-Welcome , brave adventurer!
+Welcome, brave adventurer!
 Let me tell you how to survive in this dangerous world.
 
 ### 移动
