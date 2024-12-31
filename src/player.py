@@ -88,6 +88,7 @@ class Player(pygame.sprite.Sprite):
         self.throwing_sword_time = now
         self.is_performing_throwing_sword = False
         ## magic
+        self.magic = 3
         self.magic_time = now
         self.is_performing_magic = False
 
@@ -287,7 +288,13 @@ class Player(pygame.sprite.Sprite):
             self.create_attack("throwing_sword", attack_direction)
 
         ## magic
-        if not self.touch_ground and self.keys.query(pygame.K_u) and self.can_attack:
+        if (
+            self.magic > 0
+            and not self.touch_ground
+            and self.keys.query(pygame.K_u)
+            and self.can_attack
+        ):
+            self.magic -= 1
             self.is_performing_magic = True
             self.can_attack = False
             self.magic_time = now
