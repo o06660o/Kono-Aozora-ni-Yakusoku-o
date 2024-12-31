@@ -23,6 +23,11 @@ class Game:
         # self.world = World(self.scale)
         self.world = Level(self.scale)
 
+        # 加载背景音乐
+        pygame.mixer.music.load('assets/sound/Christopher Larkin - City of Tears.mp3')  # 替换为你的音乐文件路径
+        pygame.mixer.music.set_volume(0.5)  # 设置音量（可选）
+        pygame.mixer.music.play(-1)  # -1 表示循环播放
+
     def run(self) -> None:
         while True:
             for event in pygame.event.get():
