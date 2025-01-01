@@ -19,7 +19,7 @@ class Game:
         self.clock = pygame.time.Clock()
         # TODO: a title and icon for the window needed
         # 设置窗口图标及标题
-        pygame.display.set_icon(pygame.image.load('assets\\graphics\\icon.png').convert())
+        pygame.display.set_icon(pygame.image.load('assets//graphics//icon.png').convert())
         pygame.display.set_caption('Shadow Knight')
 
         self.keys = Keys()
