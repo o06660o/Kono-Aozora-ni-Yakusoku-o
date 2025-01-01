@@ -17,10 +17,11 @@ class Game:
             (int(BASE.WIDTH * self.scale), int(BASE.HEIGHT * self.scale))
         )
         self.clock = pygame.time.Clock()
-        # TODO: a title and icon for the window needed
+
         # 设置窗口图标及标题
-        pygame.display.set_icon(pygame.image.load('assets//graphics//icon.png').convert())
-        pygame.display.set_caption('Shadow Knight')
+        pygame.display.set_icon(pygame.image.load("assets/graphics/icon.png").convert())
+        pygame.display.set_caption("Shadow Knight")
+
 
         self.keys = Keys()
         # self.world = World(self.scale)
