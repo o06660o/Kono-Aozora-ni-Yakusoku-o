@@ -5,6 +5,9 @@ import pygame
 from settings import BASE
 from keys import Keys
 from level_dream import LevelDream as Level
+import app_data
+import menu
+from menu import MenuForm
 
 
 class Game:
@@ -12,6 +15,7 @@ class Game:
         pygame.init()
         scale_x = pygame.display.Info().current_w / BASE.DEFAULT_SCREEN_WIDTH
         scale_y = pygame.display.Info().current_h / BASE.DEFAULT_SCREEN_HEIGHT
+        print("scale1:",scale_x,scale_y)
         self.scale = min(scale_x, scale_y)  # TODO: test for non integer `sacle` values
         self.screen = pygame.display.set_mode(
             (int(BASE.WIDTH * self.scale), int(BASE.HEIGHT * self.scale))
@@ -31,17 +35,27 @@ class Game:
         # self.world = World(self.scale)
         self.world = Level(self.scale)
 
+        self.frmMenu = MenuForm()
+        self.frmMenu.load() 
+        app_data.IsRunning = True
+
     def run(self) -> None:
-        while True:
+        while app_data.IsRunning:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    if app_data.CurrentWin == app_data.AppForm.MENU_FORM:
+                        self.frmMenu.onMouseClickHandler(event)
                 else:
                     self.keys.update(event)
 
-            self.screen.fill("lightblue")
-            self.world.draw()
+            if app_data.CurrentWin == app_data.AppForm.MENU_FORM:
+                self.frmMenu.refresh(pygame.time.get_ticks())
+            else:
+                self.screen.fill("lightblue")
+                self.world.draw()
             pygame.display.update()
             self.clock.tick(BASE.FPS)
 
