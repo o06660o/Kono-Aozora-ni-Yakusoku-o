@@ -22,6 +22,10 @@ class Game:
         pygame.display.set_icon(pygame.image.load("assets/graphics/icon.png").convert())
         pygame.display.set_caption("Shadow Knight")
 
+        # background music
+        pygame.mixer.music.load('assets/sound/Christopher Larkin - City of Tears.mp3')  # 替换为你的音乐文件路径
+        pygame.mixer.music.set_volume(0.2)  # 设置音量（可选）
+        pygame.mixer.music.play(-1)  # -1 表示循环播放
 
         self.keys = Keys()
         # self.world = World(self.scale)
