@@ -126,8 +126,3 @@ class NPC(pygame.sprite.Sprite):
     def clear_messages(self) -> None:
         self.messages = self.init_message
         self.dialog_box.set_text(self.init_message[0]['content'])
-        self.is_dialog_active = False  # 新增：设置对话状态为非激活
-
-    def update(self):
-        if self.is_dialog_active:  # 新增：根据对话状态决定是否绘制对话框
-            self.dialog_box.draw()
