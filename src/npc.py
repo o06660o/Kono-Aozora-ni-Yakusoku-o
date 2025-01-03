@@ -1,6 +1,7 @@
 from openai import OpenAI
 import pygame
 
+from utils import sanitize_message
 from settings import ENV
 from settings import NPC as NPC_SETTINGS
 from utils import create_rect_hitbox_image
@@ -14,14 +15,18 @@ class DialogBox:
         self.text_surface = None
         self.text_rect = None
         self.border_color = (0, 0, 0)
-        self.background_color = (255, 255, 255)
+        # 设置背景颜色为透明
+        self.background_color = (0, 0, 0, 0)  
         self.text_color = (0, 0, 0)
         self.padding = 10
-
+        self.displaying_message = ""
+    
+        
     def set_text(self, text):
-        # 计算文本的最大宽度，考虑到对话框的内边距
+        text = sanitize_message(text)
+        self.displaying_message = text
         max_width = self.rect.width - 2 * self.padding
-        # 分割文本为多行，每行不超过最大宽度
+        # split text into lines
         words = text.split(' ')
         lines = []
         current_line = words[0]
@@ -33,17 +38,15 @@ class DialogBox:
                 lines.append(current_line)
                 current_line = word
         lines.append(current_line)
-        # 渲染每一行文本
         wrapped_text = []
         for line in lines:
             line_surface = self.font.render(line, True, self.text_color, self.background_color)
             wrapped_text.append(line_surface)
-        # 计算文本的总高度
+       
         total_height = sum([line.get_height() for line in wrapped_text])
-        # 创建一个新的表面来容纳所有行
+        
         self.text_surface = pygame.Surface((max_width, total_height), pygame.SRCALPHA)
         self.text_surface.fill(self.background_color)
-        # 将每一行文本绘制到新的表面上
         y = 0
         for line in wrapped_text:
             self.text_surface.blit(line, (0, y))
@@ -52,12 +55,20 @@ class DialogBox:
         self.text_rect = self.text_surface.get_rect(center=self.rect.center)
 
     def draw(self):
-        pygame.draw.rect(self.screen, self.border_color, self.rect, 2)
-        pygame.draw.rect(self.screen, self.background_color, self.rect.inflate(-4, -4))
+        # 创建一个具有 alpha 通道的表面
+        surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
+        # 绘制透明背景
+        pygame.draw.rect(surface, self.background_color, self.rect)
+        # 绘制边框
+        pygame.draw.rect(surface, self.border_color, self.rect, 2)
+        # 设置文本
+        self.set_text(self.displaying_message)
+        # 如果有文本表面，绘制文本
         if self.text_surface:
-            self.screen.blit(self.text_surface, self.text_rect)
-
-# 在NPC类中使用对话框
+            surface.blit(self.text_surface, self.text_rect)
+        # 将表面绘制到屏幕上
+        self.screen.blit(surface, self.rect.topleft)
+      
 class NPC(pygame.sprite.Sprite):
     def __init__(self, scale, pos, groups, npc_type):
         super().__init__(groups)
