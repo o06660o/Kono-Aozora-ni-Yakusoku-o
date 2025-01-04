@@ -144,18 +144,22 @@ class LevelDream(Level):
     def print_health(self) -> None:
         # display(self.player.health) Visualize player health
         
-        # 加载血量图片
+        
         health_image = pygame.image.load(r"assets\graphics\ui\select_game_HUD_0001_health.png")
         head_image = pygame.image.load(r"assets\graphics\ui\select_game_HUD_0002_health_frame.png")
-        # 获取当前显示表面
+        empty_image = pygame.image.load(r"assets\graphics\ui\empty_blood.png")
         display_surface = pygame.display.get_surface()
 
         display_surface.blit(head_image, (10, 10))
-        # 遍历玩家的血量并在左上角显示相应数量的图片
+        x = 10 + health_image.get_width() + 60
+        y = 60
         for i in range(self.player.health):
-            x = 10 + i * (health_image.get_width() + 5)  + health_image.get_width() + 60
-            y = 60
             display_surface.blit(health_image, (x, y))
+            x += health_image.get_width() + 5
+        
+        for i in range(8 - self.player.health):
+            display_surface.blit(empty_image, (x, y))
+            x += empty_image.get_width() + 5
         
     
     def custom_update(self) -> None:

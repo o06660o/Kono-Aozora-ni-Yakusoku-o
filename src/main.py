@@ -8,7 +8,7 @@ from level_dream import LevelDream as Level
 import app_data
 import menu
 from menu import MenuForm
-
+# from level_dream import print_health
 
 class Game:
     def __init__(self) -> None:
@@ -56,6 +56,7 @@ class Game:
             else:
                 self.screen.fill("lightblue")
                 self.world.draw()
+                self.world.print_health() # 最后blit血量
             pygame.display.update()
             self.clock.tick(BASE.FPS)
 
