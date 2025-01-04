@@ -140,10 +140,27 @@ class LevelDream(Level):
             self.create_attack,
             self.npc_sprites,
         )
+   
+    def print_health(self) -> None:
+        # display(self.player.health) Visualize player health
+        
+        # 加载血量图片
+        health_image = pygame.image.load(r"assets\graphics\ui\select_game_HUD_0001_health.png")
+        head_image = pygame.image.load(r"assets\graphics\ui\select_game_HUD_0002_health_frame.png")
+        # 获取当前显示表面
+        display_surface = pygame.display.get_surface()
 
+        display_surface.blit(head_image, (10, 10))
+        # 遍历玩家的血量并在左上角显示相应数量的图片
+        for i in range(self.player.health):
+            x = 10 + i * (health_image.get_width() + 5)  + health_image.get_width() + 60
+            y = 60
+            display_surface.blit(health_image, (x, y))
+        
+    
     def custom_update(self) -> None:
         if type(self.player) is Player:
             if self.player.rect.y > 2000:
                 self.respawn_player()
         self.try_create_enemy()
-        display(self.player.health)
+        self.print_health()
