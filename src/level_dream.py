@@ -143,20 +143,20 @@ class LevelDream(Level):
 
     def magic_image(self):
         if self.player.magic == 0:
-            return pygame.image.load(r"assets\graphics\ui\0_energy.png")
+            return pygame.image.load(r"assets/graphics/ui/0_energy.png")
         elif self.player.magic == 1:
-            return pygame.image.load(r"assets\graphics\ui\1_energy.png")
+            return pygame.image.load(r"assets/graphics/ui/1_energy.png")
         elif self.player.magic == 2:
-            return pygame.image.load(r"assets\graphics\ui\2_energy.png")
+            return pygame.image.load(r"assets/graphics/ui/2_energy.png")
         elif self.player.magic == 3:
-            return pygame.image.load(r"assets\graphics\ui\3_energy.png")
+            return pygame.image.load(r"assets/graphics/ui/3_energy.png")
 
     def print_health(self) -> None:
         # display(self.player.health) Visualize player health
 
-        health_image = pygame.image.load(r"assets\graphics\ui\select_game_HUD_0001_health.png")
+        health_image = pygame.image.load(r"assets/graphics/ui/select_game_HUD_0001_health.png")
         head_image = self.magic_image()
-        empty_image = pygame.image.load(r"assets\graphics\ui\empty_blood.png")
+        empty_image = pygame.image.load(r"assets/graphics/ui/empty_blood.png")
         display_surface = pygame.display.get_surface()
 
         display_surface.blit(head_image, (10, 10))
