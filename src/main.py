@@ -8,14 +8,16 @@ from level_dream import LevelDream as Level
 import app_data
 import menudad
 from menu import MenuForm
+
 # from level_dream import print_health
+
 
 class Game:
     def __init__(self) -> None:
         pygame.init()
         scale_x = pygame.display.Info().current_w / BASE.DEFAULT_SCREEN_WIDTH
         scale_y = pygame.display.Info().current_h / BASE.DEFAULT_SCREEN_HEIGHT
-        print("scale1:",scale_x,scale_y)
+        print("scale1:", scale_x, scale_y)
         self.scale = min(scale_x, scale_y)  # TODO: test for non integer `sacle` values
         self.screen = pygame.display.set_mode(
             (int(BASE.WIDTH * self.scale), int(BASE.HEIGHT * self.scale))
@@ -27,16 +29,16 @@ class Game:
         pygame.display.set_caption("Shadow Knight")
 
         # background music
-        pygame.mixer.music.load('assets/sound/Christopher Larkin - City of Tears.mp3')  
-        pygame.mixer.music.set_volume(0.1)  
-        pygame.mixer.music.play(-1)  
+        pygame.mixer.music.load("assets/sound/Christopher Larkin - City of Tears.mp3")
+        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.play(-1)
 
         self.keys = Keys()
         # self.world = World(self.scale)
         self.world = Level(self.scale)
 
         self.frmMenu = MenuForm()
-        self.frmMenu.load() 
+        self.frmMenu.load()
         app_data.IsRunning = True
 
     def run(self) -> None:
@@ -56,7 +58,7 @@ class Game:
             else:
                 self.screen.fill("lightblue")
                 self.world.draw()
-                self.world.print_health() # 最后blit血量
+                self.world.print_health()  # 最后blit血量
             pygame.display.update()
             self.clock.tick(BASE.FPS)
 

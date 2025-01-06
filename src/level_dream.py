@@ -140,6 +140,7 @@ class LevelDream(Level):
             self.create_attack,
             self.npc_sprites,
         )
+
     def magic_image(self):
         if self.player.magic == 0:
             return pygame.image.load(r"assets\graphics\ui\0_energy.png")
@@ -152,8 +153,7 @@ class LevelDream(Level):
 
     def print_health(self) -> None:
         # display(self.player.health) Visualize player health
-        
-        
+
         health_image = pygame.image.load(r"assets\graphics\ui\select_game_HUD_0001_health.png")
         head_image = self.magic_image()
         empty_image = pygame.image.load(r"assets\graphics\ui\empty_blood.png")
@@ -165,12 +165,11 @@ class LevelDream(Level):
         for i in range(self.player.health):
             display_surface.blit(health_image, (x, y))
             x += health_image.get_width() + 5
-        
+
         for i in range(8 - self.player.health):
             display_surface.blit(empty_image, (x, y))
             x += empty_image.get_width() + 5
-        
-    
+
     def custom_update(self) -> None:
         if type(self.player) is Player:
             if self.player.rect.y > 2000:
