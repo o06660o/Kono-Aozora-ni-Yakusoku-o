@@ -177,16 +177,16 @@ class LevelDream(Level):
 
         display_surface = pygame.display.get_surface()
 
-        display_surface.blit(head_image, (10, 10))
-        x = 10 + health_image.get_width() + 60
+        display_surface.blit(head_image, (10 * self.scale, 10 * self.scale))
+        x = 10 * self.scale + health_image.get_width() + 60 * self.scale
         y = 60
+        y *= self.scale
         for i in range(self.player.health):
             display_surface.blit(health_image, (x, y))
-            x += health_image.get_width() + 5
-
+            x += health_image.get_width() + 5 * self.scale
         for i in range(8 - self.player.health):
             display_surface.blit(empty_image, (x, y))
-            x += empty_image.get_width() + 5
+            x += empty_image.get_width() + 5 * self.scale
 
     def custom_update(self) -> None:
         if type(self.player) is Player:
