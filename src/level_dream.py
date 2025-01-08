@@ -155,8 +155,26 @@ class LevelDream(Level):
         # display(self.player.health) Visualize player health
 
         health_image = pygame.image.load(r"assets/graphics/ui/select_game_HUD_0001_health.png")
+        health_image = pygame.transform.scale(
+            health_image,
+            (
+                int(health_image.get_width() * self.scale),
+                int(health_image.get_height() * self.scale),
+            ),
+        )
+
         head_image = self.magic_image()
+        head_image = pygame.transform.scale(
+            head_image,
+            (int(head_image.get_width() * self.scale), int(head_image.get_height() * self.scale)),
+        )
+
         empty_image = pygame.image.load(r"assets/graphics/ui/empty_blood.png")
+        empty_image = pygame.transform.scale(
+            empty_image,
+            (int(empty_image.get_width() * self.scale), int(empty_image.get_height() * self.scale)),
+        )
+
         display_surface = pygame.display.get_surface()
 
         display_surface.blit(head_image, (10, 10))
