@@ -28,39 +28,40 @@ class LevelDream(Level):
         plat_small = pygame.image.load(
             "assets/graphics/environment/dream/platform/dream_plat_small.png"
         )
+        ground_image = pygame.image.load("assets/graphics/environment/ground/long_ground.png")
         # print(self.scale)
-        Tile(
-            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-            (-40, 0),
-            [self.visible_sprites, self.obstacle_sprites],
-            "blocks",
-            plat_main,
-            ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
-        )
-        Tile(
-            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-            (320, 60),
-            [self.visible_sprites, self.obstacle_sprites],
-            "blocks",
-            plat_large,
-            ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
-        )
-        Tile(
-            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-            (600, 60),
-            [self.visible_sprites, self.obstacle_sprites],
-            "blocks",
-            plat_large,
-            ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
-        )
-        Tile(
-            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-            (880, 60),
-            [self.visible_sprites, self.obstacle_sprites],
-            "blocks",
-            plat_large,
-            ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
-        )
+        # Tile(
+        #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+        #     (-40, 0),
+        #     [self.visible_sprites, self.obstacle_sprites],
+        #     "blocks",
+        #     plat_main,
+        #     ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
+        # )
+        # Tile(
+        #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+        #     (320, 60),
+        #     [self.visible_sprites, self.obstacle_sprites],
+        #     "blocks",
+        #     plat_large,
+        #     ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
+        # )
+        # Tile(
+        #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+        #     (600, 60),
+        #     [self.visible_sprites, self.obstacle_sprites],
+        #     "blocks",
+        #     plat_large,
+        #     ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
+        # )
+        # Tile(
+        #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+        #     (880, 60),
+        #     [self.visible_sprites, self.obstacle_sprites],
+        #     "blocks",
+        #     plat_large,
+        #     ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
+        # )
         Tile(
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (-240, 60),
@@ -93,22 +94,23 @@ class LevelDream(Level):
             plat_main,
             ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
         )
-        Tile(
-            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-            (1120, 0),
-            [self.visible_sprites, self.obstacle_sprites],
-            "blocks",
-            plat_main,
-            ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
-        )
-        # Tile(
+        # Tile(                         # 虫子下面那个
         #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-        #     (-240 ,300),
+        #     (1120, 0),
         #     [self.visible_sprites, self.obstacle_sprites],
         #     "blocks",
-        #     floor,
-        #     ENV.LEVEL_DREAM.FLOOR_HITBOX_OFFSET,
+        #     plat_main,
+        #     ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
         # )
+        Tile(
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (-40, 60),  # 根据需要调整位置
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            ground_image,
+            ENV.LEVEL_DREAM.GROUND_HITBOX_OFFSET,  
+        )   
+        
         NPCTutorial(
             self.scale,
             (-450, -65),
