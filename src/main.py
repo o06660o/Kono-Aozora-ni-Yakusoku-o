@@ -20,6 +20,8 @@ class Game:
         scale_y = pygame.display.Info().current_h / BASE.DEFAULT_SCREEN_HEIGHT
         print("scale1:", scale_x, scale_y)
         self.scale = min(scale_x, scale_y)  # TODO: test for non integer `sacle` values
+        
+        self.game_over = False 
         self.screen = pygame.display.set_mode(
             (int(BASE.WIDTH * self.scale), int(BASE.HEIGHT * self.scale))
         )
@@ -30,9 +32,14 @@ class Game:
         pygame.display.set_caption("Shadow Knight")
 
         # background music
-        pygame.mixer.music.load("assets/sound/Christopher Larkin - City of Tears.mp3")
-        pygame.mixer.music.set_volume(0.1)
-        pygame.mixer.music.play(-1)
+        if not self.game_over:
+            pygame.mixer.music.load("assets/sound/Christopher Larkin - City of Tears.mp3")
+            pygame.mixer.music.set_volume(0.1)
+            pygame.mixer.music.play(-1)
+        else:
+            pygame.mixer.music.load("assets/sound/win.mp3")
+            pygame.mixer.music.set_volume(0.1)
+            pygame.mixer.music.play(-1)
 
         self.keys = Keys()
         # self.world = World(self.scale)
@@ -42,8 +49,7 @@ class Game:
         self.frmMenu.load()
         app_data.IsRunning = True
 
-    def run(self) -> None:
-        game_over = False  # 添加一个变量来跟踪游戏是否结束
+    def run(self) -> None: # 添加一个变量来跟踪游戏是否结束
 
         while app_data.IsRunning:
             for event in pygame.event.get():
@@ -60,9 +66,12 @@ class Game:
                 self.frmMenu.refresh(pygame.time.get_ticks())
             else:
                 if(Level.win_check(self.world)):
-                    if not game_over:  # 如果游戏刚刚胜利，显示胜利图片
+                    if not self.game_over:  # 如果游戏刚刚胜利，显示胜利图片
                         Level.print_win(self.world)
-                        game_over = True  # 设置游戏结束标志
+                        self.game_over = True  # 设置游戏结束标志
+                        pygame.mixer.music.load("assets/sound/win.mp3")
+                        pygame.mixer.music.set_volume(0.5)
+                        pygame.mixer.music.play(-1)
                 else:
                     self.screen.fill("lightblue")
                     self.world.draw()
