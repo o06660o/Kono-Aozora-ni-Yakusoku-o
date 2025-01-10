@@ -5,6 +5,7 @@ import pygame
 from settings import BASE
 from keys import Keys
 from level_dream import LevelDream as Level
+
 import app_data
 
 from menu import MenuForm
@@ -42,6 +43,8 @@ class Game:
         app_data.IsRunning = True
 
     def run(self) -> None:
+        game_over = False  # 添加一个变量来跟踪游戏是否结束
+
         while app_data.IsRunning:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -56,9 +59,15 @@ class Game:
             if app_data.CurrentWin == app_data.AppForm.MENU_FORM:
                 self.frmMenu.refresh(pygame.time.get_ticks())
             else:
-                self.screen.fill("lightblue")
-                self.world.draw()
-                self.world.print_health()  # 最后blit血量
+                if(Level.win_check(self.world)):
+                    if not game_over:  # 如果游戏刚刚胜利，显示胜利图片
+                        Level.print_win(self.world)
+                        game_over = True  # 设置游戏结束标志
+                else:
+                    self.screen.fill("lightblue")
+                    self.world.draw()
+                    self.world.print_health()  # 最后blit血量
+
             pygame.display.update()
             self.clock.tick(BASE.FPS)
 
