@@ -79,6 +79,7 @@ class Game:
 
             pygame.display.update()
             self.clock.tick(BASE.FPS)
+            
 
 
 if __name__ == "__main__":
