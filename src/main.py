@@ -5,9 +5,12 @@ import pygame
 from settings import BASE
 from keys import Keys
 from level_dream import LevelDream as Level
+
 import app_data
-import menu
+
 from menu import MenuForm
+
+# from level_dream import print_health
 
 
 class Game:
@@ -15,8 +18,10 @@ class Game:
         pygame.init()
         scale_x = pygame.display.Info().current_w / BASE.DEFAULT_SCREEN_WIDTH
         scale_y = pygame.display.Info().current_h / BASE.DEFAULT_SCREEN_HEIGHT
-        print("scale1:",scale_x,scale_y)
+        print("scale1:", scale_x, scale_y)
         self.scale = min(scale_x, scale_y)  # TODO: test for non integer `sacle` values
+        
+        self.game_over = False 
         self.screen = pygame.display.set_mode(
             (int(BASE.WIDTH * self.scale), int(BASE.HEIGHT * self.scale))
         )
@@ -27,19 +32,25 @@ class Game:
         pygame.display.set_caption("Shadow Knight")
 
         # background music
-        pygame.mixer.music.load('assets/sound/Christopher Larkin - City of Tears.mp3')  # 替换为你的音乐文件路径
-        pygame.mixer.music.set_volume(0.2)  # 设置音量（可选）
-        pygame.mixer.music.play(-1)  # -1 表示循环播放
+        if not self.game_over:
+            pygame.mixer.music.load("assets/sound/Christopher Larkin - City of Tears.mp3")
+            pygame.mixer.music.set_volume(0.1)
+            pygame.mixer.music.play(-1)
+        else:
+            pygame.mixer.music.load("assets/sound/win.mp3")
+            pygame.mixer.music.set_volume(0.1)
+            pygame.mixer.music.play(-1)
 
         self.keys = Keys()
         # self.world = World(self.scale)
         self.world = Level(self.scale)
 
         self.frmMenu = MenuForm()
-        self.frmMenu.load() 
+        self.frmMenu.load()
         app_data.IsRunning = True
 
-    def run(self) -> None:
+    def run(self) -> None: # 添加一个变量来跟踪游戏是否结束
+
         while app_data.IsRunning:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -54,8 +65,18 @@ class Game:
             if app_data.CurrentWin == app_data.AppForm.MENU_FORM:
                 self.frmMenu.refresh(pygame.time.get_ticks())
             else:
-                self.screen.fill("lightblue")
-                self.world.draw()
+                if(Level.win_check(self.world)):
+                    if not self.game_over:  # 如果游戏刚刚胜利，显示胜利图片
+                        Level.print_win(self.world)
+                        self.game_over = True  # 设置游戏结束标志
+                        pygame.mixer.music.load("assets/sound/win.mp3")
+                        pygame.mixer.music.set_volume(0.5)
+                        pygame.mixer.music.play(-1)
+                else:
+                    self.screen.fill("lightblue")
+                    self.world.draw()
+                    self.world.print_health()  # 最后blit血量
+
             pygame.display.update()
             self.clock.tick(BASE.FPS)
 

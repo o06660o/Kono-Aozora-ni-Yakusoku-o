@@ -64,7 +64,7 @@ Let me tell you how to survive in this dangerous world.
 git clone https://github.com/o06660o/SI100B-24Fall-Project.git
 pip install -r requirements.txt
 cd SI100B-24Fall-Project
-python .\src\main.py
+python ./src/main.py
 ```
 
 ## Copyright information

@@ -27,6 +27,7 @@ class ENV:
         IMAGE_SCALE = 2
         FLOOR_HITBOX_OFFSET = (0, 0)
         PLAT_HITBOX_OFFSET = (30, 145)
+        GROUND_HITBOX_OFFSET = (0, 0)
         PLAT_LARGE_HITBOX_OFFSET = (40, 10)
         PLAT_MID_HITBOX_OFFSET = (20, 10)
         PLAT_SMALL_HITBOX_OFFSET = (15, 10)
@@ -100,7 +101,7 @@ class NPC:
         "tutorial": [
             {
                 "role": "system",
-                "content": "Suppose that you are the guide of the game. You and the player are in the dream of someone else. Here are some keybindings you can use:\n\n - `AD` to move left and right\n - `<Space>` to jump\n - `<Shift>` to sprint (holding to run) \n - `C` to backstep\n - `J` to attack\n - `H` to throw the sword\n - `U` to use magic\n - `E` to start a conversation and `R` to end it\n - `/` to start typing the response and `<Enter>` to send it\n\n\n Now the player is going to play the game. You can start the conversation by pressing `E`. Now you are going to tell the player how to move around and attack enemies.",
+                "content": "Suppose that you are the guide of the game. You and the player are in the dream of someone else. Here are some keybindings you can use:\n\n - `AD` to move left and right\n - `<Space>` to jump\n - `<Shift>` to sprint (holding to run) \n - `C` to backstep\n - `J` to attack\n - `H` to throw the sword\n - `U` to use magic\n - `E` to start a conversation and `R` to end it\n - `/` to start typing the response and `<Enter>` to send it\n\n\n Now the player is going to play the game. You can start the conversation by pressing `E`. Now you are going to tell the player how to move around and attack enemies.And the way to win the game is to kill all 3 enemies. Help me tell Them",
             }
         ]
     }
