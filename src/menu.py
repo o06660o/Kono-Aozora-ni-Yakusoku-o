@@ -96,16 +96,16 @@ class MenuForm:
         self.group = pygame.sprite.Group()
 
         # 加载菜单项
-        self.mitAdventure = MenuItem(self.screen, 470, 80)
-        self.mitAdventure.load("assets/graphics/menu/SelectorScreenAdventure_32.png", 331, 146, 1)
-        self.mitQuit = MenuItem(self.screen, 280, 350)
-        self.mitQuit.load("assets/graphics/menu/quit.png", 400, 150, 1)
+        self.mitStart = MenuItem(self.screen, (pygame.display.Info().current_w-400)/2, 450)
+        self.mitStart.load("assets/graphics/menu/btnStart.png", 400, 100, 1)
+        self.mitQuit = MenuItem(self.screen, (pygame.display.Info().current_w-400)/2, 650)
+        self.mitQuit.load("assets/graphics/menu/btnQuit.png", 400, 100, 1)
         # self.mitChallenge = MenuItem(self.screen,470,320)
         # self.mitChallenge.load('assets/graphics/menu/SelectorScreenChallenges_32.png', 286, 122, 1)
 
     def load(self):
         # self.group.empty()
-        self.group.add(self.mitAdventure)
+        self.group.add(self.mitStart)
         # self.group.add(self.mitSurvival)
         self.group.add(self.mitQuit)
 
@@ -116,7 +116,7 @@ class MenuForm:
 
     def onMouseClickHandler(self, event: pygame.event.Event):
         mouse_pos = pygame.mouse.get_pos()
-        if self.mitAdventure.rect.collidepoint(mouse_pos):
+        if self.mitStart.rect.collidepoint(mouse_pos):
             app_data.CurrentWin = app_data.AppForm.MAIN_FORM
         if self.mitQuit.rect.collidepoint(mouse_pos):
             app_data.IsRunning = False

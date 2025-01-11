@@ -60,6 +60,10 @@ class Game:
                     if app_data.CurrentWin == app_data.AppForm.MENU_FORM:
                         self.frmMenu.onMouseClickHandler(event)
                 else:
+                    if  event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE: # 按了Esc键
+                        if app_data.CurrentWin == app_data.AppForm.MAIN_FORM:
+                            app_data.CurrentWin = app_data.AppForm.MENU_FORM
+                            self.frmMenu.load()
                     self.keys.update(event)
 
             if app_data.CurrentWin == app_data.AppForm.MENU_FORM:
