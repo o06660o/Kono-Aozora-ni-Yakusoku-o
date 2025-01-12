@@ -6,9 +6,6 @@ from settings import ENV, PLAYER
 from utils import create_rect_hitbox_image, read_images_as_list
 from player import Player
 
-# TODO
-# refactor needed
-
 
 class PlayerSword(pygame.sprite.Sprite):
     HEIGHT_RATIO = 0.05
@@ -97,7 +94,7 @@ class PlayerSword(pygame.sprite.Sprite):
 
 
 class PlayerThrowingSword(pygame.sprite.Sprite):
-    LOWER_RATIO = 0.07
+    LOWER_RATIO = 0.13
     CLOSER_RATIO = 0.5
     DAMAGE = 80
 
