@@ -127,6 +127,9 @@ class Player(pygame.sprite.Sprite):
         self.talking_to = None
         self.is_recording_input = False
 
+        # money
+        self.money = 0
+
     def preinput(self) -> bool:
         if not self.have_released_K_LSHIFT and not self.keys.query(pygame.K_LSHIFT):
             self.have_released_K_LSHIFT = True

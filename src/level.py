@@ -47,6 +47,7 @@ class Level:
 
     def trigger_death(self, entity: Enemy) -> None:
         entity.kill()
+        self.player.money += 5
 
     def custom_update(self) -> None:
         """

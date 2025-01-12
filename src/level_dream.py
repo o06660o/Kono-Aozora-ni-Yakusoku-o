@@ -235,20 +235,32 @@ class LevelDream(Level):
             empty_image,
             (int(empty_image.get_width() * self.scale), int(empty_image.get_height() * self.scale)),
         )
+        money_image = pygame.image.load(r"assets/graphics/ui/select_game_HUD_coin_v020004.png").convert_alpha()
+        money_image = pygame.transform.scale(
+            money_image,
+            (
+                int(money_image.get_width() * self.scale),
+                int(money_image.get_height() * self.scale),
+            ),
+        )
 
         display_surface = pygame.display.get_surface()
-
         display_surface.blit(head_image, (10 * self.scale, 10 * self.scale))
         x = 10 * self.scale + health_image.get_width() + 60 * self.scale
-        y = 60
-        y *= self.scale
+        y = 60 * self.scale
         for _ in range(self.player.health):
             display_surface.blit(health_image, (x, y))
             x += health_image.get_width() + 5 * self.scale
         for _ in range(8 - self.player.health):
             display_surface.blit(empty_image, (x, y))
             x += empty_image.get_width() + 5 * self.scale
-
+    
+        x,y = 90 * self.scale, 100 * self.scale
+        display_surface.blit(money_image, (x , y))
+    
+        money_font = pygame.font.Font(None, 36)
+        money_text = money_font.render(f"{self.player.money:02d}", True, (255, 255, 255))
+        display_surface.blit(money_text, (x + 10 * self.scale + money_image.get_width(), y+25 * self.scale))
     def custom_update(self) -> None:
         if type(self.player) is Player:
             if self.player.rect.y > 2000:
