@@ -1,6 +1,7 @@
 import pygame
 import app_data
 from settings import BASE
+from scrollbar import ScrollBar
 
 
 class MenuItem(pygame.sprite.Sprite):
@@ -90,8 +91,8 @@ class MenuForm:
         self.mitSetting.load("assets/graphics/menu/btnSetting.png", 400, 100, 1)
         self.mitQuit = MenuItem(self.screen, (pygame.display.Info().current_w-400)/2, 650)
         self.mitQuit.load("assets/graphics/menu/btnQuit.png", 400, 100, 1)
-        # self.mitChallenge = MenuItem(self.screen,470,320)
-        # self.mitChallenge.load('assets/graphics/menu/SelectorScreenChallenges_32.png', 286, 122, 1)
+
+        self.scrollBar = ScrollBar(self.screen,200,100)
 
     def load(self):
         # self.group.empty()
@@ -103,10 +104,23 @@ class MenuForm:
         self.screen.blit(self.backgroundImage, (0, 0))
         self.group.update(ticks)
         self.group.draw(self.screen)
+        self.scrollBar.refresh(ticks)
 
     def onMouseClickHandler(self, event: pygame.event.Event):
         mouse_pos = pygame.mouse.get_pos()
         if self.mitStart.rect.collidepoint(mouse_pos):
             app_data.CurrentWin = app_data.AppForm.MAIN_FORM
+        if self.mitSetting.rect.collidepoint(mouse_pos):
+            self.scrollBar.load()
         if self.mitQuit.rect.collidepoint(mouse_pos):
             app_data.IsRunning = False
+
+    def onMouseDownHandler(self, event: pygame.event.Event):
+        self.scrollBar.onMouseDownHandler(event)
+
+            
+    def onMouseUpHandler(self, event: pygame.event.Event):
+        self.scrollBar.onMouseUpHandler(event)
+        
+    def onMouseMotionHandler(self, event: pygame.event.Event):
+        self.scrollBar.onMouseMotionHandler(event)

@@ -81,6 +81,8 @@ class Game:
                     pygame.mixer.music.set_volume(0)
                 else:
                     pygame.mixer.music.set_volume(vol)
+            elif textZh.find('静音')!=-1  or textZh.upper().find('mute')!=-1:
+                pygame.mixer.music.set_volume(0)
             #print(f"你说了：{textZh}, You said: {textEn}")
         except sr.UnknownValueError:
             print("无法理解语音")
@@ -95,9 +97,16 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if app_data.CurrentWin == app_data.AppForm.MENU_FORM:  #CurrentWinName=="WIN_MENU"
+                        self.frmMenu.onMouseDownHandler(event)
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if app_data.CurrentWin == app_data.AppForm.MENU_FORM:
+                        self.frmMenu.onMouseUpHandler(event)
                         self.frmMenu.onMouseClickHandler(event)
+                elif event.type == pygame.MOUSEMOTION:
+                    if app_data.CurrentWin == app_data.AppForm.MENU_FORM:  #CurrentWinName=="WIN_MENU"
+                        self.frmMenu.onMouseMotionHandler(event)
                 else:
                     if  event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE: # 按了Esc键
