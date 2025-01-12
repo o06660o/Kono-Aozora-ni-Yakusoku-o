@@ -1,5 +1,5 @@
 # Our Information
-
+Kono-Aozora-ni-Yakusoku-o
 - 王子睿 :
   - ID：2024533125
   - Email：<o06660o@shanghaitech.edu.cn>
@@ -28,19 +28,26 @@
 Welcome, brave adventurer!
 Let me tell you how to survive in this dangerous world.
 
+
 ### 菜单
 菜单页面提供了三个按钮：
   - `"START"` 可以开始游戏
   - `"SETTING"` 可以调整音量
   - `"QUIT"` 可以退出游戏
 
-菜单页面还提供了语音识别功能：在开始界面按一下空格键，对准麦克风说
+菜单页面还提供了语音识别功能：在开始界面单击空格键，然后对准麦克风说
   - `"开始"或"start"` 可以开始游戏
   - `"声音大一点"或"up"` 可以调高音量
   - `"声音小一点"或"down"` 可以调低音量
   - `"静音"` 可以使背景音乐静音
   - `"退出"或"exit"` 可以退出游戏
 注意：当前的大语言模型对于中文的识别精度更高哦
+
+### 状态
+游戏左上角为你提供了shadow knight 的状态：
+- 你当前的血量![血量](health.png) 
+- 你当前的魔法值![魔法值](magic.png)
+- 你当前的金币数量![金币数](coin.png) 
 
 ### 移动
 
@@ -54,7 +61,7 @@ Let me tell you how to survive in this dangerous world.
 
 - `<J>`: 攻击;
 - `<H>`: 丢出近战武器;
-- `<U>`: 大范围攻击.
+- `<U>`: 大范围魔法攻击（会消耗能量值，你一共有3个能量值）.
 
 ### 交互
 
@@ -62,15 +69,8 @@ Let me tell you how to survive in this dangerous world.
 - `<R>`: 暂时停止与 npc 的对话;
 - `<T>`: 清空与 npc 的历史对话;
 - `</>`: 开始输入与 npc 的对话;
-- `<Enter>`: 发送与 npc 的对话.
-
-## Requirements
-
-### Environment Needed
-
-- openai==1.58.1
-- pygame==2.6.1
-
+- `<Enter>`: 发送与 npc 的对话;
+- `<B>`: 购买升级.
 ### How To Start
 
 ```bash
