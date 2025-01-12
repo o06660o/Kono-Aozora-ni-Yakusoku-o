@@ -17,6 +17,7 @@ class LevelDream(Level):
         super().__init__(scale)
         self.last_enemy_summon_time = -1
         self.flag = False
+        self.boss = None
 
     def create_map(self) -> None:
         plat_main = pygame.image.load(
@@ -42,6 +43,12 @@ class LevelDream(Level):
         ).convert_alpha()
         plat_store = pygame.image.load(
             "assets/graphics/environment/dream/dream_BG_plats_0000_3.png"
+        ).convert_alpha()
+        steps_image = pygame.image.load(
+            "assets/graphics/environment/dream/platform/dream_plat_small.png"
+        ).convert_alpha()
+        light_image = pygame.image.load(
+            "assets/graphics/environment/dream/light.png"
         ).convert_alpha()
         Tile(
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
@@ -115,9 +122,80 @@ class LevelDream(Level):
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_store,
-            ENV.LEVEL_DREAM.STORE_HITBOX_OFFSET, # 没有hitbox remain to do
+            ENV.LEVEL_DREAM.STORE_HITBOX_OFFSET,
         )
-
+        Tile(  # 台阶
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (1650, -440),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            steps_image,
+            ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
+        )
+        Tile(  # 台阶
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (1750, -470),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            steps_image,
+            ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
+        )
+        Tile(  # 台阶
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (1850, -500),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            steps_image,
+            ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
+        )
+        Tile(  # 台阶
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (1950, -530),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            steps_image,
+            ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
+        )
+        Tile(  # 台阶
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (2050, -560),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            steps_image,
+            ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
+        )
+        Tile(  # 台阶
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (2150, -590),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            steps_image,
+            ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
+        )
+        Tile(  # 台阶
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (2250, -620),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            steps_image,
+            ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
+        )
+        Tile(   # bossplat
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (2350, -750),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            battle_image,
+            ENV.LEVEL_DREAM.PLAT2_HITBOX_OFFSET,
+        )
+        Tile(   # light
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (3280, -810),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            light_image,
+            ENV.LEVEL_DREAM.NO_HITBOX_OFFSET,
+        )
 
         NPCTutorial(
             self.scale,
@@ -176,16 +254,18 @@ class LevelDream(Level):
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
-            # EnemyBoss(   # boss
-            #     self.scale,
-            #     (2200,-1180),
-            #     [self.visible_sprites, self.attackable_sprites],
-            #     self.trigger_death,
-            # )
+            self.boss = EnemyBoss(   # boss
+                self.scale,
+                (6000,-1560),
+                [self.visible_sprites, self.attackable_sprites],
+                self.trigger_death,
+            )
 
 
     def win_check(self) -> bool:
-        if self.defeat_count >= BASE.WIN_COUNT:
+        if pygame.time.get_ticks()<= 10000:
+            return False
+        if self.boss_die:
             return True
         else:
             return False

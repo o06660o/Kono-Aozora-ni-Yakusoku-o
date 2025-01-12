@@ -26,6 +26,7 @@ class Level:
         self.create_player()
         self.respawn_list = []
         self.defeat_count = 0
+        self.boss_die = False
 
     def create_map(self) -> None:
         """
@@ -68,6 +69,8 @@ class Level:
         now = pygame.time.get_ticks()
         self.player.money += 5
         self.defeat_count += 1
+        if enemy.enemy_type == "boss":
+            self.boss_die = True
         if enemy.death_count + 1 < ENEMY.RESPAWN_LIMIT[enemy.enemy_type]:
             # respawn the enemy if the enemy has not been defeated for `RESPAWN_LIMIT` times
             self.respawn_list.append(

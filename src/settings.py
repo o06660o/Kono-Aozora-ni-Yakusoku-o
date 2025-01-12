@@ -136,8 +136,8 @@ class ENEMY:
         },
         "boss": {
             "width": 3.0,  
-            "height": 0.5,  
-            "health": 1000,  
+            "height": 5,  
+            "health": 2000,  
             "damage": 2,  
             "status": "move",
             "scale": 1.2,  
