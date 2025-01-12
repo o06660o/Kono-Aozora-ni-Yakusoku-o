@@ -9,4 +9,3 @@ class AppForm(Enum):
 CurrentWin = AppForm.MENU_FORM
 
 IsRunning = False
-

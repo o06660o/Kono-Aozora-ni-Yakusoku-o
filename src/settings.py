@@ -135,13 +135,13 @@ class ENEMY:
             "scale": 0.8,
         },
         "boss": {
-            "width": 3.0,  
-            "height": 5,  
-            "health": 2000,  
-            "damage": 2,  
+            "width": 3.0,
+            "height": 5,
+            "health": 2000,
+            "damage": 2,
             "status": "move",
-            "scale": 1.2,  
-        }
+            "scale": 1.2,
+        },
     }
     # `key`: frame name, `value`: frame rate
     ANIMATIONS = {"centipede": {"move": 0.1, "death": 0}, "boss": {"move": 0.05, "death": 0}}
@@ -157,3 +157,4 @@ class ENEMY:
     class BOSS:
         MOVE_LEN = 200  # 减少移动长度
         TURN_PROBABILTY = 0.01  # 降低转向概率
+

@@ -10,6 +10,7 @@ import app_data
 from menu import MenuForm
 from speech_recog import SpeechRecog
 
+
 class Game:
     def __init__(self) -> None:
         pygame.init()
@@ -48,7 +49,6 @@ class Game:
         # 使用SpeechRecog实现菜单的语音识别功能
         self.speechRecog = SpeechRecog()
 
-    
     def run(self) -> None:
         while app_data.IsRunning:
             for event in pygame.event.get():
@@ -56,26 +56,36 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if app_data.CurrentWin == app_data.AppForm.MENU_FORM:  #CurrentWinName=="WIN_MENU"
+                    if (
+                        app_data.CurrentWin == app_data.AppForm.MENU_FORM
+                    ):  # CurrentWinName=="WIN_MENU"
                         self.frmMenu.onMouseDownHandler(event)
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if app_data.CurrentWin == app_data.AppForm.MENU_FORM:
                         self.frmMenu.onMouseUpHandler(event)
                         self.frmMenu.onMouseClickHandler(event)
                 elif event.type == pygame.MOUSEMOTION:
-                    if app_data.CurrentWin == app_data.AppForm.MENU_FORM:  #CurrentWinName=="WIN_MENU"
+                    if (
+                        app_data.CurrentWin == app_data.AppForm.MENU_FORM
+                    ):  # CurrentWinName=="WIN_MENU"
                         self.frmMenu.onMouseMotionHandler(event)
                 else:
-                    if  event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_ESCAPE: # 按了Esc键
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:  # 按了Esc键
                             if app_data.CurrentWin == app_data.AppForm.MAIN_FORM:
                                 app_data.CurrentWin = app_data.AppForm.MENU_FORM
                                 self.frmMenu.load()
-                        elif event.key == pygame.K_SPACE and app_data.CurrentWin == app_data.AppForm.MENU_FORM: # 按了空格键
+                        elif (
+                            event.key == pygame.K_SPACE
+                            and app_data.CurrentWin == app_data.AppForm.MENU_FORM
+                        ):  # 按了空格键
                             pygame.mixer.music.pause()
                             self.speechRecog.listenSpeech()
                     elif event.type == pygame.KEYUP:  # 键盘按下
-                        if event.key == pygame.K_SPACE and app_data.CurrentWin == app_data.AppForm.MENU_FORM: # 按了空格键
+                        if (
+                            event.key == pygame.K_SPACE
+                            and app_data.CurrentWin == app_data.AppForm.MENU_FORM
+                        ):  # 按了空格键
                             self.speechRecog.recognition()
                     self.keys.update(event)
 
@@ -85,7 +95,7 @@ class Game:
                 if Level.win_check(self.world):
                     if not self.game_over:
                         Level.print_win(self.world)
-                        self.game_over = True  
+                        self.game_over = True
                         pygame.mixer.music.load("assets/sound/win.mp3")
                         pygame.mixer.music.set_volume(0.5)
                         pygame.mixer.music.play(-1)
