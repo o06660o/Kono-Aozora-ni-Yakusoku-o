@@ -1,10 +1,11 @@
 import pygame
 
-from settings import ENV, BASE
+from settings import ENV, BASE, ENEMY
 from player import Player
 from weapon import PlayerSword, PlayerThrowingSword, PlayerMagic
 from debug import FreeCamera
 from enemy import Enemy
+from enemy_centipede import EnemyCentipede
 from npc_blacksmith import NPCBlacksmith
 
 
@@ -21,6 +22,8 @@ class Level:
         self.display_surface = pygame.display.get_surface()
         self.create_map()
         self.create_player()
+        self.respawn_list = []
+        self.defeat_count = 0
 
     def create_map(self) -> None:
         """
@@ -46,9 +49,34 @@ class Level:
         self.player.kill()
         self.create_player()
 
-    def trigger_death(self, entity: Enemy) -> None:
-        entity.kill()
+    def try_respawn(self) -> None:
+        for item in self.respawn_list:
+            if pygame.time.get_ticks() - item["time"] > ENEMY.RESPAWN_COOLDOWN:
+                if item["type"] == "centipede":
+                    enemy = EnemyCentipede(  # enemy 1
+                        self.scale,
+                        item["pos"],
+                        [self.visible_sprites, self.attackable_sprites],
+                        self.trigger_death,
+                    )
+                    enemy.death_count = item["count"]
+                self.respawn_list.remove(item)
+
+    def trigger_death(self, enemy: Enemy) -> None:
+        now = pygame.time.get_ticks()
         self.player.money += 5
+        self.defeat_count += 1
+        if enemy.death_count + 1 < ENEMY.RESPAWN_LIMIT[enemy.enemy_type]:
+            # respawn the enemy if the enemy has not been defeated for `RESPAWN_LIMIT` times
+            self.respawn_list.append(
+                {
+                    "pos": enemy.original_pos,
+                    "count": enemy.death_count + 1,
+                    "type": enemy.enemy_type,
+                    "time": now,
+                }
+            )
+        enemy.kill()
 
     def custom_update(self) -> None:
         """
@@ -109,6 +137,7 @@ class Level:
                     return
 
     def draw(self) -> None:
+        self.try_respawn()
         self.attack_enemies()
         self.attack_player()
         self.custom_update()

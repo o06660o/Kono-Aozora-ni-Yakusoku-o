@@ -11,6 +11,7 @@ class BASE:
     LONG_PRESS_TIME = 400  # the time to recognize a long press
     WRAPLEN = 500
     DEATH_DURATION = 100
+    WIN_COUNT = 10
 
 
 class ENV:
@@ -136,6 +137,8 @@ class ENEMY:
     # `key`: frame name, `value`: frame rate
     ANIMATIONS = {"centipede": {"move": 0.1, "death": 0}}
     SPEED = {"centipede": 3}
+    RESPAWN_LIMIT = {"centipede": 3}
+    RESPAWN_COOLDOWN = 2000
     VULNERABLE_TIME = 600
 
     class CENTIPEDE:

@@ -1,6 +1,6 @@
 import pygame
 
-from settings import ENV
+from settings import BASE, ENV
 from level import Level
 from tile import Tile
 from player import Player
@@ -108,20 +108,6 @@ class LevelDream(Level):
             [self.visible_sprites, self.npc_sprites],
         )
 
-    # def try_create_enemy(self) -> None:
-    #     if len(self.attackable_sprites) == 0:
-    #         now = pygame.time.get_ticks()
-    #         if self.last_enemy_summon_time == -1:
-    #             self.last_enemy_summon_time = now
-    #         elif now - self.last_enemy_summon_time > self.SUMMON_ENEMY_INTERVAL:
-    #             self.last_enemy_summon_time = -1
-    #             EnemyCentipede(
-    #                 self.scale,
-    #                 (2000, 80),
-    #                 [self.visible_sprites, self.attackable_sprites],
-    #                 self.trigger_death,
-    #             )
-
     def try_create_enemy(self) -> None:
         if len(self.attackable_sprites) == 0 and not self.flag:
             self.flag = True
@@ -155,21 +141,9 @@ class LevelDream(Level):
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
-        # EnemyCentipede(
-        #     self.scale,
-        #     (2000, 80),
-        #     [self.visible_sprites, self.attackable_sprites],
-        #     self.trigger_death,
-        # )
-        # EnemyCentipede(
-        #     self.scale,
-        #     (2000, 80),
-        #     [self.visible_sprites, self.attackable_sprites],
-        #     self.trigger_death,
-        # )
 
     def win_check(self) -> bool:
-        if len(self.attackable_sprites) == 0 and self.flag:
+        if self.defeat_count >= BASE.WIN_COUNT:
             return True
         else:
             return False

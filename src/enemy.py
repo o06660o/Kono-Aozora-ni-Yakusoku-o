@@ -24,6 +24,7 @@ class Enemy(pygame.sprite.Sprite):
         self.enemy_type = enemy_type
         self.sprite_type = sprite_type
         self.scale = scale
+        self.original_pos = pos
         self.pos = (pos[0] * scale, pos[1] * scale)
         self.image = create_rect_hitbox_image(
             scale,
@@ -57,6 +58,8 @@ class Enemy(pygame.sprite.Sprite):
         self.trigger_death = trigger_death
         if "--DEBUG" not in sys.argv:
             self.image = self.animations[self.status][0]
+
+        self.death_count = 0
 
     def cooldown(self) -> None:
         now = pygame.time.get_ticks()
