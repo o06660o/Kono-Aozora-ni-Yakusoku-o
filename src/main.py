@@ -25,7 +25,7 @@ class Game:
         self.clock = pygame.time.Clock()
 
         # 设置窗口图标及标题
-        pygame.display.set_icon(pygame.image.load("assets/graphics/icon.png").convert())
+        pygame.display.set_icon(pygame.image.load("assets/graphics/icon.png").convert_alpha())
         pygame.display.set_caption("Shadow Knight")
 
         # background music
@@ -46,7 +46,7 @@ class Game:
         self.frmMenu.load()
         app_data.IsRunning = True
 
-    def run(self) -> None:  # 添加一个变量来跟踪游戏是否结束
+    def run(self) -> None:
         while app_data.IsRunning:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -66,9 +66,9 @@ class Game:
                 self.frmMenu.refresh(pygame.time.get_ticks())
             else:
                 if Level.win_check(self.world):
-                    if not self.game_over:  # 如果游戏刚刚胜利，显示胜利图片
+                    if not self.game_over:
                         Level.print_win(self.world)
-                        self.game_over = True  # 设置游戏结束标志
+                        self.game_over = True  
                         pygame.mixer.music.load("assets/sound/win.mp3")
                         pygame.mixer.music.set_volume(0.5)
                         pygame.mixer.music.play(-1)

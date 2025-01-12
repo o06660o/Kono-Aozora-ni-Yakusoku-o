@@ -5,6 +5,7 @@ from player import Player
 from weapon import PlayerSword, PlayerThrowingSword, PlayerMagic
 from debug import FreeCamera
 from enemy import Enemy
+from npc_blacksmith import NPCBlacksmith
 
 
 class Level:
@@ -47,6 +48,7 @@ class Level:
 
     def trigger_death(self, entity: Enemy) -> None:
         entity.kill()
+        self.player.money += 5
 
     def custom_update(self) -> None:
         """
@@ -87,7 +89,7 @@ class Level:
             if target.vulnerable and self.current_attack.hitbox.colliderect(target.hitbox):
                 target.vulnerable = False
                 target.last_hit_time = now
-                target.health -= self.current_attack.damage
+                target.health -= self.current_attack.damage + self.player.additional_damage
                 if target.health <= 0:
                     target.status = "death"
                     target.death_time = now
@@ -134,7 +136,9 @@ class Level:
                 ),
             )
             self.floor_rect = self.floor_surface.get_rect(topleft=(0, 0))
-            self.background_image = pygame.image.load("assets/graphics/background.png").convert()
+            self.background_image = pygame.image.load(
+                "assets/graphics/background.png"
+            ).convert_alpha()
             self.background_image = pygame.transform.scale(
                 self.background_image, (int(BASE.WIDTH * self.scale), int(BASE.HEIGHT * self.scale))
             )
@@ -163,6 +167,10 @@ class Level:
                 if sprite.sprite_type == "blocks" or sprite == player:
                     continue
                 offset_pos = sprite.rect.topleft - self.offset
+                # XXX: dirty code here
+                if type(sprite) is NPCBlacksmith:
+                    offset_pos.x -= 230 * sprite.scale
+                    offset_pos.y += 50 * sprite.scale
                 self.display_surface.blit(sprite.image, offset_pos)
 
             self.display_surface.blit(player.image, player.rect.topleft - self.offset)

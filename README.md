@@ -1,4 +1,4 @@
-# Our information
+# Our Information
 
 - 王子睿 :
   - ID：2024533125
@@ -52,12 +52,12 @@ Let me tell you how to survive in this dangerous world.
 
 ## Requirements
 
-### Environment needed
+### Environment Needed
 
 - openai==1.58.1
 - pygame==2.6.1
 
-### How to start
+### How To Start
 
 ```bash
 git clone https://github.com/o06660o/SI100B-24Fall-Project.git
@@ -66,6 +66,6 @@ cd SI100B-24Fall-Project
 python ./src/main.py
 ```
 
-## Copyright information
+## Copyright Information
 
 大部分素材来自于游戏空洞骑士(Hollow Knight)

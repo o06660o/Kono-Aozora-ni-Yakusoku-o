@@ -6,6 +6,7 @@ import pygame
 from settings import BASE, ENV, PLAYER
 from utils import create_rect_hitbox_image, read_images_as_list, display_message
 from keys import Keys
+from npc_blacksmith import NPCBlacksmith
 
 
 class Player(pygame.sprite.Sprite):
@@ -75,6 +76,7 @@ class Player(pygame.sprite.Sprite):
         self.touch_ground_time = now
 
         # combat
+        self.additional_damage = 0
         self.health = PLAYER.HEALTH
         self.vulnerable = True
         self.last_hit_time = now
@@ -126,6 +128,9 @@ class Player(pygame.sprite.Sprite):
         # npc
         self.talking_to = None
         self.is_recording_input = False
+
+        # money
+        self.money = 0
 
     def preinput(self) -> bool:
         if not self.have_released_K_LSHIFT and not self.keys.query(pygame.K_LSHIFT):
@@ -439,6 +444,10 @@ class Player(pygame.sprite.Sprite):
         if self.horizontal_facing == Player.RIGHT:
             self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect(midbottom=self.hitbox.midbottom)
+        if self.vulnerable:
+            self.image.set_alpha(255)
+        else:
+            self.image.set_alpha(100)
 
     def npc_interaction(self) -> None:
         if self.talking_to is None:
@@ -457,21 +466,13 @@ class Player(pygame.sprite.Sprite):
                     BASE.WRAPLEN,
                     self.talking_to.displaying_message,
                 )
-
-    def flash(self) -> None:
-        """
-        Flash the player when it is hit by an enemy.
-        """
-        if self.vulnerable:
-            self.image.set_alpha(255)
-            return
-        now = pygame.time.get_ticks()
-        if now - self.last_flash_time >= PLAYER.FLASH_INTERVAL:
-            self.last_flash_time = now
-            if self.image.get_alpha() == 192:
-                self.image.set_alpha(255)
-            else:
-                self.image.set_alpha(192)
+            if type(self.talking_to) is NPCBlacksmith and self.keys.query(pygame.K_b):
+                if self.money >= 10:
+                    self.money -= PLAYER.UPGRADE_COST
+                    self.additional_damage += PLAYER.UPGRADE_DAMAGE
+                    self.talking_to.fetch_message("I can feel the power!")
+                else:
+                    self.talking_to.fetch_message("I don't have enough money!")
 
     def update(self) -> None:
         self.cooldown()
@@ -485,4 +486,3 @@ class Player(pygame.sprite.Sprite):
             display_message(
                 self.scale, PLAYER.RECORDING_POS, BASE.WRAPLEN, self.keys.query_recorded_text()
             )
-        self.flash()
