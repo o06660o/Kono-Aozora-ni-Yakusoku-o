@@ -31,25 +31,19 @@ class MenuItem(pygame.sprite.Sprite):
         self.rect = pygame.Rect(self.x, self.y, width, height)  # 菜单的显示位置
         self.columns = columns  # 整张图像包含的菜单列数
         rect = self.master_image.get_rect()  # 未分割的整张图的rect, 如(0, 0, 331, 292)
-        print("第1个rect:", rect)
 
         n = (rect.width // width) * (rect.height // height)  # 计算整张图包含多少子项
         for i in range(n):
             row = i // columns
             col = i % columns
             rect = width * col, height * row, width, height
-            print(rect)
             self.stateImages.append(self.master_image.subsurface(rect))
         self.image = self.stateImages[0]
 
-        print(
-            "后2个rect:", self.image.get_rect(), self.rect
-        )  # self.image.get_rect()切割后的当前图的rect, 如(0, 0, 331, 146); self.rect切割后的当前图在整个窗口中的rect, 如(470, 80, 331, 146)
+        # self.image.get_rect()切割后的当前图的rect, 如(0, 0, 331, 146); self.rect切割后的当前图在整个窗口中的rect, 如(470, 80, 331, 146)
 
     def update(self, currentTime, rate=90):
         # 更新动画帧
-        # print("currentTime {}\n".format(currentTime))
-        # if(self.image.is)
         pos = pygame.mouse.get_pos()
         # 创建鼠标光标的矩形
         if (
@@ -59,10 +53,8 @@ class MenuItem(pygame.sprite.Sprite):
             and pos[1] <= self.rect[1] + self.rect[3]
         ):
             if self.currentStateIndex == 0:
-                # print("cursor changed.")
                 self.sound.play()
             self.currentStateIndex = 1
-            # print("mouse in",pos)
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
         else:
             self.currentStateIndex = 0
@@ -70,9 +62,7 @@ class MenuItem(pygame.sprite.Sprite):
 
         # 检查鼠标光标的矩形是否与 sprite 碰撞
         # if pygame.sprite.collide_rect(self.rect, mouse_rect):   #if self.rect.collidepoint(pos):
-        #    print("mouse:",pos)
         if self.currentStateIndex < len(self.stateImages):
-            # print("update {}\n".format(self.currentStateIndex))
             self.image = self.stateImages[self.currentStateIndex]
 
 
@@ -80,14 +70,12 @@ class MenuForm:
     def __init__(self):
         scale_x = pygame.display.Info().current_w  # / BASE.DEFAULT_SCREEN_WIDTH
         scale_y = pygame.display.Info().current_h  # / BASE.DEFAULT_SCREEN_HEIGHT
-        print("scale 2:", scale_x, scale_y)
         self.scale = min(scale_x, scale_y)  # TODO: test for non integer `sacle` values
 
         self.MENU_WIN_SIZE = (
             pygame.display.Info().current_w,
             pygame.display.Info().current_h,
         )  # 菜单界面窗口大小
-        print("menu_winsize 2:", self.MENU_WIN_SIZE)
         self.screen = pygame.display.set_mode(self.MENU_WIN_SIZE)
         self.backgroundImage = pygame.image.load(
             "assets/graphics/menu/menu_bg.png"
@@ -120,5 +108,3 @@ class MenuForm:
             app_data.CurrentWin = app_data.AppForm.MAIN_FORM
         if self.mitQuit.rect.collidepoint(mouse_pos):
             app_data.IsRunning = False
-            print("退出程序")
-
