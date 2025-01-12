@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 
 from settings import NPC as NPC_SETTINGS
@@ -15,11 +17,12 @@ class NPCTutorial(NPC):
     ) -> None:
         super().__init__(scale, pos, groups, npc_type, sprite_type)
         scale *= NPC_SETTINGS.SCALE
-        self.image = pygame.image.load("assets/graphics/npc/tutorial.png").convert_alpha()
-        self.image = pygame.transform.scale(
-            self.image,
-            (
-                int(scale * self.image.get_width()),
-                int(scale * self.image.get_height()),
-            ),
-        )
+        if "--DEBUG" not in sys.argv:
+            self.image = pygame.image.load("assets/graphics/npc/tutorial.png").convert_alpha()
+            self.image = pygame.transform.scale(
+                self.image,
+                (
+                    int(scale * self.image.get_width()),
+                    int(scale * self.image.get_height()),
+                ),
+            )
