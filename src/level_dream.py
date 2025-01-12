@@ -31,7 +31,7 @@ class LevelDream(Level):
         )
         ground_image = pygame.image.load("assets/graphics/environment/ground/long_ground.png")
         battle_image = pygame.image.load("assets/graphics/environment/ground/en2_ground.png")
-        
+
         # print(self.scale)
         # Tile(
         #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
@@ -89,7 +89,7 @@ class LevelDream(Level):
             plat_small,
             ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
         )
-        Tile(                         # 虫子1的plat
+        Tile(  # 虫子1的plat
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (340, 66),
             [self.visible_sprites, self.obstacle_sprites],
@@ -97,7 +97,7 @@ class LevelDream(Level):
             ground_image,
             ENV.LEVEL_DREAM.GROUND_HITBOX_OFFSET,
         )
-        Tile( # 虫子2的plat
+        Tile(  # 虫子2的plat
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (320, -350),
             [self.visible_sprites, self.obstacle_sprites],
@@ -105,7 +105,7 @@ class LevelDream(Level):
             battle_image,
             ENV.LEVEL_DREAM.GROUND_HITBOX_OFFSET,
         )
-        Tile( # 虫子3的plat
+        Tile(  # 虫子3的plat
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (600, -550),
             [self.visible_sprites, self.obstacle_sprites],
@@ -119,9 +119,9 @@ class LevelDream(Level):
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             plat_main,
-            ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,  
-        )   
-        
+            ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
+        )
+
         NPCTutorial(
             self.scale,
             (-450, -65),
@@ -142,23 +142,22 @@ class LevelDream(Level):
     #                 self.trigger_death,
     #             )
 
-    
     def try_create_enemy(self) -> None:
         if len(self.attackable_sprites) == 0 and not self.flag:
             self.flag = True
-            EnemyCentipede( #enemy 1
+            EnemyCentipede(  # enemy 1
                 self.scale,
                 (2000, 80),
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
-            EnemyCentipede( #enemy 2
+            EnemyCentipede(  # enemy 2
                 self.scale,
                 (700, -763),
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
-            EnemyCentipede( #enemy 3
+            EnemyCentipede(  # enemy 3
                 self.scale,
                 (1180, -1130),
                 [self.visible_sprites, self.attackable_sprites],
@@ -182,35 +181,36 @@ class LevelDream(Level):
             return True
         else:
             return False
+
     def print_win(self) -> None:
         display_surface = pygame.display.get_surface()
         win_image = pygame.image.load(r"assets/graphics/menu/win.png")
-        
+
         # 获取屏幕的宽度和高度
         screen_width, screen_height = display_surface.get_size()
-        
+
         # 计算放缩比例
         scale_x = screen_width / win_image.get_width()
         scale_y = screen_height / win_image.get_height()
-        
+
         # 选择较小的放缩比例，以确保图片完全显示在屏幕上
         scale = min(scale_x, scale_y)
-        
+
         # 计算放缩后的图像大小
         new_width = int(win_image.get_width() * scale)
         new_height = int(win_image.get_height() * scale)
-        
+
         # 放缩图像
         win_image = pygame.transform.scale(win_image, (new_width, new_height))
-        
+
         # 计算图像在屏幕上的居中位置
         x = (screen_width - new_width) // 2
         y = (screen_height - new_height) // 2
-        
+
         # 在屏幕上绘制放缩后的图像
         display_surface.blit(win_image, (x, y))
         display_surface.blit(win_image, (0, 0))
-        
+
     def respawn_player(self) -> None:
         if self.player is not None:
             self.player.kill()
