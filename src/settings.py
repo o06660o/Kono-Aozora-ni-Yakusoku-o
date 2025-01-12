@@ -34,6 +34,7 @@ class ENV:
         PLAT_SMALL_HITBOX_OFFSET = (15, 10)
         NO_HITBOX_OFFSET = (0, 0)
 
+
 class PLAYER:
     """
     The settings for the player.
@@ -60,6 +61,8 @@ class PLAYER:
     HEALTH = 8
     VULNERABLE_TIME = 600
     FLASH_INTERVAL = 100
+    UPGRADE_DAMAGE = 100
+    UPGRADE_COST = 10
     # ATTACK_COOLDOWN = 600
     ## sword
     SWORD_LIFETIME = 200
@@ -88,7 +91,7 @@ class PLAYER:
 
     # input
     RECORDING_POS = (640, 0)
-    TALKING_POS = (0, 130)
+    TALKING_POS = (0, 180)
 
 
 class NPC:
@@ -96,16 +99,22 @@ class NPC:
     The settings for the NPC.
     """
 
-    WIDTH = 0.8  # the width of the player relative to `TILE_SIZE`
+    WIDTH = 1  # the width of the player relative to `TILE_SIZE`
     HEIGHT = 1.5  # the height of the player relative to `TILE_SIZE`
     SCALE = 1.2
     INIT_MESSAGE = {
         "tutorial": [
             {
                 "role": "system",
-                "content": "Suppose that you are the guide of the game. You and the player are in the dream of someone else. Here are some keybindings you can use:\n\n - `AD` to move left and right\n - `<Space>` to jump\n - `<Shift>` to sprint (holding to run) \n - `C` to backstep\n - `J` to attack\n - `H` to throw the sword\n - `U` to use magic\n - `E` to start a conversation and `R` to end it\n - `/` to start typing the response and `<Enter>` to send it\n\n\n Now the player is going to play the game. You can start the conversation by pressing `E`. Now you are going to tell the player how to move around and attack enemies.And the way to win the game is to kill all 3 enemies. Help me tell Them",
+                "content": "Suppose that you are the guide of the game. You and the player are in the dream of someone else. Here are some keybindings you can use:\n\n - `AD` to move left and right\n - `<Space>` to jump\n - `<Shift>` to sprint (holding to run) \n - `C` to backstep\n - `J` to attack\n - `H` to throw the sword\n - `U` to use magic\n - `E` to start a conversation and `R` to end it\n - `/` to start typing the response and `<Enter>` to send it.\n\n\n Now the player is going to play the game. You can start the conversation by pressing `E`. Now you are going to tell the player how to move around and attack enemies. And the way to win the game is to kill all enemies. Help me tell Them.",
             }
-        ]
+        ],
+        "blacksmith": [
+            {
+                "role": "system",
+                "content": f"Suppose that you are the blacksmith of the game. You can tell the player press `B` to upgrade the sword if the player has enough coins. The price for upgrading once is {PLAYER.UPGRADE_COST} coins. The only way to collect coins is to kill the enemies.",
+            },
+        ],
     }
 
 

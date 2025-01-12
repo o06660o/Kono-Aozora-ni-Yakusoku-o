@@ -5,6 +5,7 @@ from level import Level
 from tile import Tile
 from player import Player
 from npc_tutorial import NPCTutorial
+from npc_blacksmith import NPCBlacksmith
 from enemy_centipede import EnemyCentipede
 
 
@@ -98,6 +99,12 @@ class LevelDream(Level):
         NPCTutorial(
             self.scale,
             (-450, -65),
+            [self.visible_sprites, self.npc_sprites],
+        )
+
+        NPCBlacksmith(
+            self.scale,
+            (-600, -500),
             [self.visible_sprites, self.npc_sprites],
         )
 
@@ -235,7 +242,9 @@ class LevelDream(Level):
             empty_image,
             (int(empty_image.get_width() * self.scale), int(empty_image.get_height() * self.scale)),
         )
-        money_image = pygame.image.load(r"assets/graphics/ui/select_game_HUD_coin_v020004.png").convert_alpha()
+        money_image = pygame.image.load(
+            r"assets/graphics/ui/select_game_HUD_coin_v020004.png"
+        ).convert_alpha()
         money_image = pygame.transform.scale(
             money_image,
             (
@@ -254,13 +263,16 @@ class LevelDream(Level):
         for _ in range(8 - self.player.health):
             display_surface.blit(empty_image, (x, y))
             x += empty_image.get_width() + 5 * self.scale
-    
-        x,y = 90 * self.scale, 100 * self.scale
-        display_surface.blit(money_image, (x , y))
-    
+
+        x, y = 90 * self.scale, 100 * self.scale
+        display_surface.blit(money_image, (x, y))
+
         money_font = pygame.font.Font(None, int(36 * self.scale))
         money_text = money_font.render(f"{self.player.money:02d}", True, (255, 255, 255))
-        display_surface.blit(money_text, (x + 10 * self.scale + money_image.get_width(), y+25 * self.scale))
+        display_surface.blit(
+            money_text, (x + 10 * self.scale + money_image.get_width(), y + 25 * self.scale)
+        )
+
     def custom_update(self) -> None:
         if type(self.player) is Player:
             if self.player.rect.y > 2000:

@@ -6,6 +6,7 @@ import pygame
 from settings import BASE, ENV, PLAYER
 from utils import create_rect_hitbox_image, read_images_as_list, display_message
 from keys import Keys
+from npc_blacksmith import NPCBlacksmith
 
 
 class Player(pygame.sprite.Sprite):
@@ -75,6 +76,7 @@ class Player(pygame.sprite.Sprite):
         self.touch_ground_time = now
 
         # combat
+        self.additional_damage = 0
         self.health = PLAYER.HEALTH
         self.vulnerable = True
         self.last_hit_time = now
@@ -464,6 +466,13 @@ class Player(pygame.sprite.Sprite):
                     BASE.WRAPLEN,
                     self.talking_to.displaying_message,
                 )
+            if type(self.talking_to) is NPCBlacksmith and self.keys.query(pygame.K_b):
+                if self.money >= 10:
+                    self.money -= PLAYER.UPGRADE_COST
+                    self.additional_damage += PLAYER.UPGRADE_DAMAGE
+                    self.talking_to.fetch_message("I can feel the power!")
+                else:
+                    self.talking_to.fetch_message("I don't have enough money!")
 
     def update(self) -> None:
         self.cooldown()
