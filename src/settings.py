@@ -58,6 +58,7 @@ class PLAYER:
     # combat
     HEALTH = 8
     VULNERABLE_TIME = 600
+    FLASH_INTERVAL = 100
     # ATTACK_COOLDOWN = 600
     ## sword
     SWORD_LIFETIME = 200
