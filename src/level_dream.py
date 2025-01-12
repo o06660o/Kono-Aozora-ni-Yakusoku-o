@@ -258,7 +258,7 @@ class LevelDream(Level):
         x,y = 90 * self.scale, 100 * self.scale
         display_surface.blit(money_image, (x , y))
     
-        money_font = pygame.font.Font(None, 36)
+        money_font = pygame.font.Font(None, int(36 * self.scale))
         money_text = money_font.render(f"{self.player.money:02d}", True, (255, 255, 255))
         display_surface.blit(money_text, (x + 10 * self.scale + money_image.get_width(), y+25 * self.scale))
     def custom_update(self) -> None:
