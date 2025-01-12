@@ -30,12 +30,6 @@
   - `"退出"或"exit"` 可以退出游戏
 注意：当前的大语言模型对于中文的识别精度更高哦
 
-### 状态
-游戏左上角为你提供了shadow knight 的状态：
-- 你当前的血量![血量](health.png) 
-- 你当前的魔法值![魔法值](magic.png)
-- 你当前的金币数量![金币数](coin.png) 
-
 ### 移动
 
 - `<A>`, `<D>`: 左右移动
@@ -51,23 +45,6 @@
 - `<U>`: 大范围魔法攻击（会消耗能量值，你一共有3个能量值）.
 
 ### 交互NPC
-
-<div style="display: flex; justify-content: space-between;">
-  <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
-    <img src="tutorial.png" alt="Image 1" style="width: 100%;">
-    <div style="text-align: center;">
-      <p>Tutorial</p>
-      <p>他会告诉你游戏的玩法</p>
-    </div>
-  </div>
-  <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
-    <img src="blacksmith.png" alt="Image 2" style="width: 100%;">
-    <div style="text-align: center;">
-      <p>Blacksmith</p>
-      <p>在他这里购买并升级武器</p>
-    </div>
-  </div>
-</div>
 
 - `<E>`: 接近 npc 的时候开始对话;
 - `<R>`: 暂时停止与 npc 的对话;
