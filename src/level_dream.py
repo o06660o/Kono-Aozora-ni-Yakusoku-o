@@ -36,7 +36,9 @@ class LevelDream(Level):
         battle_image = pygame.image.load(
             "assets/graphics/environment/ground/en2_ground.png"
         ).convert_alpha()
-
+        deco_image = pygame.image.load(
+            "assets/graphics/environment/dream/crystal.png"
+        ).convert_alpha()
         Tile(
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (-240, 60),
@@ -95,6 +97,14 @@ class LevelDream(Level):
             battle_image,
             ENV.LEVEL_DREAM.PLAT2_HITBOX_OFFSET,
         )
+        Tile(  # 紫水晶
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE ,
+            (300, -700),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            deco_image,
+            ENV.LEVEL_DREAM.NO_HITBOX_OFFSET,
+        )
 
         NPCTutorial(
             self.scale,
@@ -125,7 +135,7 @@ class LevelDream(Level):
             )
             EnemyCentipede(  # enemy 3
                 self.scale,
-                (1100, -1180),
+                (1500, -1180),
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
