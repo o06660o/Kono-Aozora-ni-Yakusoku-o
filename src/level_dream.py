@@ -194,7 +194,7 @@ class LevelDream(Level):
             self.player.kill()
         self.player = Player(
             self.scale,
-            (0, 0),
+            (0, -150),
             [self.visible_sprites],
             self.obstacle_sprites,
             self.create_attack,
@@ -212,8 +212,6 @@ class LevelDream(Level):
             return pygame.image.load(r"assets/graphics/ui/3_energy.png").convert_alpha()
 
     def print_health(self) -> None:
-        # display(self.player.health) Visualize player health
-
         health_image = pygame.image.load(
             r"assets/graphics/ui/select_game_HUD_0001_health.png"
         ).convert_alpha()
@@ -244,10 +242,10 @@ class LevelDream(Level):
         x = 10 * self.scale + health_image.get_width() + 60 * self.scale
         y = 60
         y *= self.scale
-        for i in range(self.player.health):
+        for _ in range(self.player.health):
             display_surface.blit(health_image, (x, y))
             x += health_image.get_width() + 5 * self.scale
-        for i in range(8 - self.player.health):
+        for _ in range(8 - self.player.health):
             display_surface.blit(empty_image, (x, y))
             x += empty_image.get_width() + 5 * self.scale
 
