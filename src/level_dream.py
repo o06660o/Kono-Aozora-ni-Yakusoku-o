@@ -89,6 +89,16 @@ class LevelDream(Level):
             plat_small,
             ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
         )
+        
+        Tile(
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
+            (-40, -10),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            plat_main,
+            ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
+        )
+        
         Tile(  # 虫子1的plat
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (340, -180),
@@ -112,14 +122,6 @@ class LevelDream(Level):
             "blocks",
             battle_image,
             ENV.LEVEL_DREAM.PLAT2_HITBOX_OFFSET,
-        )
-        Tile(
-            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-            (-40, -10),
-            [self.visible_sprites, self.obstacle_sprites],
-            "blocks",
-            plat_main,
-            ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
         )
 
         NPCTutorial(
@@ -153,13 +155,25 @@ class LevelDream(Level):
             )
             EnemyCentipede(  # enemy 2
                 self.scale,
-                (1000, -763),
+                (1200, -650),
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
             EnemyCentipede(  # enemy 3
                 self.scale,
-                (1180, -1130),
+                (1100, -1180),
+                [self.visible_sprites, self.attackable_sprites],
+                self.trigger_death,
+            )
+            EnemyCentipede(  # enemy 4
+                self.scale,
+                (1300, -1180),
+                [self.visible_sprites, self.attackable_sprites],
+                self.trigger_death,
+            )
+            EnemyCentipede(  # enemy 5
+                self.scale,
+                (1800, -1180),
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
