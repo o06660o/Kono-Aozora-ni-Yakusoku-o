@@ -28,6 +28,12 @@
 Welcome, brave adventurer!
 Let me tell you how to survive in this dangerous world.
 
+### 开始
+
+在开始界面长按空格键，对准麦克风说
+  - `"开始"` 可以开始游戏
+  - `"退出"` 可以退出游戏
+
 ### 移动
 
 - `<A>`, `<D>`: 左右移动
