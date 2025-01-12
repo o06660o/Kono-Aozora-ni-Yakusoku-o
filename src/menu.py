@@ -46,7 +46,7 @@ class MenuItem(pygame.sprite.Sprite):
     def update(self, currentTime, rate=90):
         # 更新动画帧
         pos = pygame.mouse.get_pos()
-        # 创建鼠标光标的矩形
+        # 如果鼠标光标在菜单项内部，光标形状改为“手型”，并播放提示音
         if (
             pos[0] >= self.rect[0]
             and pos[0] <= self.rect[0] + self.rect[2]
@@ -61,8 +61,7 @@ class MenuItem(pygame.sprite.Sprite):
             self.currentStateIndex = 0
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
-        # 检查鼠标光标的矩形是否与 sprite 碰撞
-        # if pygame.sprite.collide_rect(self.rect, mouse_rect):   #if self.rect.collidepoint(pos):
+        # 修改菜单的显示图
         if self.currentStateIndex < len(self.stateImages):
             self.image = self.stateImages[self.currentStateIndex]
 
@@ -95,7 +94,6 @@ class MenuForm:
         self.scrollBar = ScrollBar(self.screen,200,100)
 
     def load(self):
-        # self.group.empty()
         self.group.add(self.mitStart)
         self.group.add(self.mitSetting)
         self.group.add(self.mitQuit)
