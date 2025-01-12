@@ -31,7 +31,7 @@ class NPC(pygame.sprite.Sprite):
         self.hitbox = self.rect
         try:
             self.client = OpenAI(
-                base_url="http://10.15.88.73:5010/v1",
+                base_url="http://10.15.88.73:5020/v1",
                 api_key="ollama",  # required but ignored
             )
         except Exception as e:
