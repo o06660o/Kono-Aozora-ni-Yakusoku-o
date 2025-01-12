@@ -121,6 +121,7 @@ class Player(pygame.sprite.Sprite):
         }
         if "--DEBUG" not in sys.argv:
             self.image = self.animations["idle"][0]
+        self.last_flash_time = now
 
         # npc
         self.talking_to = None
@@ -457,6 +458,21 @@ class Player(pygame.sprite.Sprite):
                     self.talking_to.displaying_message,
                 )
 
+    def flash(self) -> None:
+        """
+        Flash the player when it is hit by an enemy.
+        """
+        if self.vulnerable:
+            self.image.set_alpha(255)
+            return
+        now = pygame.time.get_ticks()
+        if now - self.last_flash_time >= PLAYER.FLASH_INTERVAL:
+            self.last_flash_time = now
+            if self.image.get_alpha() == 192:
+                self.image.set_alpha(255)
+            else:
+                self.image.set_alpha(192)
+
     def update(self) -> None:
         self.cooldown()
         if not self.preinput():
@@ -469,3 +485,4 @@ class Player(pygame.sprite.Sprite):
             display_message(
                 self.scale, PLAYER.RECORDING_POS, BASE.WRAPLEN, self.keys.query_recorded_text()
             )
+        self.flash()

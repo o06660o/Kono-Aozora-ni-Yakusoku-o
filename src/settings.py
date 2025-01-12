@@ -9,7 +9,7 @@ class BASE:
     DEFAULT_SCREEN_HEIGHT = 1080
     FPS = 60
     LONG_PRESS_TIME = 400  # the time to recognize a long press
-    WRAPLEN = 400
+    WRAPLEN = 500
     DEATH_DURATION = 100
 
 
@@ -58,6 +58,7 @@ class PLAYER:
     # combat
     HEALTH = 8
     VULNERABLE_TIME = 600
+    FLASH_INTERVAL = 100
     # ATTACK_COOLDOWN = 600
     ## sword
     SWORD_LIFETIME = 200
@@ -85,8 +86,8 @@ class PLAYER:
     # LOOKING_DURATION = 200  # the time for the background to move when looking up/down
 
     # input
-    RECORDING_POS = (800, 0)
-    TALKING_POS = (0, 0)
+    RECORDING_POS = (640, 0)
+    TALKING_POS = (0, 130)
 
 
 class NPC:
@@ -124,4 +125,9 @@ class ENEMY:
     }
     # `key`: frame name, `value`: frame rate
     ANIMATIONS = {"centipede": {"move": 0.1, "death": 0}}
+    SPEED = {"centipede": 3}
     VULNERABLE_TIME = 600
+
+    class CENTIPEDE:
+        MOVE_LEN = 400
+        TURN_PROBABILTY = 0.03
