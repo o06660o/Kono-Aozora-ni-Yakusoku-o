@@ -35,7 +35,7 @@ class NPC(pygame.sprite.Sprite):
                 api_key="ollama",  # required but ignored
             )
         except Exception as e:
-            assert False, f"OpenAI client failed to initialize: {e}"
+            raise Exception(f"ERROR: OPENAI CLIENT FAILED TO INITIALIZE: {e}")
         self.displaying_message = "test message"
         self.init_message = NPC_SETTINGS.INIT_MESSAGE[npc_type]
         self.messages: list[dict] = self.init_message
@@ -47,10 +47,13 @@ class NPC(pygame.sprite.Sprite):
                 "content": new_message,
             }
         )
-        response = self.client.chat.completions.create(
-            model="llama3.2",
-            messages=self.messages,  # pyright: ignore
-        )
+        try:
+            response = self.client.chat.completions.create(
+                model="llama3.2",
+                messages=self.messages,  # pyright: ignore
+            )
+        except Exception as e:
+            raise Exception(f"ERROR: OPENAI CLIENT FAILED TO INITIALIZE: {e}")
         assistant_reply = response.choices[0].message.content
         self.messages.append(
             {

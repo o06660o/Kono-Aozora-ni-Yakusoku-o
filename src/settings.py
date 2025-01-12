@@ -124,4 +124,9 @@ class ENEMY:
     }
     # `key`: frame name, `value`: frame rate
     ANIMATIONS = {"centipede": {"move": 0.1, "death": 0}}
+    SPEED = {"centipede": 3}
     VULNERABLE_TIME = 600
+
+    class CENTIPEDE:
+        MOVE_LEN = 400
+        TURN_PROBABILTY = 0.03

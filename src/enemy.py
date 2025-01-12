@@ -21,6 +21,7 @@ class Enemy(pygame.sprite.Sprite):
     ) -> None:
         super().__init__(groups)
         self.scale = scale * ENEMY.INFO[enemy_type]["scale"]
+        self.enemy_type = enemy_type
         self.sprite_type = sprite_type
         self.scale = scale
         self.pos = (pos[0] * scale, pos[1] * scale)
