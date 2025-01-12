@@ -39,7 +39,6 @@ Let me tell you how to survive in this dangerous world.
 ### 战斗
 
 - `<J>`: 攻击;
-- `<S-Z>`: 斜向下突刺;
 - `<H>`: 丢出近战武器;
 - `<U>`: 大范围攻击.
 
