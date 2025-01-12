@@ -133,6 +133,18 @@ class LevelDream(Level):
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
+            EnemyCentipede(  # enemy 2
+                self.scale,
+                (1300, -650),
+                [self.visible_sprites, self.attackable_sprites],
+                self.trigger_death,
+            )
+            EnemyCentipede(  # enemy 2
+                self.scale,
+                (1800, -650),
+                [self.visible_sprites, self.attackable_sprites],
+                self.trigger_death,
+            )
             EnemyCentipede(  # enemy 3
                 self.scale,
                 (1500, -1180),
