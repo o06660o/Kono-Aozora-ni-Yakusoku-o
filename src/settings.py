@@ -34,6 +34,7 @@ class ENV:
         PLAT_MID_HITBOX_OFFSET = (20, 10)
         PLAT_SMALL_HITBOX_OFFSET = (15, 10)
         NO_HITBOX_OFFSET = (0, 0)
+        STORE_HITBOX_OFFSET = (0, 112)
 
 
 class PLAYER:
@@ -113,7 +114,7 @@ class NPC:
         "blacksmith": [
             {
                 "role": "system",
-                "content": f"Suppose that you are the blacksmith of the game. You can tell the player press `<B>` to upgrade the sword if the player has enough coins. The price for upgrading once is {PLAYER.UPGRADE_COST} coins. The only way to collect coins is to kill the enemies. You only need to talk those information to the player.",
+                "content": f"Suppose that you are the blacksmith of the game. First of all congratulate him on getting through the previous battle.You can help the player forge this sword to make it more powerful.You can tell the player press `<B>` to upgrade the sword if the player has enough coins. The price for upgrading once is {PLAYER.UPGRADE_COST} coins. Tell them the only way to gain coins is to kill the enemies when players want more coins. You only need to talk those information to the player.Speak in 2 or 3 sentences.",
             },
         ],
     }
@@ -132,15 +133,27 @@ class ENEMY:
             "damage": 1,
             "status": "move",
             "scale": 0.8,
+        },
+        "boss": {
+            "width": 3.0,  
+            "height": 0.5,  
+            "health": 1000,  
+            "damage": 2,  
+            "status": "move",
+            "scale": 1.2,  
         }
     }
     # `key`: frame name, `value`: frame rate
-    ANIMATIONS = {"centipede": {"move": 0.1, "death": 0}}
-    SPEED = {"centipede": 3}
-    RESPAWN_LIMIT = {"centipede": 3}
+    ANIMATIONS = {"centipede": {"move": 0.1, "death": 0}, "boss": {"move": 0.05, "death": 0}}
+    SPEED = {"centipede": 3, "boss": 2}  # 降低速度
+    RESPAWN_LIMIT = {"centipede": 3, "boss": 0}  # 减少重生次数
     RESPAWN_COOLDOWN = 2000
     VULNERABLE_TIME = 600
 
     class CENTIPEDE:
         MOVE_LEN = 400
         TURN_PROBABILTY = 0.03
+
+    class BOSS:
+        MOVE_LEN = 200  # 减少移动长度
+        TURN_PROBABILTY = 0.01  # 降低转向概率

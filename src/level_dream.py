@@ -7,6 +7,7 @@ from player import Player
 from npc_tutorial import NPCTutorial
 from npc_blacksmith import NPCBlacksmith
 from enemy_centipede import EnemyCentipede
+from enemy_boss import EnemyBoss
 
 
 class LevelDream(Level):
@@ -38,6 +39,9 @@ class LevelDream(Level):
         ).convert_alpha()
         deco_image = pygame.image.load(
             "assets/graphics/environment/dream/crystal.png"
+        ).convert_alpha()
+        plat_store = pygame.image.load(
+            "assets/graphics/environment/dream/dream_BG_plats_0000_3.png"
         ).convert_alpha()
         Tile(
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
@@ -105,6 +109,15 @@ class LevelDream(Level):
             deco_image,
             ENV.LEVEL_DREAM.NO_HITBOX_OFFSET,
         )
+        Tile(  # store
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE ,
+            (1350, -480),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            plat_store,
+            ENV.LEVEL_DREAM.STORE_HITBOX_OFFSET, # 没有hitbox remain to do
+        )
+
 
         NPCTutorial(
             self.scale,
@@ -114,7 +127,7 @@ class LevelDream(Level):
 
         NPCBlacksmith(
             self.scale,
-            (-600, -500),
+            (2980, -1030),
             [self.visible_sprites, self.npc_sprites],
         )
 
@@ -163,6 +176,13 @@ class LevelDream(Level):
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
+            # EnemyBoss(   # boss
+            #     self.scale,
+            #     (2200,-1180),
+            #     [self.visible_sprites, self.attackable_sprites],
+            #     self.trigger_death,
+            # )
+
 
     def win_check(self) -> bool:
         if self.defeat_count >= BASE.WIN_COUNT:

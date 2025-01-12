@@ -472,7 +472,7 @@ class Player(pygame.sprite.Sprite):
                     self.additional_damage += PLAYER.UPGRADE_DAMAGE
                     self.talking_to.fetch_message("I can feel the power!")
                 else:
-                    self.talking_to.fetch_message("I don't have enough money!")
+                    self.talking_to.fetch_message("I don't have enough coins!")
 
     def update(self) -> None:
         self.cooldown()
