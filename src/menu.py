@@ -86,6 +86,8 @@ class MenuForm:
         # 加载菜单项
         self.mitStart = MenuItem(self.screen, (pygame.display.Info().current_w-400)/2, 450)
         self.mitStart.load("assets/graphics/menu/btnStart.png", 400, 100, 1)
+        self.mitSetting = MenuItem(self.screen, (pygame.display.Info().current_w-400)/2, 550)
+        self.mitSetting.load("assets/graphics/menu/btnSetting.png", 400, 100, 1)
         self.mitQuit = MenuItem(self.screen, (pygame.display.Info().current_w-400)/2, 650)
         self.mitQuit.load("assets/graphics/menu/btnQuit.png", 400, 100, 1)
         # self.mitChallenge = MenuItem(self.screen,470,320)
@@ -94,7 +96,7 @@ class MenuForm:
     def load(self):
         # self.group.empty()
         self.group.add(self.mitStart)
-        # self.group.add(self.mitSurvival)
+        self.group.add(self.mitSetting)
         self.group.add(self.mitQuit)
 
     def refresh(self, ticks):

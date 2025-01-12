@@ -1,2 +1,5 @@
 openai==1.58.1
 pygame==2.6.1
+pip install pyaudio
+pip install SpeechRecognition
+pip install pyttsx3
