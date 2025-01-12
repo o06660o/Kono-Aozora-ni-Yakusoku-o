@@ -1,5 +1,7 @@
-# Our Information
+# SI100B-24Fall-Project
+
 ## Team：Kono-Aozora-ni-Yakusoku-o
+
 - 王子睿 :
   - ID：2024533125
   - Email：<o06660o@shanghaitech.edu.cn>
@@ -13,21 +15,23 @@
   - Email：<duanlp2024@shanghaitech.edu.cn>
   - Github: [Dan](https://github.com/Dan-dlp)
 
-
 ## 《Shadow Knight》食用说明
 
 ### 菜单
+
 菜单页面提供了三个按钮：
-  - `"START"` 可以开始游戏
-  - `"SETTING"` 可以调整音量
-  - `"QUIT"` 可以退出游戏
+
+- `"START"` 可以开始游戏
+- `"SETTING"` 可以调整音量
+- `"QUIT"` 可以退出游戏
 
 菜单页面还提供了**语音识别**功能：在开始界面单击空格键，然后对准麦克风说
-  - `"开始"或"start"` 可以开始游戏
-  - `"声音大一点"或"up"` 可以调高音量
-  - `"声音小一点"或"down"` 可以调低音量
-  - `"静音"` 可以使背景音乐静音
-  - `"退出"或"exit"` 可以退出游戏
+
+- `"开始"或"start"` 可以开始游戏
+- `"声音大一点"或"up"` 可以调高音量
+- `"声音小一点"或"down"` 可以调低音量
+- `"静音"` 可以使背景音乐静音
+- `"退出"或"exit"` 可以退出游戏
 
 注意：当前的大语言模型对于中文的识别精度更高哦
 
