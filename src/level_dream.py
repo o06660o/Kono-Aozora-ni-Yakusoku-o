@@ -1,6 +1,6 @@
 import pygame
 
-from settings import ENV
+from settings import BASE, ENV
 from level import Level
 from tile import Tile
 from player import Player
@@ -36,7 +36,9 @@ class LevelDream(Level):
         battle_image = pygame.image.load(
             "assets/graphics/environment/ground/en2_ground.png"
         ).convert_alpha()
-
+        deco_image = pygame.image.load(
+            "assets/graphics/environment/dream/crystal.png"
+        ).convert_alpha()
         Tile(
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (-240, 60),
@@ -95,6 +97,14 @@ class LevelDream(Level):
             battle_image,
             ENV.LEVEL_DREAM.PLAT2_HITBOX_OFFSET,
         )
+        Tile(  # 紫水晶
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE ,
+            (300, -700),
+            [self.visible_sprites, self.obstacle_sprites],
+            "blocks",
+            deco_image,
+            ENV.LEVEL_DREAM.NO_HITBOX_OFFSET,
+        )
 
         NPCTutorial(
             self.scale,
@@ -107,20 +117,6 @@ class LevelDream(Level):
             (-600, -500),
             [self.visible_sprites, self.npc_sprites],
         )
-
-    # def try_create_enemy(self) -> None:
-    #     if len(self.attackable_sprites) == 0:
-    #         now = pygame.time.get_ticks()
-    #         if self.last_enemy_summon_time == -1:
-    #             self.last_enemy_summon_time = now
-    #         elif now - self.last_enemy_summon_time > self.SUMMON_ENEMY_INTERVAL:
-    #             self.last_enemy_summon_time = -1
-    #             EnemyCentipede(
-    #                 self.scale,
-    #                 (2000, 80),
-    #                 [self.visible_sprites, self.attackable_sprites],
-    #                 self.trigger_death,
-    #             )
 
     def try_create_enemy(self) -> None:
         if len(self.attackable_sprites) == 0 and not self.flag:
@@ -139,7 +135,7 @@ class LevelDream(Level):
             )
             EnemyCentipede(  # enemy 3
                 self.scale,
-                (1100, -1180),
+                (1500, -1180),
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
@@ -155,21 +151,9 @@ class LevelDream(Level):
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
-        # EnemyCentipede(
-        #     self.scale,
-        #     (2000, 80),
-        #     [self.visible_sprites, self.attackable_sprites],
-        #     self.trigger_death,
-        # )
-        # EnemyCentipede(
-        #     self.scale,
-        #     (2000, 80),
-        #     [self.visible_sprites, self.attackable_sprites],
-        #     self.trigger_death,
-        # )
 
     def win_check(self) -> bool:
-        if len(self.attackable_sprites) == 0 and self.flag:
+        if self.defeat_count >= BASE.WIN_COUNT:
             return True
         else:
             return False

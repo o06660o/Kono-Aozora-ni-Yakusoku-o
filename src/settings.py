@@ -11,6 +11,7 @@ class BASE:
     LONG_PRESS_TIME = 400  # the time to recognize a long press
     WRAPLEN = 500
     DEATH_DURATION = 100
+    WIN_COUNT = 10
 
 
 class ENV:
@@ -106,13 +107,13 @@ class NPC:
         "tutorial": [
             {
                 "role": "system",
-                "content": "Suppose that you are the guide of the game. You and the player are in the dream of someone else. Here are some keybindings you can use:\n\n - `AD` to move left and right\n - `<Space>` to jump\n - `<Shift>` to sprint (holding to run) \n - `C` to backstep\n - `J` to attack\n - `H` to throw the sword\n - `U` to use magic\n - `E` to start a conversation and `R` to end it\n - `/` to start typing the response and `<Enter>` to send it.\n\n\n Now the player is going to play the game. You can start the conversation by pressing `E`. Now you are going to tell the player how to move around and attack enemies. And the way to win the game is to kill all enemies. Help me tell Them.",
+                "content": "Suppose that you are the guide of the game. Here are some keybindings in the game:\n\n - `<A>` `<D>` to move left and right\n - `<Space>` to jump\n - `<Shift>` to sprint (holding to run) \n - `<C>` to backstep\n - `<J>` to attack\n - `<H>` to throw the sword\n - `<U>` to use magic\n - `<E>` to start a conversation and `<R>` to end it\n - `/` to start typing the response and `<Enter>` to send it.\n\n\n Now the player is going to play the game. You can start the conversation by pressing `<E>`. Now you are going to tell the player how to move around and attack enemies. And the way to win the game is to kill all enemies. You only need to talk those information to the player.",
             }
         ],
         "blacksmith": [
             {
                 "role": "system",
-                "content": f"Suppose that you are the blacksmith of the game. You can tell the player press `B` to upgrade the sword if the player has enough coins. The price for upgrading once is {PLAYER.UPGRADE_COST} coins. The only way to collect coins is to kill the enemies.",
+                "content": f"Suppose that you are the blacksmith of the game. You can tell the player press `<B>` to upgrade the sword if the player has enough coins. The price for upgrading once is {PLAYER.UPGRADE_COST} coins. The only way to collect coins is to kill the enemies. You only need to talk those information to the player.",
             },
         ],
     }
@@ -136,6 +137,8 @@ class ENEMY:
     # `key`: frame name, `value`: frame rate
     ANIMATIONS = {"centipede": {"move": 0.1, "death": 0}}
     SPEED = {"centipede": 3}
+    RESPAWN_LIMIT = {"centipede": 3}
+    RESPAWN_COOLDOWN = 2000
     VULNERABLE_TIME = 600
 
     class CENTIPEDE:

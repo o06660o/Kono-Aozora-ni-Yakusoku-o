@@ -476,13 +476,14 @@ class Player(pygame.sprite.Sprite):
 
     def update(self) -> None:
         self.cooldown()
-        if not self.preinput():
-            self.input()
-        self.move()
-        if "--DEBUG" not in sys.argv:
-            self.animate()
         self.npc_interaction()
         if self.is_recording_input:
             display_message(
                 self.scale, PLAYER.RECORDING_POS, BASE.WRAPLEN, self.keys.query_recorded_text()
             )
+            return
+        if not self.preinput():
+            self.input()
+        self.move()
+        if "--DEBUG" not in sys.argv:
+            self.animate()
