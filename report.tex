@@ -31,7 +31,7 @@
 已上传到了 GitHub。我们制作了一款类银河战士恶魔城游戏，玩家陷入梦境之中，手握一把丝线之剑，可在平台间跳跃与怪物搏斗。
 
 战斗采用即时制，玩家通过键盘控制来进行移动和攻击，躲避怪物攻击的同时对其造成伤害。玩家击败怪物之后可以获得灵魂货币，
-到商人NPC处可以用灵魂货币购买升级，击败怪物一定次数之后可以获得胜利。
+到商人NPC处可以用灵魂货币购买升级，击败最终 BOSS 之后可以获得胜利。
 
 程序的入口是 \inlinecode{main.py}，其中的 \inlinecode{Game} 类负责游戏的整体逻辑。游戏的各个部分被分割到不同的模块。
 \begin{itemize}
@@ -134,7 +134,7 @@
     \caption{NPC}
 \end{figure}
 
-\subsubsection{敌人}
+\subsubsection{普通敌人}
 
 地图中存在可以复活三次的敌人。敌人在每一帧都有一定概率转向，在距离初始位置太远时会强制转向。敌人每次被击败都会展示死亡动画，一段时间后复活。
 
@@ -151,12 +151,30 @@
         \includegraphics[width=\textwidth]{assets/report/centipede_death.png}
         \caption{死亡}
     \end{subfigure}
-    \caption{敌人}
+    \caption{普通敌人}
+\end{figure}
+
+\subsubsection{BOSS}
+
+在地图的右上方，经过一段台阶之后玩家可以遇到最终 BOSS。它具有更高的攻击力与血量，初始状态下玩家需要三十次普通攻击才能击败它。
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{assets/report/boss_move0.png}
+        \caption{移动}
+    \end{subfigure}
+    \hspace{0.05\textwidth}
+    \begin{subfigure}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{assets/report/boss_death.png}
+        \caption{死亡}
+    \end{subfigure}
+    \caption{BOSS}
 \end{figure}
 
 \subsection{游戏机制}
 
-\paragraph{核心机制} 玩家可以自由探索地图，与 NPC 对话，与敌人战斗。游戏的胜利条件是击败 \inlinecode{WIN\_COUNT} 次敌人。
+\paragraph{核心机制} 玩家可以自由探索地图，与 NPC 对话，与敌人战斗。游戏的胜利条件是击败最终 BOSS，这对于初始状态下的玩家可能有点难度，但是玩家可以升级武器来增强实力。
 
 \paragraph{碰撞系统} 游戏每一帧中玩家都会调用 \inlinecode{move()} 方法，其中会先进行 x 方向的移动，完成碰撞检测，再处理 y 方向的移动，最后第二次碰撞检测。每次碰撞检测玩家会与可碰撞精灵组的每一个元素进行碰撞检测。由于碰撞箱都是矩形，两两碰撞检测可以 O(1) 完成，在目前的数据规模下并不会造成卡顿。
 

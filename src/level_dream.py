@@ -109,7 +109,7 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.PLAT2_HITBOX_OFFSET,
         )
         Tile(  # 紫水晶
-            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE ,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (300, -700),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -117,7 +117,7 @@ class LevelDream(Level):
             ENV.LEVEL_DREAM.NO_HITBOX_OFFSET,
         )
         Tile(  # store
-            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE ,
+            self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (1350, -480),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
@@ -180,7 +180,7 @@ class LevelDream(Level):
             steps_image,
             ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
         )
-        Tile(   # bossplat
+        Tile(  # bossplat
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (2350, -740),
             [self.visible_sprites, self.obstacle_sprites],
@@ -188,7 +188,7 @@ class LevelDream(Level):
             battle_image,
             ENV.LEVEL_DREAM.PLAT2_HITBOX_OFFSET,
         )
-        Tile(   # light
+        Tile(  # light
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (3280, -805),
             [self.visible_sprites, self.obstacle_sprites],
@@ -254,16 +254,15 @@ class LevelDream(Level):
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
-            self.boss = EnemyBoss(   # boss
+            self.boss = EnemyBoss(  # boss
                 self.scale,
-                (6000,-1560),
+                (6000, -1560),
                 [self.visible_sprites, self.attackable_sprites],
                 self.trigger_death,
             )
 
-
     def win_check(self) -> bool:
-        if pygame.time.get_ticks()<= 10000:
+        if pygame.time.get_ticks() <= 10000:
             return False
         if self.boss_die:
             return True
