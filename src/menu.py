@@ -68,25 +68,25 @@ class MenuItem(pygame.sprite.Sprite):
 
 class MenuForm:
     def __init__(self):
-        scale_x = pygame.display.Info().current_w  / BASE.DEFAULT_SCREEN_WIDTH
-        scale_y = pygame.display.Info().current_h  / BASE.DEFAULT_SCREEN_HEIGHT
+        scale_x = pygame.display.Info().current_w / BASE.DEFAULT_SCREEN_WIDTH
+        scale_y = pygame.display.Info().current_h / BASE.DEFAULT_SCREEN_HEIGHT
         self.scale = min(scale_x, scale_y)  # TODO: test for non integer `sacle` values
 
-        '''
+        """
         self.MENU_WIN_SIZE = (
             pygame.display.Info().current_w,
             pygame.display.Info().current_h,
         )  # 菜单界面窗口大小
-        '''
+        """
 
-        #按比例设置窗口
+        # 按比例设置窗口
         self.MENU_WIN_SIZE = (
             int(1920 * self.scale),
             int(1080 * self.scale),
         )  # 菜单界面窗口大小
 
         self.screen = pygame.display.set_mode(self.MENU_WIN_SIZE)
-        
+
         self.backgroundImage = pygame.image.load(
             "assets/graphics/menu/menu_bg.png"
         ).convert()  # 菜单窗口背景图
@@ -94,14 +94,20 @@ class MenuForm:
         self.group = pygame.sprite.Group()
 
         # 加载菜单项
-        self.mitStart = MenuItem(self.screen, (pygame.display.Info().current_w-400)/2, 450* self.scale)
+        self.mitStart = MenuItem(
+            self.screen, (pygame.display.Info().current_w - 400) / 2, 450 * self.scale
+        )
         self.mitStart.load("assets/graphics/menu/btnStart.png", 400, 100, 1)
-        self.mitSetting = MenuItem(self.screen, (pygame.display.Info().current_w-400)/2, 550* self.scale)
+        self.mitSetting = MenuItem(
+            self.screen, (pygame.display.Info().current_w - 400) / 2, 550 * self.scale
+        )
         self.mitSetting.load("assets/graphics/menu/btnSetting.png", 400, 100, 1)
-        self.mitQuit = MenuItem(self.screen, (pygame.display.Info().current_w-400)/2, 650* self.scale)
+        self.mitQuit = MenuItem(
+            self.screen, (pygame.display.Info().current_w - 400) / 2, 650 * self.scale
+        )
         self.mitQuit.load("assets/graphics/menu/btnQuit.png", 400, 100, 1)
 
-        self.scrollBar = ScrollBar(self.screen,200,100)
+        self.scrollBar = ScrollBar(self.screen, 200, 100)
 
     def load(self):
         self.group.add(self.mitStart)
@@ -126,9 +132,9 @@ class MenuForm:
     def onMouseDownHandler(self, event: pygame.event.Event):
         self.scrollBar.onMouseDownHandler(event)
 
-            
     def onMouseUpHandler(self, event: pygame.event.Event):
         self.scrollBar.onMouseUpHandler(event)
-        
+
     def onMouseMotionHandler(self, event: pygame.event.Event):
         self.scrollBar.onMouseMotionHandler(event)
+
