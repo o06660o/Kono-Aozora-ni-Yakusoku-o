@@ -27,11 +27,12 @@ class ENV:
         IMAGE_SCALE = 2
         FLOOR_HITBOX_OFFSET = (0, 0)
         PLAT_HITBOX_OFFSET = (30, 145)
-        GROUND_HITBOX_OFFSET = (0, 0)
+        GROUND_HITBOX_OFFSET = (0, 500)
+        PLAT2_HITBOX_OFFSET = (0, 180)
         PLAT_LARGE_HITBOX_OFFSET = (40, 10)
         PLAT_MID_HITBOX_OFFSET = (20, 10)
         PLAT_SMALL_HITBOX_OFFSET = (15, 10)
-
+        NO_HITBOX_OFFSET = (0, 0)
 
 class PLAYER:
     """
