@@ -442,6 +442,10 @@ class Player(pygame.sprite.Sprite):
         if self.horizontal_facing == Player.RIGHT:
             self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect(midbottom=self.hitbox.midbottom)
+        if self.vulnerable:
+            self.image.set_alpha(255)
+        else:
+            self.image.set_alpha(100)
 
     def npc_interaction(self) -> None:
         if self.talking_to is None:
@@ -461,21 +465,6 @@ class Player(pygame.sprite.Sprite):
                     self.talking_to.displaying_message,
                 )
 
-    def flash(self) -> None:
-        """
-        Flash the player when it is hit by an enemy.
-        """
-        if self.vulnerable:
-            self.image.set_alpha(255)
-            return
-        now = pygame.time.get_ticks()
-        if now - self.last_flash_time >= PLAYER.FLASH_INTERVAL:
-            self.last_flash_time = now
-            if self.image.get_alpha() == 192:
-                self.image.set_alpha(255)
-            else:
-                self.image.set_alpha(192)
-
     def update(self) -> None:
         self.cooldown()
         if not self.preinput():
@@ -488,4 +477,3 @@ class Player(pygame.sprite.Sprite):
             display_message(
                 self.scale, PLAYER.RECORDING_POS, BASE.WRAPLEN, self.keys.query_recorded_text()
             )
-        self.flash()
