@@ -134,7 +134,9 @@ class Level:
                 ),
             )
             self.floor_rect = self.floor_surface.get_rect(topleft=(0, 0))
-            self.background_image = pygame.image.load("assets/graphics/background.png").convert()
+            self.background_image = pygame.image.load(
+                "assets/graphics/background.png"
+            ).convert_alpha()
             self.background_image = pygame.transform.scale(
                 self.background_image, (int(BASE.WIDTH * self.scale), int(BASE.HEIGHT * self.scale))
             )

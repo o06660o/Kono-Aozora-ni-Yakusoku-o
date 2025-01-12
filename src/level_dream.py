@@ -6,7 +6,6 @@ from tile import Tile
 from player import Player
 from npc_tutorial import NPCTutorial
 from enemy_centipede import EnemyCentipede
-from debug import display
 
 
 class LevelDream(Level):
@@ -18,53 +17,25 @@ class LevelDream(Level):
         self.flag = False
 
     def create_map(self) -> None:
-        # floor = pygame.image.load("assets/graphics/environment/dream/floor.png")
-        plat_main = pygame.image.load("assets/graphics/environment/dream/dream_BG_plats_0000_4.png")
+        plat_main = pygame.image.load(
+            "assets/graphics/environment/dream/dream_BG_plats_0000_4.png"
+        ).convert_alpha()
         plat_large = pygame.image.load(
             "assets/graphics/environment/dream/platform/dream_plat_large.png"
-        )
+        ).convert_alpha()
         plat_mid = pygame.image.load(
             "assets/graphics/environment/dream/platform/dream_plat_mid.png"
-        )
+        ).convert_alpha()
         plat_small = pygame.image.load(
             "assets/graphics/environment/dream/platform/dream_plat_small.png"
-        )
-        ground_image = pygame.image.load("assets/graphics/environment/ground/long_ground.png")
-        battle_image = pygame.image.load("assets/graphics/environment/ground/en2_ground.png")
+        ).convert_alpha()
+        ground_image = pygame.image.load(
+            "assets/graphics/environment/ground/long_ground.png"
+        ).convert_alpha()
+        battle_image = pygame.image.load(
+            "assets/graphics/environment/ground/en2_ground.png"
+        ).convert_alpha()
 
-        # print(self.scale)
-        # Tile(
-        #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-        #     (-40, 0),
-        #     [self.visible_sprites, self.obstacle_sprites],
-        #     "blocks",
-        #     plat_main,
-        #     ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
-        # )
-        # Tile(
-        #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-        #     (320, 60),
-        #     [self.visible_sprites, self.obstacle_sprites],
-        #     "blocks",
-        #     plat_large,
-        #     ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
-        # )
-        # Tile(
-        #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-        #     (600, 60),
-        #     [self.visible_sprites, self.obstacle_sprites],
-        #     "blocks",
-        #     plat_large,
-        #     ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
-        # )
-        # Tile(
-        #     self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-        #     (880, 60),
-        #     [self.visible_sprites, self.obstacle_sprites],
-        #     "blocks",
-        #     plat_large,
-        #     ENV.LEVEL_DREAM.PLAT_LARGE_HITBOX_OFFSET,
-        # )
         Tile(
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (-240, 60),
@@ -89,7 +60,7 @@ class LevelDream(Level):
             plat_small,
             ENV.LEVEL_DREAM.PLAT_SMALL_HITBOX_OFFSET,
         )
-        
+
         Tile(
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (-40, -10),
@@ -98,7 +69,7 @@ class LevelDream(Level):
             plat_main,
             ENV.LEVEL_DREAM.PLAT_HITBOX_OFFSET,
         )
-        
+
         Tile(  # 虫子1的plat
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
             (340, -180),
@@ -198,7 +169,7 @@ class LevelDream(Level):
 
     def print_win(self) -> None:
         display_surface = pygame.display.get_surface()
-        win_image = pygame.image.load(r"assets/graphics/menu/win.png")
+        win_image = pygame.image.load(r"assets/graphics/menu/win.png").convert_alpha()
 
         screen_width, screen_height = display_surface.get_size()
 
@@ -232,18 +203,20 @@ class LevelDream(Level):
 
     def magic_image(self):
         if self.player.magic == 0:
-            return pygame.image.load(r"assets/graphics/ui/0_energy.png")
+            return pygame.image.load(r"assets/graphics/ui/0_energy.png").convert_alpha()
         elif self.player.magic == 1:
-            return pygame.image.load(r"assets/graphics/ui/1_energy.png")
+            return pygame.image.load(r"assets/graphics/ui/1_energy.png").convert_alpha()
         elif self.player.magic == 2:
-            return pygame.image.load(r"assets/graphics/ui/2_energy.png")
+            return pygame.image.load(r"assets/graphics/ui/2_energy.png").convert_alpha()
         elif self.player.magic == 3:
-            return pygame.image.load(r"assets/graphics/ui/3_energy.png")
+            return pygame.image.load(r"assets/graphics/ui/3_energy.png").convert_alpha()
 
     def print_health(self) -> None:
         # display(self.player.health) Visualize player health
 
-        health_image = pygame.image.load(r"assets/graphics/ui/select_game_HUD_0001_health.png")
+        health_image = pygame.image.load(
+            r"assets/graphics/ui/select_game_HUD_0001_health.png"
+        ).convert_alpha()
         health_image = pygame.transform.scale(
             health_image,
             (
@@ -253,12 +226,13 @@ class LevelDream(Level):
         )
 
         head_image = self.magic_image()
+        assert head_image is not None
         head_image = pygame.transform.scale(
             head_image,
             (int(head_image.get_width() * self.scale), int(head_image.get_height() * self.scale)),
         )
 
-        empty_image = pygame.image.load(r"assets/graphics/ui/empty_blood.png")
+        empty_image = pygame.image.load(r"assets/graphics/ui/empty_blood.png").convert_alpha()
         empty_image = pygame.transform.scale(
             empty_image,
             (int(empty_image.get_width() * self.scale), int(empty_image.get_height() * self.scale)),
