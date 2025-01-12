@@ -10,7 +10,7 @@ import app_data
 
 from menu import MenuForm
 
-# import speech_recognition as sr  #用于语音识别
+import speech_recognition as sr  #用于语音识别
 
 import pyttsx3
 
