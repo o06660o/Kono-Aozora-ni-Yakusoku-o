@@ -10,18 +10,15 @@ import app_data
 
 from menu import MenuForm
 
-# from level_dream import print_health
-
 
 class Game:
     def __init__(self) -> None:
         pygame.init()
         scale_x = pygame.display.Info().current_w / BASE.DEFAULT_SCREEN_WIDTH
         scale_y = pygame.display.Info().current_h / BASE.DEFAULT_SCREEN_HEIGHT
-        print("scale1:", scale_x, scale_y)
         self.scale = min(scale_x, scale_y)  # TODO: test for non integer `sacle` values
-        
-        self.game_over = False 
+
+        self.game_over = False
         self.screen = pygame.display.set_mode(
             (int(BASE.WIDTH * self.scale), int(BASE.HEIGHT * self.scale))
         )
@@ -49,8 +46,7 @@ class Game:
         self.frmMenu.load()
         app_data.IsRunning = True
 
-    def run(self) -> None: # 添加一个变量来跟踪游戏是否结束
-
+    def run(self) -> None:  # 添加一个变量来跟踪游戏是否结束
         while app_data.IsRunning:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -65,7 +61,7 @@ class Game:
             if app_data.CurrentWin == app_data.AppForm.MENU_FORM:
                 self.frmMenu.refresh(pygame.time.get_ticks())
             else:
-                if(Level.win_check(self.world)):
+                if Level.win_check(self.world):
                     if not self.game_over:  # 如果游戏刚刚胜利，显示胜利图片
                         Level.print_win(self.world)
                         self.game_over = True  # 设置游戏结束标志
@@ -79,7 +75,6 @@ class Game:
 
             pygame.display.update()
             self.clock.tick(BASE.FPS)
-            
 
 
 if __name__ == "__main__":

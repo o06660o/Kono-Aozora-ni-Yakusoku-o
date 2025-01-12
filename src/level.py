@@ -157,12 +157,12 @@ class Level:
                 if sprite.sprite_type != "blocks":
                     continue
                 offset_pos = sprite.rect.topleft - self.offset
-                # if type(sprite) is Player:
-                #     offset_pos.y -= sprite.rect.height * 0.13
                 self.display_surface.blit(sprite.image, offset_pos)
 
             for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):
-                if sprite.sprite_type == "blocks":
+                if sprite.sprite_type == "blocks" or sprite == player:
                     continue
                 offset_pos = sprite.rect.topleft - self.offset
                 self.display_surface.blit(sprite.image, offset_pos)
+
+            self.display_surface.blit(player.image, player.rect.topleft - self.offset)

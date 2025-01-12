@@ -18,8 +18,8 @@
 - **Game Name**: Shadow Knight
 - **Game Type**: Metroidvania
 - **Game Backoground**:  
-  Embark on an adventure in "Shadow Knight"!  
-  This game offers a compact yet engaging experience inspired by the genre.  
+  Embark on an adventure in "Shadow Knight"!
+  This game offers a compact yet engaging experience inspired by the genre.
   Traverse through charming, handcrafted levels, battle whimsical foes,
   and uncover secrets, all while enjoying a unique take on the classic formula.
 
