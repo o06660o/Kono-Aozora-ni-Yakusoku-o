@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 
 from settings import ENV, BASE, ENEMY
@@ -197,7 +199,7 @@ class Level:
                     continue
                 offset_pos = sprite.rect.topleft - self.offset
                 # XXX: dirty code here
-                if type(sprite) is NPCBlacksmith:
+                if type(sprite) is NPCBlacksmith and "--DEBUG" not in sys.argv:
                     offset_pos.x -= 230 * sprite.scale
                     offset_pos.y += 50 * sprite.scale
                 self.display_surface.blit(sprite.image, offset_pos)
