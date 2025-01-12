@@ -182,7 +182,7 @@ class LevelDream(Level):
         )
         Tile(   # bossplat
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-            (2350, -750),
+            (2350, -740),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             battle_image,
@@ -190,7 +190,7 @@ class LevelDream(Level):
         )
         Tile(   # light
             self.scale * ENV.LEVEL_DREAM.IMAGE_SCALE,
-            (3280, -810),
+            (3280, -805),
             [self.visible_sprites, self.obstacle_sprites],
             "blocks",
             light_image,
